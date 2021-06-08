@@ -15,7 +15,10 @@ class InputField extends StatelessWidget {
           filled: true,
           fillColor: Colors.white,
           hintText: text,
-          prefixIcon: Icon(Icons.phone)),
+          prefixIcon: Icon(
+            Icons.phone,
+            color: Colors.green,
+          )),
     );
   }
 }

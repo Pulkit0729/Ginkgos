@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:flutter/material.dart';
 
-Color kLogInBackground = Color(0xff00af91);
-Color kSendOTPColor = Color(0xff007965);
+Color? kLogInBackground = Colors.green[400];
+Color? kSendOTPColor = Colors.green[700];
