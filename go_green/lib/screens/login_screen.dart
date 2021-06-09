@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:go_green/constants/constants.dart';
 import 'package:go_green/screens/main_screen.dart';
 import 'package:go_green/screens/verifyOtp_screen.dart';
-
-import 'package:go_green/widgets/inputField.dart';
 import 'package:go_green/widgets/roundButton.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -53,7 +51,15 @@ class LoginScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      InputField(text: 'PhoneNumber'),
+                      TextField(
+                        autofocus: true,
+                        decoration: kTextInputDeco.copyWith(
+                            hintText: 'Phone Number',
+                            prefixIcon: Icon(
+                              Icons.phone,
+                              color: Colors.green,
+                            )),
+                      ),
                       SizedBox(
                         height: 10,
                       ),
