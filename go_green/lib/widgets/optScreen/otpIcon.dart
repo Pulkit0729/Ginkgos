@@ -15,7 +15,7 @@ class OtpIcon extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 15),
                 child: Container(
                     alignment: Alignment.bottomCenter,
-                    child: Text('OTP Verification',
+                    child: Text('OTP Verificatio',
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.w600)))),
           ),
