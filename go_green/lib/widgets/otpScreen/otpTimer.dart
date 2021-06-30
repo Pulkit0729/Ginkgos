@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:go_green/constants/constants.dart';
+import 'package:go_green/constants/textStyles.dart';
 
 class OTPTimer extends StatelessWidget {
   @override

@@ -37,7 +37,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
 
-    ///To access buildcontext in initstate we use future
+    ///To access buildContext in initState we use future
     Future.delayed(Duration.zero, () {
       setState(() {
         arg = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
@@ -56,18 +56,18 @@ class _MainScreenState extends State<MainScreen> {
             Padding(
                 padding: EdgeInsets.only(right: 20.0),
                 child: GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, CartScreen.id);
-                  },
-                  child: Icon(Icons.shopping_cart, size: 26.0),
-                )),
+                    child: Icon(Icons.shopping_cart, size: 26.0),
+                    onTap: () {
+                      Navigator.pushNamed(context, CartScreen.id);
+                    }))
           ],
           bottom: PreferredSize(
-              preferredSize: Size.fromHeight(45), child: SearchButtonWidget())),
-      body: Center(
-        child: _bottomDrawerOptions[_selectedIndex],
-      ),
+              child: SearchButtonWidget(),
+              preferredSize:
+                  Size.fromHeight(MediaQuery.of(context).size.height * 0.056))),
+      body: Center(child: _bottomDrawerOptions[_selectedIndex]),
       bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Colors.green[600],
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),

@@ -1,19 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_green/constants/constants.dart';
+import 'package:go_green/constants/colorsConstant.dart';
 import 'package:go_green/screens/verifyName_screen.dart';
-import 'package:go_green/widgets/optScreen/otpForm.dart';
-import 'package:go_green/widgets/optScreen/otpTimer.dart';
+import 'package:go_green/widgets/otpScreen/otpForm.dart';
+import 'package:go_green/widgets/otpScreen/otpTimer.dart';
 import 'package:go_green/widgets/roundButton.dart';
-import '../size_config.dart';
 
 class VerifyOtp extends StatelessWidget {
   static String id = 'verify_otp';
 
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context); //To determine the screen size.
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -31,9 +29,11 @@ class VerifyOtp extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SvgPicture.asset(
-                'images/otp.svg',
-                width: (SizeConfig.screenWidth)! / 1.5,
+              Center(
+                child: SvgPicture.asset(
+                  'images/otp.svg',
+                  width: MediaQuery.of(context).size.width * 0.7,
+                ),
               ),
               Column(
                 children: [
@@ -48,7 +48,7 @@ class VerifyOtp extends StatelessWidget {
                   function: () {
                     Navigator.pushReplacementNamed(context, NameScreen.id);
                   },
-                  color: kLogInBackground),
+                  color: kPrimaryColor),
               Column(
                 children: [
                   OTPTimer(),

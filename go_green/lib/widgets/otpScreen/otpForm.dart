@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:go_green/constants/constants.dart';
+import 'package:go_green/constants/inputDecorations.dart';
 
 class OtpForm extends StatefulWidget {
   @override

@@ -1,10 +1,7 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:go_green/constants/textStyles.dart';
 
-//Constant Colors
-Color? kLogInBackground = Colors.green[400];
-Color? kSendOTPColor = Colors.green[700];
-
+//Constant Input Field Decorations
 InputDecoration kOtpInputDeco = InputDecoration(
     contentPadding: EdgeInsets.symmetric(horizontal: 10),
     border: OutlineInputBorder(
@@ -17,6 +14,12 @@ InputDecoration kTextInputDeco = InputDecoration(
     contentPadding: EdgeInsets.symmetric(horizontal: 10),
     filled: true,
     fillColor: Colors.white);
-//TextStyle//
 
-const kTimerStyle = TextStyle(fontSize: 24, color: Colors.grey);
+//Add Address Input Field Decoration////
+
+InputDecoration kAddressInputDeco = InputDecoration(
+    labelStyle: kAddressLabel,
+    enabledBorder:
+        UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey[300]!)),
+    focusedBorder:
+        UnderlineInputBorder(borderSide: BorderSide(color: Colors.green)));

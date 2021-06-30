@@ -6,20 +6,21 @@ class SearchButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.only(
-          left: 10,
-          right: 10,
-        ),
-        child: TextButton(
+      height: MediaQuery.of(context).size.height * 0.047,
+      margin: EdgeInsets.only(left: 10, right: 10, bottom: 5, top: 0),
+      child: TextButton(
+          child: Row(children: [
+            Icon(Icons.search, color: Colors.grey),
+            SizedBox(width: 10),
+            Expanded(
+                child: Text('Search Your Plant',
+                    style: TextStyle(fontSize: 15, color: Colors.grey)))
+          ]),
           onPressed: () {
             Navigator.pushNamed(context, SearchScreen.id);
-          },
-          child: Row(
-            children: [
-              Icon(Icons.search),
-              Expanded(child: Text('Search')),
-            ],
-          ),
-        ));
+          }),
+      decoration: BoxDecoration(
+          color: Colors.white, borderRadius: BorderRadius.circular(2)),
+    );
   }
 }

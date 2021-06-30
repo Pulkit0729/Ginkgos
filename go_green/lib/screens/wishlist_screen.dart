@@ -1,4 +1,5 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:go_green/screens/productDescription_screen.dart';
 
 class WishlistScreen extends StatefulWidget {
   static String id = 'wishlist';
@@ -10,7 +11,11 @@ class _WishlistScreenState extends State<WishlistScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text('Wishlist'),
-    );
+        child: FloatingActionButton(
+      child: Text('Product'),
+      onPressed: () {
+        Navigator.pushNamed(context, ProductDescriptionScreen.id);
+      },
+    ));
   }
 }

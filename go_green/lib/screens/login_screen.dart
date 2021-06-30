@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:go_green/constants/constants.dart';
+import 'package:go_green/constants/colorsConstant.dart';
+import 'package:go_green/constants/inputDecorations.dart';
 import 'package:go_green/screens/main_screen.dart';
 import 'package:go_green/screens/verifyOtp_screen.dart';
 import 'package:go_green/widgets/roundButton.dart';
@@ -18,7 +19,7 @@ class LoginScreen extends StatelessWidget {
         }
       },
       child: Scaffold(
-        backgroundColor: kLogInBackground,
+        backgroundColor: kPrimaryColor,
         body: SafeArea(
           child: Column(
             children: [
@@ -68,7 +69,7 @@ class LoginScreen extends StatelessWidget {
                           function: () {
                             Navigator.pushNamed(context, VerifyOtp.id);
                           },
-                          color: kSendOTPColor),
+                          color: kPrimaryColorDark),
                       SizedBox(height: 50),
                       Padding(
                         padding: const EdgeInsets.all(8.0),

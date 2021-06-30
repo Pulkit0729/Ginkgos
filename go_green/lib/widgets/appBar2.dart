@@ -19,9 +19,10 @@ class AppBar2 extends StatelessWidget implements PreferredSizeWidget {
               child: Icon(Icons.search, size: 26.0),
             )),
       ],
+      elevation: 0,
     );
   }
 
   @override
-  Size get preferredSize => new Size.square(50);
+  Size get preferredSize => new Size.fromHeight(AppBar().preferredSize.height);
 }

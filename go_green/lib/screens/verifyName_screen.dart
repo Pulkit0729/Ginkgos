@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:go_green/constants/constants.dart';
+import 'package:go_green/constants/inputDecorations.dart';
 import 'package:go_green/screens/main_screen.dart';
 import 'package:go_green/widgets/roundButton.dart';
 
