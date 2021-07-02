@@ -3,7 +3,21 @@ import 'package:go_green/constants/textStyles.dart';
 import 'package:go_green/screens/productDescription_screen.dart';
 
 class ProductCard extends StatelessWidget {
-  const ProductCard({Key? key}) : super(key: key);
+  const ProductCard(
+      {Key? key,
+      this.name,
+      this.short,
+      this.price,
+      this.cutPrice,
+      this.discount,
+      this.image})
+      : super(key: key);
+  final name;
+  final short;
+  final price;
+  final cutPrice;
+  final discount;
+  final image;
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +34,12 @@ class ProductCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.only(top: 10),
+              padding: EdgeInsets.all(10),
               child: AspectRatio(
                 aspectRatio: 1,
                 child: Image.asset(
-                  'images/product.webp',
+                  image,
+                  fit: BoxFit.fitHeight,
                 ),
               ),
             ),
@@ -35,16 +50,16 @@ class ProductCard extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Text('Croton', style: kProductCardName),
-                      Text('Indooor PLant ', style: kProductCardShort),
+                      Text(name, style: kProductCardName),
+                      Text(short, style: kProductCardShort),
                       SizedBox(height: 7),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.baseline,
                         textBaseline: TextBaseline.alphabetic,
                         children: [
-                          Text('₹150 ', style: kProductCardPrice),
-                          Text('250 ', style: kProductCardCutPrice),
-                          Text(' 40% off ', style: kProductCardDiscount)
+                          Text('₹$price ', style: kProductCardPrice),
+                          Text('$cutPrice ', style: kProductCardCutPrice),
+                          Text(' $discount% off ', style: kProductCardDiscount)
                         ],
                       ),
                     ],

@@ -4,6 +4,7 @@ import 'package:go_green/screens/main_screen.dart';
 import 'package:go_green/screens/orders_screen.dart';
 import 'package:go_green/screens/profile_screen.dart';
 
+import '../main.dart';
 import 'login_screen.dart';
 
 class NavDrawer extends StatelessWidget {
@@ -13,8 +14,10 @@ class NavDrawer extends StatelessWidget {
         child: ListView(
       children: [
         Container(
-          padding: EdgeInsets.only(top: 25, left: 10),
-          color: Colors.green[200],
+          decoration: BoxDecoration(
+              color: Colors.orange[200],
+              border: Border(bottom: BorderSide(color: Colors.grey[300]!))),
+          padding: EdgeInsets.only(top: 25, left: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -39,33 +42,56 @@ class NavDrawer extends StatelessWidget {
             ],
           ),
         ),
-        ListTile(
-          title: Text('My Profile'),
-          leading: Icon(Icons.account_circle_sharp),
-          horizontalTitleGap: 0,
-          onTap: () {
-            Navigator.pushNamed(context, ProfileScreen.id);
-          },
+        Container(
+          decoration: BoxDecoration(
+              border: Border(bottom: BorderSide(color: Colors.grey[300]!))),
+          child: ListTile(
+            title: Text('My Profile'),
+            leading: Icon(
+              Icons.account_circle_sharp,
+              color: Colors.black,
+            ),
+            horizontalTitleGap: 0,
+            onTap: () {
+              Navigator.pushNamed(context, ProfileScreen.id);
+            },
+          ),
+        ),
+        Container(
+          decoration: BoxDecoration(
+              border: Border(bottom: BorderSide(color: Colors.grey[300]!))),
+          child: ListTile(
+            title: Text('My Orders'),
+            leading: Icon(
+              Icons.all_inbox,
+              color: Colors.black,
+            ),
+            horizontalTitleGap: 0,
+            onTap: () {
+              Navigator.pushNamed(context, OrderScreen.id);
+            },
+          ),
+        ),
+        Container(
+          decoration: BoxDecoration(
+              border: Border(bottom: BorderSide(color: Colors.grey[300]!))),
+          child: ListTile(
+            title: Text('Shop By Categories'),
+            leading: Icon(
+              Icons.category,
+              color: Colors.black,
+            ),
+            horizontalTitleGap: 0,
+            onTap: () {
+              Navigator.pushNamed(context, MainScreen.id,
+                  arguments: ScreenArguments(1));
+            },
+          ),
         ),
         ListTile(
-          title: Text('My Orders'),
-          leading: Icon(Icons.all_inbox),
-          horizontalTitleGap: 0,
-          onTap: () {
-            Navigator.pushNamed(context, OrderScreen.id);
-          },
-        ),
-        ListTile(
-          title: Text('Shop By Categories'),
-          leading: Icon(Icons.category),
-          horizontalTitleGap: 0,
-          onTap: () {
-            Navigator.pushNamed(context, MainScreen.id,
-                arguments: ScreenArguments(1));
-          },
-        ),
-        ListTile(
-          title: Text('Help'),
+          title: Text(
+            'Help',
+          ),
           leading: SizedBox(),
           horizontalTitleGap: 0,
         ),

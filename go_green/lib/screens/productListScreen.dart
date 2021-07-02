@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_green/widgets/appBar3.dart';
-import 'package:go_green/widgets/productCard.dart';
+import 'package:go_green/widgets/productCard/productCard.dart';
 import 'package:go_green/widgets/productList/productListFooter.dart';
 
 class ProductListScreen extends StatelessWidget {
@@ -31,9 +31,24 @@ class Experiment extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(child: ProductCard()),
         Expanded(
-          child: ProductCard(),
+            child: ProductCard(
+          name: 'Croton',
+          short: 'Indoor Plant',
+          price: '150',
+          cutPrice: '250',
+          discount: '40',
+          image: 'images/product.jpeg',
+        )),
+        Expanded(
+          child: ProductCard(
+            name: 'Croton',
+            short: 'Indoor Plant',
+            price: '150',
+            cutPrice: '250',
+            discount: '40',
+            image: 'images/product.jpg',
+          ),
         ),
       ],
     );

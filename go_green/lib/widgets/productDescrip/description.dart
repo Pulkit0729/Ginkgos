@@ -17,7 +17,7 @@ class Description extends StatelessWidget {
         children: [
           Text(
             'Description',
-            style: ksubHeading,
+            style: kSubHeading,
           ),
           DescriptionTextWidget(
               text:

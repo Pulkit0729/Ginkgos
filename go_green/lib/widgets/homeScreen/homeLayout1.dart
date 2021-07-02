@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_green/widgets/productCard/productCard(Home.dart';
 
 class HomeLayout1 extends StatelessWidget {
   const HomeLayout1({
@@ -85,29 +86,6 @@ class HomeLayout1 extends StatelessWidget {
               ],
             ),
           ),
-        ],
-      ),
-    );
-  }
-}
-
-class ProductCard2 extends StatelessWidget {
-  const ProductCard2({this.image, this.price});
-  final image;
-  final price;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          Expanded(
-            flex: 3,
-            child: Image.asset(
-              image,
-              fit: BoxFit.fitHeight,
-            ),
-          ),
-          Expanded(flex: 1, child: Text(price))
         ],
       ),
     );

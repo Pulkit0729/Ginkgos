@@ -6,6 +6,8 @@ import 'package:go_green/screens/main_screen.dart';
 import 'package:go_green/screens/verifyOtp_screen.dart';
 import 'package:go_green/widgets/roundButton.dart';
 
+import '../main.dart';
+
 class LoginScreen extends StatelessWidget {
   static String id = 'LoginScreen';
   @override
@@ -24,27 +26,27 @@ class LoginScreen extends StatelessWidget {
           child: Column(
             children: [
               Container(
-                alignment: Alignment.topRight,
-                padding: EdgeInsets.all(10),
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, MainScreen.id,
-                        arguments: ScreenArguments(0));
-                  },
-                  child: Text(
-                    'Skip',
-                    style: TextStyle(
-                        color: Color(0xffA3EBB1),
-                        fontSize: 16,
-                        backgroundColor: Colors.black12),
-                  ),
-                ),
-              ),
+                  alignment: Alignment.topRight,
+                  padding: EdgeInsets.all(10),
+                  child: GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, MainScreen.id,
+                            arguments: ScreenArguments(0));
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Color(0xffA3EBB1),
+                            borderRadius: BorderRadius.circular(15)),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+                        child: Text('Skip',
+                            style: TextStyle(
+                              color: Colors.black54,
+                              fontSize: 16,
+                            )),
+                      ))),
               Expanded(
-                child: Image.asset(
-                  'images/logo2.png',
-                  scale: 3,
-                ),
+                child: Image.asset('images/logo2.png', scale: 3),
               ),
               Expanded(
                 child: Container(

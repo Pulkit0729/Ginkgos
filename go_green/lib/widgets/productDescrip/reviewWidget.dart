@@ -14,7 +14,7 @@ class ReviewsWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text('Customer Reviews', style: ksubHeading),
+          Text('Customer Reviews', style: kSubHeading),
           SizedBox(height: 8),
           ListView.builder(
               physics: ClampingScrollPhysics(),

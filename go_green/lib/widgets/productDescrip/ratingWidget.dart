@@ -14,7 +14,7 @@ class RatingWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text('Ratings & Reviews', style: ksubHeading),
+          Text('Ratings & Reviews', style: kSubHeading),
           Container(
             margin: EdgeInsets.only(
               top: 20,

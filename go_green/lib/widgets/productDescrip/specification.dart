@@ -42,7 +42,7 @@ class _SpecificationState extends State<Specification> {
         children: [
           Text(
             'Specifications',
-            style: ksubHeading,
+            style: kSubHeading,
           ),
           Row(children: [
             SpecIconWidget(

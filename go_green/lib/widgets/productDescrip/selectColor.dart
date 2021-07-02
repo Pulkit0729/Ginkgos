@@ -14,7 +14,7 @@ class SelectColor extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text('Select Color', style: ksubHeading),
+          Text('Select Color', style: kSubHeading),
           Row(
             children: [
               ElevatedButton(

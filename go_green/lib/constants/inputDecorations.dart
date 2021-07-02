@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_green/constants/textStyles.dart';
 
-//Constant Input Field Decorations
+///Constant Input Field Decorations
 InputDecoration kOtpInputDeco = InputDecoration(
     contentPadding: EdgeInsets.symmetric(horizontal: 10),
     border: OutlineInputBorder(
@@ -15,7 +15,7 @@ InputDecoration kTextInputDeco = InputDecoration(
     filled: true,
     fillColor: Colors.white);
 
-//Add Address Input Field Decoration////
+///Add Address Input Field Decoration////
 
 InputDecoration kAddressInputDeco = InputDecoration(
     labelStyle: kAddressLabel,

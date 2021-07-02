@@ -35,7 +35,7 @@ class _CategoryTileState extends State<CategoryTile> {
             margin: EdgeInsets.only(top: 1),
             padding: EdgeInsets.only(left: 20),
             alignment: Alignment.centerLeft,
-            height: MediaQuery.of(context).size.height * 0.16,
+            height: MediaQuery.of(context).size.width * 0.33,
             color: widget.color,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

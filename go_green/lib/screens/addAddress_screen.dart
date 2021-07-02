@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_green/constants/colorsConstant.dart';
 import 'package:go_green/constants/inputDecorations.dart';
 import 'package:go_green/widgets/addAddress/typeOfAddress.dart';
 import 'package:go_green/widgets/addAddress/addAddressFooter.dart';
@@ -12,10 +13,8 @@ class AddAddressScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
-      appBar: AppBar(
-        title: Text('Add Address'),
-      ),
+      backgroundColor: kScaffoldGrey,
+      appBar: AppBar(title: Text('Add Address')),
       body: ListView(
         children: [
           NewContainer(

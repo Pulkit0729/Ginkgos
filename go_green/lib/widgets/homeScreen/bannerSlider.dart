@@ -9,15 +9,18 @@ class BannerSlider extends StatelessWidget {
   final List<String> imgList;
   @override
   Widget build(BuildContext context) {
-    return CarouselSlider(
-        items: imgList
-            .map((e) => Image.asset(
-                  e,
-                ))
-            .toList(),
-        options: CarouselOptions(
-            viewportFraction: 1,
-            autoPlay: true,
-            autoPlayInterval: const Duration(seconds: 2)));
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 4),
+      child: CarouselSlider(
+          items: imgList
+              .map((e) => Image.asset(
+                    e,
+                  ))
+              .toList(),
+          options: CarouselOptions(
+              viewportFraction: 1.0,
+              autoPlay: true,
+              autoPlayInterval: const Duration(seconds: 2))),
+    );
   }
 }

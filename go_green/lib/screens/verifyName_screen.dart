@@ -4,6 +4,8 @@ import 'package:go_green/constants/inputDecorations.dart';
 import 'package:go_green/screens/main_screen.dart';
 import 'package:go_green/widgets/roundButton.dart';
 
+import '../main.dart';
+
 class NameScreen extends StatelessWidget {
   static String id = 'name_screen';
   @override
@@ -21,7 +23,7 @@ class NameScreen extends StatelessWidget {
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text("Tell Us a bit more about yourself.",

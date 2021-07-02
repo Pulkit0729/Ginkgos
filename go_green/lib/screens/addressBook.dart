@@ -30,7 +30,7 @@ class AddressBookScreen extends StatelessWidget {
               children: [
                 AddressWidget(
                   name: 'Pulkit Aggarwal',
-                  type: 'work',
+                  type: 'Work',
                   number: '8059345289',
                   pinCode: '123401',
                   state: 'Haryana',

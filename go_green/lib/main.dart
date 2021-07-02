@@ -5,6 +5,7 @@ import 'package:go_green/screens/help_screen.dart';
 import 'package:go_green/screens/login_screen.dart';
 import 'package:go_green/screens/main_screen.dart';
 import 'package:go_green/screens/cart_screen.dart';
+import 'package:go_green/screens/orderDetailsScreen.dart';
 import 'package:go_green/screens/orders_screen.dart';
 import 'package:go_green/screens/productDescription_screen.dart';
 import 'package:go_green/screens/productListScreen.dart';
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
         CartScreen.id: (context) => CartScreen(),
         ProfileScreen.id: (context) => ProfileScreen(),
         OrderScreen.id: (context) => OrderScreen(),
+        OrderDetailsScreen.id: (context) => OrderDetailsScreen(),
         HelpScreen.id: (context) => HelpScreen(),
         AddressBookScreen.id: (context) => AddressBookScreen(),
         AddAddressScreen.id: (context) => AddAddressScreen(),
@@ -59,4 +61,9 @@ Route noAnimationRoute(route) {
       return child;
     },
   );
+}
+
+class ScreenArguments {
+  final int index;
+  ScreenArguments(this.index);
 }

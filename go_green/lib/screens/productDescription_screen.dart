@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_green/constants/colorsConstant.dart';
 import 'package:go_green/widgets/appBar3.dart';
 import 'package:go_green/widgets/productDescrip/description.dart';
 import 'package:go_green/widgets/productDescrip/productFooter.dart';
@@ -18,7 +19,7 @@ class ProductDescriptionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.grey[200],
+        backgroundColor: kScaffoldGrey,
         appBar: AppBar3(),
         body: ListView(
           children: [

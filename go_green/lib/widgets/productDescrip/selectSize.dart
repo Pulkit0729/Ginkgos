@@ -14,7 +14,7 @@ class SelectSizeWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text('Select Size', style: ksubHeading),
+          Text('Select Size', style: kSubHeading),
           SizedBox(height: 5),
           Text(
             'Height: 5 inch',

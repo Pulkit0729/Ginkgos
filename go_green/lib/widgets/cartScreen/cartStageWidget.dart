@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_green/constants/textStyles.dart';
 
 import 'cartStageSlider.dart';
 
@@ -42,7 +43,8 @@ class _CartStageState extends State<CartStage>
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        color: Colors.white,
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         child: Row(
           children: [
             index1 == 0
@@ -88,13 +90,7 @@ class CartStageText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 2),
-      child: Text(
-        text,
-        style: TextStyle(
-          fontSize: 12,
-          color: Colors.grey,
-        ),
-      ),
+      child: Text(text, style: kCartStageText),
     );
   }
 }

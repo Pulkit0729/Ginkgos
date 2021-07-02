@@ -1,16 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:go_green/screens/wishlist_screen.dart';
+import 'package:go_green/screens/emptyWishlist.dart';
 import 'package:go_green/widgets/searchButtonWidget.dart';
+import '../main.dart';
 import 'drawerScreen.dart';
 import 'category_screen.dart';
 import 'home_screen.dart';
 import 'cart_screen.dart';
-
-class ScreenArguments {
-  final int index;
-  ScreenArguments(this.index);
-}
 
 class MainScreen extends StatefulWidget {
   static String id = 'Main_Screen';
@@ -24,7 +20,7 @@ class _MainScreenState extends State<MainScreen> {
   List<Widget> _bottomDrawerOptions = <Widget>[
     HomeScreen(),
     CategoryScreen(),
-    WishlistScreen(),
+    EmptyWishlist(),
   ];
 
   void _onItemTapped(int index) {

@@ -13,7 +13,7 @@ class AddAddressFooter extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: Container(
+            child: Padding(
               padding: EdgeInsets.all(7),
               child: TextButton(
                 style: ButtonStyle(
