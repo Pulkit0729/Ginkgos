@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_green/screens/addressBook.dart';
+import 'package:go_green/screens/login_screen.dart';
 import 'package:go_green/screens/orders_screen.dart';
 import 'package:go_green/widgets/profile/profileHeader.dart';
 import 'package:go_green/widgets/profile/profileTile.dart';
@@ -39,6 +41,11 @@ class ProfileScreen extends StatelessWidget {
           ProfileItem(
             text: 'Log Out',
             iconData: Icons.logout,
+            function: () {
+              FirebaseAuth.instance.signOut();
+              Navigator.pushNamedAndRemoveUntil(
+                  context, LoginScreen.id, (route) => false);
+            },
           ),
         ]));
   }

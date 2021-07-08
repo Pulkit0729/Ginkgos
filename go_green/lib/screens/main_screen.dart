@@ -15,7 +15,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  late int _selectedIndex;
+  int _selectedIndex = 0;
   var arg;
   List<Widget> _bottomDrawerOptions = <Widget>[
     HomeScreen(),
@@ -38,7 +38,11 @@ class _MainScreenState extends State<MainScreen> {
       setState(() {
         arg = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
       });
-      _selectedIndex = arg.index;
+      if (arg != null) {
+        _selectedIndex = arg.index;
+      } else {
+        _selectedIndex = 0;
+      }
     });
   }
 

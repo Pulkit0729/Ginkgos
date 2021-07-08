@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1053764597858-l0n30vifqherb7kr1683ipee4vpot0nk.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1053764597858-l0n30vifqherb7kr1683ipee4vpot0nk</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>1053764597858-ldmldc5ufrf1hsl2pbvvdnm40m021atr.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBok_BZ-gbd7mcvqMZbrFPLHlkxoHHcqrc</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1053764597858</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.last.goGreen</string>
+	<key>PROJECT_ID</key>
+	<string>go-green-97335</string>
+	<key>STORAGE_BUCKET</key>
+	<string>go-green-97335.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1053764597858:ios:4f704cc3256d8de847b93b</string>
+	<key>DATABASE_URL</key>
+	<string>https://go-green-97335-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>

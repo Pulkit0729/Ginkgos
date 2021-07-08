@@ -1,3 +1,6 @@
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:go_green/screens/addAddress_screen.dart';
 import 'package:go_green/screens/addressBook.dart';
@@ -16,7 +19,9 @@ import 'package:go_green/screens/verifyName_screen.dart';
 import 'package:go_green/screens/verifyOtp_screen.dart';
 import 'package:go_green/screens/wishlist_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -25,7 +30,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: LoginScreen.id,
+      initialRoute: FirebaseAuth.instance.currentUser == null
+          ? LoginScreen.id
+          : MainScreen.id,
       theme: ThemeData(
           fontFamily: 'Lato',
           primaryColor: Colors.green,
@@ -64,6 +71,7 @@ Route noAnimationRoute(route) {
 }
 
 class ScreenArguments {
-  final int index;
-  ScreenArguments(this.index);
+  final int? index;
+  final String? phone;
+  ScreenArguments({this.index, this.phone});
 }

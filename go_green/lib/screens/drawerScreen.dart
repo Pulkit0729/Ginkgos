@@ -84,7 +84,7 @@ class NavDrawer extends StatelessWidget {
             horizontalTitleGap: 0,
             onTap: () {
               Navigator.pushNamed(context, MainScreen.id,
-                  arguments: ScreenArguments(1));
+                  arguments: ScreenArguments(index: 1));
             },
           ),
         ),

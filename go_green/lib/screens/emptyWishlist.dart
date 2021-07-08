@@ -11,7 +11,7 @@ class EmptyWishlist extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, MainScreen.id,
-            arguments: ScreenArguments(0));
+            arguments: ScreenArguments(index: 1));
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 10),

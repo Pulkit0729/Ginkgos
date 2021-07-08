@@ -2,15 +2,68 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_green/constants/textStyles.dart';
 
-class OTPTimer extends StatelessWidget {
+class OTPTimer extends StatefulWidget {
+  final function;
+  const OTPTimer({Key? key, this.function}) : super(key: key);
+  @override
+  _OTPTimerState createState() => _OTPTimerState();
+}
+
+class _OTPTimerState extends State<OTPTimer>
+    with SingleTickerProviderStateMixin {
+  bool isEnabled = false;
+  late AnimationController controller;
+  @override
+  void initState() {
+    super.initState();
+    controller = AnimationController(
+        vsync: this,
+        duration: Duration(seconds: 30),
+        upperBound: 30,
+        lowerBound: 0);
+    controller.reverse(from: 30);
+    controller.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return TweenAnimationBuilder<Duration>(
-        tween: Tween(begin: Duration(seconds: 30), end: Duration(seconds: 0)),
-        duration: Duration(seconds: 30),
-        builder: (context, value, child) => Text(
-            "00:${value.inSeconds.toInt()}",
+    if (controller.value == 0) {
+      setState(() {
+        isEnabled = true;
+        controller.reset();
+      });
+    }
+    return Column(
+      children: [
+        isEnabled
+            ? Container()
+            : Text("00:${controller.value.toInt()}",
+                textAlign: TextAlign.center, style: kTimerStyle),
+        TextButton(
+          onPressed: isEnabled
+              ? () {
+                  widget.function();
+                  setState(() {
+                    isEnabled = false;
+                    controller.reverse(from: 30);
+                  });
+                }
+              : () {},
+          child: Text(
+            "Didn't get the opt? Resend",
             textAlign: TextAlign.center,
-            style: kTimerStyle));
+            style: TextStyle(color: isEnabled ? Colors.black : Colors.grey),
+          ),
+        ),
+      ],
+    );
   }
 }

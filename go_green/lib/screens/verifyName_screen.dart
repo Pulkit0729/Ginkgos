@@ -58,7 +58,7 @@ class NameScreen extends StatelessWidget {
                   color: Colors.green,
                   function: () {
                     Navigator.pushNamed(context, MainScreen.id,
-                        arguments: ScreenArguments(0));
+                        arguments: ScreenArguments(index: 0));
                   })
             ],
           ),
