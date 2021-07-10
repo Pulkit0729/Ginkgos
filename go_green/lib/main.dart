@@ -2,9 +2,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:go_green/models/userdata.dart';
 import 'package:go_green/screens/addAddress_screen.dart';
 import 'package:go_green/screens/addressBook.dart';
 import 'package:go_green/screens/help_screen.dart';
+import 'package:go_green/screens/loadingScreen.dart';
 import 'package:go_green/screens/login_screen.dart';
 import 'package:go_green/screens/main_screen.dart';
 import 'package:go_green/screens/cart_screen.dart';
@@ -18,21 +20,26 @@ import 'package:go_green/screens/selectAddressScreen.dart';
 import 'package:go_green/screens/verifyName_screen.dart';
 import 'package:go_green/screens/verifyOtp_screen.dart';
 import 'package:go_green/screens/wishlist_screen.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MyApp());
+  runApp(MultiProvider(
+      providers: [ChangeNotifierProvider(create: (context) => UserName())],
+      child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
+  final auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
+    Provider.of<UserName>(context, listen: false).getData();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: FirebaseAuth.instance.currentUser == null
-          ? LoginScreen.id
-          : MainScreen.id,
+      initialRoute:
+          auth.currentUser == null ? LoginScreen.id : LoadingScreen.id,
       theme: ThemeData(
           fontFamily: 'Lato',
           primaryColor: Colors.green,
@@ -44,6 +51,7 @@ class MyApp extends StatelessWidget {
         MainScreen.id: (context) => MainScreen(),
         VerifyOtp.id: (context) => VerifyOtp(),
         NameScreen.id: (context) => NameScreen(),
+        LoadingScreen.id: (context) => LoadingScreen(),
         SearchScreen.id: (context) => SearchScreen(),
         WishlistScreen.id: (context) => WishlistScreen(),
         ProductListScreen.id: (context) => ProductListScreen(),

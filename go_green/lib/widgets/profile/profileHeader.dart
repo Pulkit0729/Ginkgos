@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_green/models/userdata.dart';
+import 'package:provider/provider.dart';
 
 class ProfileHeader extends StatelessWidget {
-  const ProfileHeader({
-    Key? key,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -20,18 +18,18 @@ class ProfileHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Pulkit',
+                Provider.of<UserName>(context).name,
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
               ),
               SizedBox(height: 5),
               Text(
-                '+918059345289',
+                Provider.of<UserName>(context).phone,
                 style: TextStyle(
                   fontSize: 15,
                 ),
               ),
               SizedBox(height: 5),
-              Text('pulkit0729@gmail.com',
+              Text(Provider.of<UserName>(context).email,
                   style: TextStyle(
                     fontSize: 15,
                   ))

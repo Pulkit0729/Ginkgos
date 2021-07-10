@@ -4,6 +4,7 @@ class Authentication {
   Authentication(this.phone, this.function);
   final function;
   final phone;
+
   late String verificationCode;
   verifyPhone() {
     FirebaseAuth.instance.verifyPhoneNumber(

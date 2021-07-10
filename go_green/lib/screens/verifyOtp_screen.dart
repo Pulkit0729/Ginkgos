@@ -3,11 +3,13 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_green/constants/inputDecorations.dart';
 import 'package:go_green/firebase/authentication.dart';
+import 'package:go_green/screens/loadingScreen.dart';
 import 'package:go_green/screens/verifyName_screen.dart';
+import 'package:go_green/widgets/customLoadingBar.dart';
+import 'package:go_green/widgets/customSnackBar.dart';
 import 'package:go_green/widgets/otpScreen/otpTimer.dart';
 import 'package:pinput/pin_put/pin_put.dart';
 
@@ -25,12 +27,26 @@ class _VerifyOtpState extends State<VerifyOtp> {
   final TextEditingController _pinPutController = TextEditingController();
   final FocusNode _pinPutFocusNode = FocusNode();
 
-  createLoading(BuildContext context) {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return SpinKitCircle(color: Colors.black);
-        });
+  void _verify(pin) async {
+    try {
+      await FirebaseAuth.instance
+          .signInWithCredential(PhoneAuthProvider.credential(
+              verificationId: authentication.verificationCode, smsCode: pin))
+          .then((value) async {
+        if (value.user != null) {
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => LoadingScreen()),
+              (route) => false);
+        }
+      });
+    } catch (e) {
+      setState(() {
+        _pinPutController.clear();
+      });
+      Navigator.of(context, rootNavigator: true).pop();
+      CustomSnackWidgets.buildErrorSnackBar(context, 'Invalid Otp');
+    }
   }
 
   @override
@@ -39,9 +55,11 @@ class _VerifyOtpState extends State<VerifyOtp> {
 
     ///To access buildContext in initState we use future
     Future.delayed(Duration.zero, () {
-      authentication = Authentication(
-          (ModalRoute.of(context)!.settings.arguments as ScreenArguments)
-              .phone!, () {
+      String? phone =
+          (ModalRoute.of(context)!.settings.arguments as ScreenArguments).phone;
+
+      ///Initialize an authentication object///
+      authentication = Authentication(phone, () {
         Navigator.pushNamed(context, NameScreen.id);
       });
       authentication.verifyPhone();
@@ -68,22 +86,28 @@ class _VerifyOtpState extends State<VerifyOtp> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Center(
-                child: SvgPicture.asset(
-                  'images/otp.svg',
-                  width: MediaQuery.of(context).size.width * 0.7,
-                ),
-              ),
+                  child: SvgPicture.asset('images/otp.svg',
+                      width: MediaQuery.of(context).size.width * 0.7)),
               Column(
                 children: [
                   Text(
                       'Enter OTP send to +91${(ModalRoute.of(context)!.settings.arguments as ScreenArguments).phone!}',
                       style: TextStyle(color: Colors.grey),
                       textAlign: TextAlign.center),
-                  Padding(
-                    padding: const EdgeInsets.all(30.0),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.8,
                     child: PinPut(
+                      withCursor: true,
+                      cursor: Container(
+                        width: 1,
+                        height: MediaQuery.of(context).size.height * 0.04,
+                        color: Colors.grey,
+                      ),
                       fieldsCount: 6,
-                      textStyle: const TextStyle(fontSize: 25.0),
+                      textStyle: const TextStyle(fontSize: 20.0),
                       eachFieldWidth: MediaQuery.of(context).size.width * 0.1,
                       eachFieldHeight:
                           MediaQuery.of(context).size.height * 0.07,
@@ -94,36 +118,8 @@ class _VerifyOtpState extends State<VerifyOtp> {
                       followingFieldDecoration: pinPutDecoration,
                       pinAnimationType: PinAnimationType.none,
                       onSubmit: (pin) async {
-                        createLoading(context);
-                        print('Helo');
-                        try {
-                          await FirebaseAuth.instance
-                              .signInWithCredential(
-                                  PhoneAuthProvider.credential(
-                                      verificationId:
-                                          authentication.verificationCode,
-                                      smsCode: pin))
-                              .then((value) async {
-                            if (value.user != null) {
-                              Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => NameScreen()),
-                                  (route) => false);
-                            }
-                          });
-                        } catch (e) {
-                          setState(() {
-                            _pinPutController.clear();
-                          });
-                          Navigator.of(context, rootNavigator: true).pop();
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text('Invalid Otp',
-                                style: TextStyle(color: Colors.black)),
-                            backgroundColor: Colors.white,
-                            duration: Duration(seconds: 1),
-                          ));
-                        }
+                        LoadingBar.createLoading(context);
+                        _verify(pin);
                       },
                     ),
                   )
@@ -136,17 +132,6 @@ class _VerifyOtpState extends State<VerifyOtp> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class LoadingBar extends StatelessWidget {
-  const LoadingBar({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.blue,
     );
   }
 }

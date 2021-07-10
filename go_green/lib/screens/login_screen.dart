@@ -1,38 +1,32 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_green/constants/colorsConstant.dart';
 import 'package:go_green/constants/inputDecorations.dart';
 import 'package:go_green/screens/verifyOtp_screen.dart';
+import 'package:go_green/widgets/customLoadingBar.dart';
+import 'package:go_green/widgets/customSnackBar.dart';
 import 'package:go_green/widgets/roundButton.dart';
-import 'package:go_green/widgets/skipWidget.dart';
 
 import '../main.dart';
+import 'main_screen.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends StatelessWidget {
   static String id = 'LoginScreen';
+  final TextEditingController _phoneController = TextEditingController();
 
-  @override
-  _LoginScreenState createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  ///Input Field Controller
-  TextEditingController _phoneController = TextEditingController();
-
-  @override
-  void dispose() {
-    _phoneController.dispose();
-    super.dispose();
-  }
-
-  createLoading(BuildContext context) {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return SpinKitCircle(color: Colors.black);
-        });
+  void _onPress(BuildContext context) {
+    String _phone = _phoneController.text;
+    if (_phone.length != 10) {
+      CustomSnackWidgets.buildErrorSnackBar(context, 'Invalid Phone Number');
+    } else {
+      LoadingBar.createLoading(context);
+      Future.delayed(Duration(milliseconds: 500), () {
+        ///Remove Loading Bar
+        Navigator.popAndPushNamed(context, VerifyOtp.id,
+            arguments: ScreenArguments(phone: _phone));
+      });
+    }
   }
 
   @override
@@ -58,6 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ///Logo//
               Expanded(child: Image.asset('images/logo2.png', scale: 3)),
 
+              ///Input Phone and Submit///
               Expanded(
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 10),
@@ -68,38 +63,23 @@ class _LoginScreenState extends State<LoginScreen> {
                           keyboardType: TextInputType.phone,
                           controller: _phoneController,
                           autofocus: true,
+                          maxLength: 10,
                           decoration: kTextInputDeco.copyWith(
                               hintText: 'Phone Number',
+                              counterText: '',
                               prefixIcon: Icon(
                                 Icons.account_circle_sharp,
                                 color: kPrimaryColor,
                               ))),
-                      SizedBox(
-                        height: 10,
-                      ),
+                      SizedBox(height: 10),
                       RoundButton(
                         text: 'Send OTP',
                         color: kPrimaryColorDark,
                         function: () {
-                          String _phone = _phoneController.text;
-                          if (_phone.length != 10) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text('Enter Valid Mobile',
-                                  style: TextStyle(color: Colors.black)),
-                              backgroundColor: Colors.white,
-                              duration: Duration(seconds: 1),
-                            ));
-                          } else {
-                            createLoading(context);
-                            Future.delayed(Duration(milliseconds: 500), () {
-                              ///Remove Loading Bar
-                              Navigator.popAndPushNamed(context, VerifyOtp.id,
-                                  arguments: ScreenArguments(phone: _phone));
-                            });
-                          }
+                          _onPress(context);
                         },
                       ),
-                      SizedBox(height: 50),
+                      Expanded(child: SizedBox()),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
@@ -117,5 +97,27 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+}
+
+///Skip Button Widget///
+class SkipButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+        onTap: () {
+          Navigator.popAndPushNamed(context, MainScreen.id,
+              arguments: ScreenArguments(index: 0));
+        },
+        child: Container(
+            decoration: BoxDecoration(
+                color: Color(0xffA3EBB1),
+                borderRadius: BorderRadius.circular(15)),
+            padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+            child: Text('Skip',
+                style: TextStyle(
+                  color: Colors.black54,
+                  fontSize: 16,
+                ))));
   }
 }

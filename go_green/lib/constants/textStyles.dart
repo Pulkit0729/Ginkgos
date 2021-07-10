@@ -73,3 +73,6 @@ const kTotalAmountPrice = TextStyle(fontSize: 15, fontWeight: FontWeight.bold);
 
 ///CartScreen//
 const kCartStageText = TextStyle(fontSize: 12, color: Colors.black);
+
+///NavDrawer///
+const kUserName = TextStyle(fontSize: 18);
