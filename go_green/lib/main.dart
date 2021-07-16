@@ -2,32 +2,35 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:go_green/models/userdata.dart';
-import 'package:go_green/screens/addAddress_screen.dart';
-import 'package:go_green/screens/addressBook.dart';
-import 'package:go_green/screens/help_screen.dart';
-import 'package:go_green/screens/loadingScreen.dart';
-import 'package:go_green/screens/login_screen.dart';
-import 'package:go_green/screens/main_screen.dart';
-import 'package:go_green/screens/cart_screen.dart';
-import 'package:go_green/screens/orderDetailsScreen.dart';
-import 'package:go_green/screens/orders_screen.dart';
-import 'package:go_green/screens/productDescription_screen.dart';
-import 'package:go_green/screens/productListScreen.dart';
-import 'package:go_green/screens/profile_screen.dart';
-import 'package:go_green/screens/search_screen.dart';
-import 'package:go_green/screens/selectAddressScreen.dart';
-import 'package:go_green/screens/verifyName_screen.dart';
-import 'package:go_green/screens/verifyOtp_screen.dart';
-import 'package:go_green/screens/wishlist_screen.dart';
+import 'package:go_green/UI/screens/addAddress_screen.dart';
+import 'package:go_green/UI/screens/addressBook.dart';
+import 'package:go_green/UI/screens/help_screen.dart';
+import 'package:go_green/UI/screens/loadingScreen.dart';
+import 'package:go_green/UI/screens/login_screen.dart';
+import 'package:go_green/UI/screens/main_screen.dart';
+import 'package:go_green/UI/screens/cart_screen.dart';
+import 'package:go_green/UI/screens/orderDetailsScreen.dart';
+import 'package:go_green/UI/screens/orders_screen.dart';
+import 'package:go_green/UI/screens/productDescription_screen.dart';
+import 'package:go_green/UI/screens/productListScreen.dart';
+import 'package:go_green/UI/screens/profile_screen.dart';
+import 'package:go_green/UI/screens/search_screen.dart';
+import 'package:go_green/UI/screens/selectAddressScreen.dart';
+import 'package:go_green/UI/screens/verifyName_screen.dart';
+import 'package:go_green/UI/screens/verifyOtp_screen.dart';
+import 'package:go_green/UI/screens/wishlist_screen.dart';
 import 'package:provider/provider.dart';
+
+import 'backend/models/userdata.dart';
+import 'backend/utilities/locFromPin.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MultiProvider(
-      providers: [ChangeNotifierProvider(create: (context) => UserName())],
-      child: MyApp()));
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (context) => Userdata()),
+    ChangeNotifierProvider(create: (context) => LocFromPin())
+  ], child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -35,7 +38,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<UserName>(context, listen: false).getData();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute:
