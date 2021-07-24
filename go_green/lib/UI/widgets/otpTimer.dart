@@ -4,7 +4,7 @@ import 'package:go_green/UI/constants/textStyles.dart';
 
 class OTPTimer extends StatefulWidget {
   final function;
-  const OTPTimer({Key? key, this.function}) : super(key: key);
+  const OTPTimer({this.function});
   @override
   _OTPTimerState createState() => _OTPTimerState();
 }
@@ -12,7 +12,9 @@ class OTPTimer extends StatefulWidget {
 class _OTPTimerState extends State<OTPTimer>
     with SingleTickerProviderStateMixin {
   bool isEnabled = false;
+
   late AnimationController controller;
+
   @override
   void initState() {
     super.initState();
@@ -21,7 +23,9 @@ class _OTPTimerState extends State<OTPTimer>
         duration: Duration(seconds: 30),
         upperBound: 30,
         lowerBound: 0);
+
     controller.reverse(from: 30);
+
     controller.addListener(() {
       setState(() {});
     });
@@ -41,13 +45,12 @@ class _OTPTimerState extends State<OTPTimer>
         controller.reset();
       });
     }
-    return Column(
-      children: [
-        isEnabled
-            ? Container()
-            : Text("00:${controller.value.toInt()}",
-                textAlign: TextAlign.center, style: kTimerStyle),
-        TextButton(
+    return Column(children: [
+      isEnabled
+          ? Container()
+          : Text("00:${controller.value.toInt()}",
+              textAlign: TextAlign.center, style: kTimerStyle),
+      TextButton(
           onPressed: isEnabled
               ? () {
                   widget.function();
@@ -57,13 +60,9 @@ class _OTPTimerState extends State<OTPTimer>
                   });
                 }
               : () {},
-          child: Text(
-            "Didn't get the opt? Resend",
-            textAlign: TextAlign.center,
-            style: TextStyle(color: isEnabled ? Colors.black : Colors.grey),
-          ),
-        ),
-      ],
-    );
+          child: Text("Didn't get the opt? Resend",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: isEnabled ? Colors.black : Colors.grey)))
+    ]);
   }
 }

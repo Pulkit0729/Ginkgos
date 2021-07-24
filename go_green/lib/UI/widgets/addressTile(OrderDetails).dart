@@ -1,28 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_green/UI/widgets/productDescrip/container.dart';
+import 'package:go_green/backend/models/address.dart';
 
 class AddressTile2 extends StatelessWidget {
-  const AddressTile2(
-      {Key? key,
-      this.type,
-      this.name,
-      this.number,
-      this.address,
-      this.city,
-      this.pinCode,
-      this.state,
-      this.locality})
-      : super(key: key);
-  final type;
-  final name;
-  final number;
-  final address;
-  final city;
-  final pinCode;
-  final state;
-  final locality;
+  const AddressTile2({Key? key, required this.addressObject}) : super(key: key);
+  final AddressObject addressObject;
   @override
   Widget build(BuildContext context) {
+    print(addressObject.name);
     return NewContainer(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -38,23 +23,23 @@ class AddressTile2 extends StatelessWidget {
             ),
           ),
           Text(
-            name,
+            addressObject.name,
+            style: TextStyle(color: Colors.grey[700], height: 1.5),
+          ),
+          // Text(
+          //   addressObject.address,
+          //   style: TextStyle(color: Colors.grey[700], height: 1.5),
+          // ),
+          Text(
+            addressObject.city + '-' + addressObject.pincode,
             style: TextStyle(color: Colors.grey[700], height: 1.5),
           ),
           Text(
-            address,
+            addressObject.state,
             style: TextStyle(color: Colors.grey[700], height: 1.5),
           ),
           Text(
-            city + '-' + pinCode,
-            style: TextStyle(color: Colors.grey[700], height: 1.5),
-          ),
-          Text(
-            state,
-            style: TextStyle(color: Colors.grey[700], height: 1.5),
-          ),
-          Text(
-            'Mobile: $number',
+            'Mobile: ${addressObject.phone}',
             style: TextStyle(color: Colors.grey[700], height: 1.5),
           ),
         ],

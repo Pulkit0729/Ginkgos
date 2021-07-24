@@ -2,37 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_green/UI/constants/textStyles.dart';
-import 'package:go_green/UI/widgets/productDescrip/specIconWidget.dart';
-
 import 'container.dart';
 
-class Specification extends StatefulWidget {
-  const Specification({
-    Key? key,
-  }) : super(key: key);
+class Specification extends StatelessWidget {
+  const Specification({this.light, this.water, this.location});
+  final String? light;
+  final String? water;
+  final String? location;
 
-  @override
-  _SpecificationState createState() => _SpecificationState();
-}
-
-class _SpecificationState extends State<Specification> {
-  final List<String> strings = [
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
-    ' ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
-    'dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. '
-  ];
-  var isPressed = 0;
-  late var spec;
-  void press(index) {
-    isPressed = index;
-    spec = strings[index];
-  }
-
-  @override
-  void initState() {
-    spec = strings[0];
-    super.initState();
-  }
+  String _nullCheck(String? value) => value == null ? '' : value;
 
   @override
   Widget build(BuildContext context) {
@@ -44,44 +22,61 @@ class _SpecificationState extends State<Specification> {
             'Specifications',
             style: kSubHeading,
           ),
-          Row(children: [
-            SpecIconWidget(
-                iconData: Icons.wb_sunny,
-                opacity: isPressed == 0 ? 1 : 0,
-                color: isPressed == 0 ? Colors.orangeAccent : Colors.white,
-                function: () {
-                  setState(() {
-                    press(0);
-                  });
-                }),
-            SpecIconWidget(
-                iconData: FontAwesomeIcons.tint,
-                opacity: isPressed == 1 ? 1 : 0,
-                color: isPressed == 1 ? Colors.lightBlueAccent : Colors.white,
-                function: () {
-                  setState(() {
-                    press(1);
-                  });
-                }),
-            SpecIconWidget(
-                iconData: FontAwesomeIcons.thermometerThreeQuarters,
-                opacity: isPressed == 2 ? 1 : 0,
-                color: isPressed == 2 ? Colors.redAccent : Colors.white,
-                function: () {
-                  setState(() {
-                    press(2);
-                  });
-                })
-          ]),
+          SizedBox(height: 20),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            decoration: BoxDecoration(
-                color: Colors.pink[100],
-                borderRadius: BorderRadius.circular(10)),
-            child: Text(spec),
+            margin: EdgeInsets.symmetric(horizontal: 15),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SpecIconWidget(
+                    iconData: Icons.wb_sunny,
+                    text: _nullCheck(light),
+                    title: 'Light',
+                    image: 'images/sun.png',
+                  ),
+                  SpecIconWidget(
+                    iconData: FontAwesomeIcons.tint,
+                    text: _nullCheck(water),
+                    title: 'Water',
+                    image: 'images/water.png',
+                  ),
+                  SpecIconWidget(
+                    iconData: FontAwesomeIcons.thermometerThreeQuarters,
+                    text: _nullCheck(location),
+                    title: 'Ideal Location',
+                    image: 'images/location.jpg',
+                  )
+                ]),
           )
         ],
       ),
+    );
+  }
+}
+
+class SpecIconWidget extends StatelessWidget {
+  const SpecIconWidget({this.iconData, this.text, this.title, this.image});
+  final iconData;
+  final image;
+  final title;
+  final text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          height: 55,
+          width: 55,
+          padding: EdgeInsets.all(4),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: Colors.grey[300]!)),
+          child: Image.asset(image),
+        ),
+        SizedBox(height: 5),
+        Text(title, style: TextStyle(fontWeight: FontWeight.bold))
+      ],
     );
   }
 }

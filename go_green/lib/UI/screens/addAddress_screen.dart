@@ -138,7 +138,8 @@ class AddAddressScreen extends StatelessWidget {
       if (_condition) {
         Provider.of<LocFromPin>(context, listen: false).reset();
         CustomSnackWidgets.buildErrorSnackBar(context, "Added Successfully");
-        Navigator.popAndPushNamed(context, AddressBookScreen.id);
+        Navigator.pop(context);
+        Navigator.pop(context);
       } else {
         Provider.of<LocFromPin>(context, listen: false).reset();
         Navigator.pop(context);

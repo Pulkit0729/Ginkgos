@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_green/UI/constants/textStyles.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class ProductCard3 extends StatelessWidget {
   const ProductCard3({
@@ -30,12 +31,11 @@ class ProductCard3 extends StatelessWidget {
         children: [
           Expanded(
             child: AspectRatio(
-              aspectRatio: 1,
-              child: Image.asset(
-                image,
-                fit: BoxFit.fitHeight,
-              ),
-            ),
+                aspectRatio: 1,
+                child: FadeInImage.memoryNetwork(
+                    fit: BoxFit.fitHeight,
+                    placeholder: kTransparentImage,
+                    image: image[0])),
           ),
           SizedBox(
             height: 10,

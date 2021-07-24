@@ -17,7 +17,7 @@ class _AddressBookScreenState extends State<AddressBookScreen> {
   late AddressObject _obj1;
   late AddressObject _obj2;
   late AddressObject _obj3;
-  late int _noOfAddress;
+  int _noOfAddress = 0;
   late int _index;
 
   bool _isLoading = true;
@@ -28,20 +28,26 @@ class _AddressBookScreenState extends State<AddressBookScreen> {
     _obj3 = await getAddress('3');
 
     if (_obj1.name == '') {
-      _noOfAddress = 0;
       _index = 1;
     } else {
       if (_obj2.name == '') {
-        _noOfAddress = 1;
         _index = 2;
       } else {
         if (_obj3.name == '') {
-          _noOfAddress = 2;
           _index = 3;
         } else {
-          _noOfAddress = 3;
+          _index = 4;
         }
       }
+    }
+    if (_obj1.name != '') {
+      _noOfAddress = _noOfAddress + 1;
+    }
+    if (_obj2.name != '') {
+      _noOfAddress = _noOfAddress + 1;
+    }
+    if (_obj3.name != '') {
+      _noOfAddress = _noOfAddress + 1;
     }
     setState(() {
       _isLoading = false;

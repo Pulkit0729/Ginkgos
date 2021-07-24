@@ -1,82 +1,67 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_green/UI/constants/colorsConstant.dart';
-import 'package:go_green/UI/widgets/appBar2.dart';
+import 'package:go_green/UI/screens/main_screen.dart';
+import 'package:go_green/UI/screens/emptyScreen.dart';
 import 'package:go_green/UI/widgets/orderTile.dart';
+import 'package:go_green/backend/models/orderList.dart';
+import 'package:go_green/backend/models/orderObject.dart';
 
-class OrderScreen extends StatelessWidget {
+class OrderScreen extends StatefulWidget {
   static String id = 'orderScreen';
+
+  @override
+  _OrderScreenState createState() => _OrderScreenState();
+}
+
+class _OrderScreenState extends State<OrderScreen> {
+  bool _isLoading = true;
+  late bool _exist;
+  late List<OrderItem> _itemList;
+
+  void _temporary() async {
+    Map<String, dynamic>? list = await getOrderIds();
+    print(list);
+    if (list!['Null'] != 'Null') {
+      _itemList = await getListOfItems(list.values.toList());
+      setState(() {
+        _exist = true;
+        _isLoading = false;
+      });
+    } else {
+      setState(() {
+        _exist = false;
+        _isLoading = false;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    _temporary();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kScaffoldGrey,
-      appBar: AppBar2('Orders'),
-      body: Column(
-        children: [
-          OrderScreenHeader(),
-          SizedBox(
-            height: 7,
-          ),
-          Expanded(
-            child: ListView(
-              children: [
-                OrderTile(),
-                OrderTile(),
-                OrderTile(),
-                OrderTile(),
-                OrderTile(),
-                OrderTile()
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class OrderScreenHeader extends StatelessWidget {
-  const OrderScreenHeader({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          color: Colors.white, border: Border.all(color: Colors.black26)),
-      child: Row(
-        children: [
-          Expanded(
-            flex: 2,
-            child: TextField(
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: "Search your Order",
-                  prefixIcon: Icon(Icons.search),
-                  fillColor: Colors.white,
-                  filled: true),
-            ),
-          ),
-          Container(
-            height: 30,
-            width: 1,
-            color: Colors.black12,
-          ),
-          Expanded(
-              flex: 1,
-              child: TextButton(
-                onPressed: () {},
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.filter_alt_outlined),
-                    Text('Filter'),
-                  ],
-                ),
-              ))
-        ],
-      ),
-    );
+        backgroundColor: kScaffoldGrey,
+        appBar: AppBar(title: Text('Orders')),
+        body: _isLoading
+            ? SpinKitCircle(color: Colors.blue)
+            : _exist
+                ? ListView.builder(
+                    itemCount: _itemList.length,
+                    itemBuilder: (context, int index) {
+                      return OrderTile(orderItem: _itemList[index]);
+                    })
+                : EmptyScreen(
+                    text: 'You have not placed any orders yet!.',
+                    function: () {
+                      Navigator.popAndPushNamed(context, MainScreen.id);
+                    },
+                    image: 'images/emptyWishlist.svg',
+                  ));
   }
 }

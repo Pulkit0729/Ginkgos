@@ -79,3 +79,6 @@ const kUserName = TextStyle(fontSize: 18);
 
 ///Category Screen///
 const kCategoryTitle = TextStyle(fontSize: 22, fontWeight: FontWeight.w700);
+
+///HomeScreenLayout Title///
+const kHomeLayoutTitle = TextStyle(fontSize: 20, color: Colors.black);

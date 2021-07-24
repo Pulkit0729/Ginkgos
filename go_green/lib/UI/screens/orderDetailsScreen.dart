@@ -1,85 +1,96 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_green/UI/constants/colorsConstant.dart';
 import 'package:go_green/UI/widgets/addressTile(OrderDetails).dart';
-import 'package:go_green/UI/widgets/appBar2.dart';
 import 'package:go_green/UI/widgets/cartScreen/priceDetails.dart';
 import 'package:go_green/UI/widgets/productCard/productCard(OrderDetails).dart';
 import 'package:go_green/UI/widgets/productDescrip/container.dart';
+import 'package:go_green/backend/models/orderList.dart';
+import 'package:go_green/backend/models/orderObject.dart';
+import 'package:go_green/main.dart';
 
-class OrderDetailsScreen extends StatelessWidget {
+class OrderDetailsScreen extends StatefulWidget {
   static String id = 'ordersDetails';
   const OrderDetailsScreen({Key? key}) : super(key: key);
+  @override
+  _OrderDetailsScreenState createState() => _OrderDetailsScreenState();
+}
+
+class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
+  bool _isLoading = true;
+  late OrderObject orderObject;
+
+  void _onInitialize(String orderId) async {
+    orderObject = await retrieveOrder(orderId);
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    Future.delayed(Duration.zero, () {
+      var arg = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
+      _onInitialize(arg.orderId!);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kScaffoldGrey,
-      appBar: AppBar2('Order Details'),
-      body: ListView(
-        children: [
-          NewContainer(
-            child: Column(
+      appBar: AppBar(title: Text('Order Details')),
+      body: _isLoading
+          ? SpinKitCircle(color: Colors.blue)
+          : ListView(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [Text('Order id'), Text('#12345678890')],
+                NewContainer(
+                    child: Column(children: [
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [Text('Order id'), Text(orderObject.orderId)]),
+                  SizedBox(height: 7),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Order date'),
+                        Text(orderObject.orderDate)
+                      ]),
+                  SizedBox(height: 7),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Order total'),
+                        Text(orderObject.priceDetailsObject.totalAmount)
+                      ])
+                ])),
+                Container(
+                    color: Colors.white,
+                    margin: EdgeInsets.only(top: 7),
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 7),
+                    child: Text(
+                      '${orderObject.orderItems.length} items',
+                      style: TextStyle(
+                          color: Colors.grey[700], fontWeight: FontWeight.w700),
+                    )),
+                ListView.builder(
+                    shrinkWrap: true,
+                    physics: ClampingScrollPhysics(),
+                    itemCount: orderObject.orderItems.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ProductCard6(
+                          orderItem: orderObject.orderItems[index]);
+                    }),
+                AddressTile2(
+                  addressObject: orderObject.addressObject,
                 ),
-                SizedBox(
-                  height: 7,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [Text('Order date'), Text('29-08-2001')],
-                ),
-                SizedBox(
-                  height: 7,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [Text('Order total'), Text('500')],
-                ),
+                PriceDetails(
+                  priceDetailsObject: orderObject.priceDetailsObject,
+                )
               ],
             ),
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-            child: Text(
-              '2 items',
-              style: TextStyle(
-                  color: Colors.grey[700], fontWeight: FontWeight.w700),
-            ),
-          ),
-          ProductCard6(
-            name: 'Croton',
-            price: '150',
-            status: 'Approved',
-            image: 'images/product.jpeg',
-          ),
-          ProductCard6(
-            name: 'Croton',
-            price: '150',
-            status: 'Approved',
-            image: 'images/product.jpeg',
-          ),
-          AddressTile2(
-            name: 'Pulkit Aggarwal',
-            type: 'Work',
-            number: '8059345289',
-            pinCode: '123401',
-            state: 'Haryana',
-            city: 'Rewari',
-            address: 'A-38',
-            locality: 'Ansal',
-          ),
-          PriceDetails(
-            totalAmount: '340',
-            totalPrice: '500',
-            discount: '200',
-            couponDiscount: '0',
-            deliveryCharge: '40',
-          )
-        ],
-      ),
     );
   }
 }

@@ -1,15 +1,27 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:go_green/UI/screens/emptyWishlist.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:go_green/UI/constants/colorsConstant.dart';
+import 'package:go_green/UI/screens/loadingBeforeCartScreen.dart';
+import 'package:go_green/UI/screens/wishListScreen.dart';
+import 'package:go_green/UI/widgets/customSnackBar.dart';
+import 'package:go_green/UI/widgets/loginBottomSheet.dart';
 import 'package:go_green/UI/widgets/searchButtonWidget.dart';
+import 'package:go_green/backend/utilities/getLocation.dart';
 import '../../main.dart';
 import 'drawerScreen.dart';
 import 'category_screen.dart';
 import 'home_screen.dart';
-import 'cart_screen.dart';
 
 class MainScreen extends StatefulWidget {
   static String id = 'Main_Screen';
+  final temp;
+
+  const MainScreen({Key? key, this.temp}) : super(key: key);
   @override
   _MainScreenState createState() => _MainScreenState();
 }
@@ -17,20 +29,71 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
   var arg;
-  List<Widget> _bottomDrawerOptions = <Widget>[
-    HomeScreen(),
-    CategoryScreen(),
-    EmptyWishlist(),
-  ];
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+  DateTime? currentBackPressTime;
+
+  List<Widget> _bottomDrawerOptions = [];
+
+  Future<bool> onWillPop() {
+    DateTime now = DateTime.now();
+    if (currentBackPressTime == null ||
+        now.difference(currentBackPressTime!) > Duration(seconds: 2)) {
+      currentBackPressTime = now;
+      CustomSnackWidgets.buildErrorSnackBar(context, 'Press Again');
+      return Future.value(false);
+    }
+    return Future.value(true);
+  }
+
+  void _onClickCart() {
+    if (FirebaseAuth.instance.currentUser != null) {
+      Navigator.pushNamed(context, CartLoadingScreen.id);
+    } else {
+      showModalBottomSheet(
+          context: context,
+          builder: (BuildContext context) {
+            return LoginBottomSheet();
+          });
+    }
+  }
+
+  void getLocation() async {
+    Position position = await determinePosition(context);
+    var result = await checkAvailability(position.latitude, position.longitude);
+    if (result) {
+    } else {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+                title: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset('images/comingSoon.svg',
+                          width: MediaQuery.of(context).size.width * 0.7),
+                      SizedBox(height: 20),
+                      Text('Coming Soon to your Location',
+                          style: TextStyle(fontSize: 18))
+                    ]),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text('OK'))
+                ]);
+          });
+    }
   }
 
   @override
   void initState() {
+    _bottomDrawerOptions = <Widget>[
+      HomeScreen(),
+      CategoryScreen(),
+      WishListScreen(),
+    ];
+
     super.initState();
 
     ///To access buildContext in initState we use future
@@ -38,12 +101,9 @@ class _MainScreenState extends State<MainScreen> {
       setState(() {
         arg = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
       });
-      if (arg != null) {
-        _selectedIndex = arg.index;
-      } else {
-        _selectedIndex = 0;
-      }
+      arg != null ? _selectedIndex = arg.index : _selectedIndex = 0;
     });
+    getLocation();
   }
 
   @override
@@ -58,16 +118,19 @@ class _MainScreenState extends State<MainScreen> {
                 child: GestureDetector(
                     child: Icon(Icons.shopping_cart, size: 26.0),
                     onTap: () {
-                      Navigator.pushNamed(context, CartScreen.id);
+                      _onClickCart();
                     }))
           ],
           bottom: PreferredSize(
               child: SearchButtonWidget(),
               preferredSize:
                   Size.fromHeight(MediaQuery.of(context).size.height * 0.056))),
-      body: Center(child: _bottomDrawerOptions[_selectedIndex]),
+      body: WillPopScope(
+          onWillPop: onWillPop,
+          child: Center(child: _bottomDrawerOptions[_selectedIndex])),
       bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.green[600],
+        unselectedItemColor: Colors.black38,
+        selectedItemColor: Colors.green[500],
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -83,7 +146,11 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ],
         currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
+        onTap: (int index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
       ),
     );
   }

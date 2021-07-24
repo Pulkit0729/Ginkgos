@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CustomDropDown extends StatefulWidget {
-  const CustomDropDown({Key? key, this.type, required this.items})
-      : super(key: key);
+  const CustomDropDown({this.type, required this.items, this.callBack});
+  final callBack;
   final type;
   final List<String> items;
 
@@ -17,6 +17,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
     setState(() {
       _value = value;
     });
+    widget.callBack(value);
   }
 
   @override

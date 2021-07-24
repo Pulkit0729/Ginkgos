@@ -7,7 +7,7 @@ class LoadingBar {
     return showDialog(
         context: context,
         builder: (context) {
-          return SpinKitCircle(color: Colors.black);
+          return SpinKitCircle(color: Colors.green[600]);
         });
   }
 }

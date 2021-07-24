@@ -12,11 +12,10 @@ class CategoryTile extends StatefulWidget {
 }
 
 class _CategoryTileState extends State<CategoryTile> {
-  late List<SubCategory> list;
   String image = '';
 
   void _getImage() async {
-    var image1 = await widget.category.readData();
+    var image1 = await widget.category.readImage();
     setState(() {
       image = image1;
     });
@@ -25,7 +24,6 @@ class _CategoryTileState extends State<CategoryTile> {
   @override
   void initState() {
     super.initState();
-    list = [];
     _getImage();
   }
 
@@ -52,24 +50,11 @@ class _CategoryTileState extends State<CategoryTile> {
                     Text(widget.category.subTitle)
                   ])),
           onTap: () {
-            setState(() {
-              list.isEmpty
-                  ? list.addAll(widget.category.subCategories)
-                  : list.clear();
-            });
-          }),
-      Container(
-          color: Colors.white,
-          child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: list.length,
-              itemBuilder: (BuildContext context, int index) {
-                return ListTile(
-                    title: Text(list[index].title),
-                    onTap: () {
-                      Navigator.pushNamed(context, ProductListScreen.id);
-                    });
-              }))
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => ProductListScreen(
+                      name: widget.category.title,
+                    )));
+          })
     ]);
   }
 }

@@ -8,7 +8,7 @@ class NewContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 7),
+      margin: EdgeInsets.only(top: 4),
       padding: EdgeInsets.only(left: 20, right: 20, top: 18, bottom: 18),
       color: Colors.white,
       child: child,

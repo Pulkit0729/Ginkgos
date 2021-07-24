@@ -3,47 +3,36 @@ import 'package:go_green/UI/widgets/categoryTile.dart';
 import 'package:go_green/backend/models/category.dart';
 
 class CategoryScreen extends StatelessWidget {
-  List<Category> items = [
+  final List<Category> items = [
     Category(
-        title: 'Ornamental',
+        title: 'Ornamentals',
         subTitle: 'All decoratives',
-        color: Colors.blue,
-        subCategories: [
-          SubCategory(title: 'One', id: 'O01'),
-          SubCategory(title: 'Two', id: 'O02')
-        ]),
+        color: Color(0xC1EAAEE8)),
     Category(
-        title: 'Flowers',
-        subTitle: 'All decoratives',
-        color: Colors.blue,
-        subCategories: [
-          SubCategory(title: 'One', id: 'F01'),
-          SubCategory(title: 'Two', id: 'F02')
-        ]),
+      title: 'Flowers',
+      subTitle: 'All decoratives',
+      color: Color(0xC1EAAEE8),
+    ),
     Category(
-        title: 'Fruits',
-        subTitle: 'All decoratives',
-        color: Colors.blue,
-        subCategories: [
-          SubCategory(title: 'One', id: 'FR01'),
-          SubCategory(title: 'Two', id: 'FR02')
-        ]),
+      title: 'Fruits',
+      subTitle: 'All decoratives',
+      color: Color(0xC1EAAEE8),
+    ),
     Category(
-        title: 'Medicinal',
-        subTitle: 'All decoratives',
-        color: Colors.blue,
-        subCategories: [
-          SubCategory(title: 'One', id: 'M01'),
-          SubCategory(title: 'Two', id: 'M02')
-        ]),
+      title: 'Medicinal',
+      subTitle: 'All decoratives',
+      color: Color(0xC1EAAEE8),
+    ),
     Category(
-        title: 'Pots',
-        subTitle: 'All decoratives',
-        color: Colors.blue,
-        subCategories: [
-          SubCategory(title: 'One', id: 'P01'),
-          SubCategory(title: 'Two', id: 'P02')
-        ]),
+      title: 'Pots',
+      subTitle: 'All decoratives',
+      color: Color(0xC1EAAEE8),
+    ),
+    Category(
+      title: 'Accessories',
+      subTitle: 'All decoratives',
+      color: Color(0xC1EAAEE8),
+    ),
   ];
   @override
   Widget build(BuildContext context) {

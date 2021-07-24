@@ -19,14 +19,26 @@ class Userdata extends ChangeNotifier {
             dynamic nestedName = documentSnapshot.get(FieldPath(['Name']));
             dynamic nestedEmail = documentSnapshot.get(FieldPath(['Email']));
             _name = nestedName;
+            notifyListeners();
             _email = nestedEmail;
+            notifyListeners();
             _phone = _currentUser!.phoneNumber!;
+            notifyListeners();
           } on StateError catch (e) {
             print(e);
           }
         } else {}
       });
     }
+  }
+
+  void setData(name, email, phone) async {
+    _phone = phone;
+    notifyListeners();
+    _name = name;
+    notifyListeners();
+    _email = email;
+    notifyListeners();
   }
 
   String get name {

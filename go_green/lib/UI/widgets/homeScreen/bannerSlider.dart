@@ -1,26 +1,28 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class BannerSlider extends StatelessWidget {
   const BannerSlider({
-    Key? key,
     required this.imgList,
-  }) : super(key: key);
+  });
   final List<String> imgList;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 4),
-      child: CarouselSlider(
+    return Stack(alignment: Alignment.center, children: [
+      SpinKitCircle(
+        color: Colors.blue,
+      ),
+      CarouselSlider(
           items: imgList
-              .map((e) => Image.asset(
+              .map((e) => Image.network(
                     e,
                   ))
               .toList(),
           options: CarouselOptions(
               viewportFraction: 1.0,
               autoPlay: true,
-              autoPlayInterval: const Duration(seconds: 2))),
-    );
+              autoPlayInterval: const Duration(seconds: 2)))
+    ]);
   }
 }

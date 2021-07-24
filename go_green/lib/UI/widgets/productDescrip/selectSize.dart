@@ -3,10 +3,10 @@ import 'package:go_green/UI/constants/textStyles.dart';
 
 import 'container.dart';
 
-class SelectSizeWidget extends StatelessWidget {
-  const SelectSizeWidget({
-    Key? key,
-  }) : super(key: key);
+class SizeWidget extends StatelessWidget {
+  final size;
+
+  const SizeWidget({Key? key, this.size}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,43 +14,13 @@ class SelectSizeWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text('Select Size', style: kSubHeading),
+          Text('Size', style: kSubHeading),
           SizedBox(height: 5),
           Text(
-            'Height: 5 inch',
+            size,
             style: TextStyle(color: Colors.grey, fontSize: 14),
           ),
           SizedBox(height: 5),
-          Row(
-            children: [
-              ElevatedButton(
-                  child: Text('S ',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.black)),
-                  onPressed: () {},
-                  style: ButtonStyle(
-                      shape: MaterialStateProperty.all(CircleBorder()),
-                      backgroundColor:
-                          MaterialStateProperty.all(Colors.white))),
-              ElevatedButton(
-                  child: Text('M ',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.black)),
-                  onPressed: () {},
-                  style: ButtonStyle(
-                      shape: MaterialStateProperty.all(CircleBorder()),
-                      backgroundColor:
-                          MaterialStateProperty.all(Colors.white))),
-              ElevatedButton(
-                  child: Text('L ',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.black)),
-                  onPressed: () {},
-                  style: ButtonStyle(
-                      shape: MaterialStateProperty.all(CircleBorder()),
-                      backgroundColor: MaterialStateProperty.all(Colors.white)))
-            ],
-          )
         ],
       ),
     );

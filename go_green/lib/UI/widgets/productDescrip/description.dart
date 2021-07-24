@@ -4,11 +4,17 @@ import 'package:go_green/UI/constants/textStyles.dart';
 
 import 'container.dart';
 
-class Description extends StatelessWidget {
+class Description extends StatefulWidget {
   const Description({
-    Key? key,
-  }) : super(key: key);
+    this.text,
+  });
+  final text;
 
+  @override
+  _DescriptionState createState() => _DescriptionState();
+}
+
+class _DescriptionState extends State<Description> {
   @override
   Widget build(BuildContext context) {
     return NewContainer(
@@ -19,9 +25,7 @@ class Description extends StatelessWidget {
             'Description',
             style: kSubHeading,
           ),
-          DescriptionTextWidget(
-              text:
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+          DescriptionTextWidget(text: widget.text),
         ],
       ),
     );
