@@ -7,7 +7,7 @@ Future<void> onRate({rating, orderId, itemId}) async {
   var negRat;
   var _list = await FirebaseDatabase.instance
       .reference()
-      .child('Experiment')
+      .child('OrdersV2')
       .child(orderId.toString())
       .get()
       .then((DataSnapshot? value) => value!.value['OrderItems']);
@@ -24,7 +24,7 @@ Future<void> onRate({rating, orderId, itemId}) async {
   }
   await FirebaseDatabase.instance
       .reference()
-      .child('Experiment')
+      .child('OrdersV2')
       .child(orderId.toString())
       .child('OrderItems')
       .child(_index.toString())

@@ -93,8 +93,7 @@ class ProductCard5 extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.baseline,
                               textBaseline: TextBaseline.alphabetic,
                               children: [
-                                Text(
-                                    '₹${(double.parse(product.discount) * double.parse(product.cutPrice) / 100).toStringAsFixed(0)} ',
+                                Text('₹${product.price} ',
                                     style: kProductCardPrice),
                                 Text('${product.cutPrice} ',
                                     style: kProductCardCutPrice),

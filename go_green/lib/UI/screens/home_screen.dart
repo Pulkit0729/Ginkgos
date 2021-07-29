@@ -20,17 +20,20 @@ class _HomeScreenState extends State<HomeScreen> {
   late String? featureBanner;
 
   void getBanner() async {
-    var list = await getBanners(
-        context: context,
-        callback: () {
-          setState(() {
-            _isLoading = false;
-          });
-        });
+    var list = await getBanners(callback: () {
+      setState(() {
+        _isLoading = false;
+      });
+    });
     imgList = list.sublist(0, list.length - 1);
     setState(() {
       featureBanner = list[list.length - 1];
     });
+    await precacheBanners(list, () {
+      setState(() {
+        _isLoading = false;
+      });
+    }, context);
   }
 
   @override

@@ -60,32 +60,38 @@ class _OrderTileState extends State<OrderTile> {
                             Text(widget.orderItem.name,
                                 style: TextStyle(color: Colors.grey[600])),
                             SizedBox(height: 10),
-                            RatingBarIndicator(
-                                rating: rating,
-                                itemBuilder: (context, index) =>
-                                    GestureDetector(
-                                        onTap: () async {
-                                          LoadingBar.createLoading(context);
-                                          await onRate(
-                                              rating: index + 1,
-                                              orderId: widget.orderItem.orderId,
-                                              itemId: widget.orderItem.itemId);
-                                          setState(() {
-                                            rating = index + 1;
-                                            Navigator.pop(context);
-                                            Fluttertoast.showToast(
-                                                msg: "Thank you for rating",
-                                                toastLength: Toast.LENGTH_SHORT,
-                                                gravity: ToastGravity.CENTER,
-                                                timeInSecForIosWeb: 1,
-                                                backgroundColor: Colors.red,
-                                                textColor: Colors.white,
-                                                fontSize: 16.0);
-                                          });
-                                        },
-                                        child: Icon(Icons.star,
-                                            color: Colors.amber)),
-                                itemSize: 25),
+                            widget.orderItem.status == 'Delivered'
+                                ? RatingBarIndicator(
+                                    rating: rating,
+                                    itemBuilder: (context, index) =>
+                                        GestureDetector(
+                                            onTap: () async {
+                                              LoadingBar.createLoading(context);
+                                              await onRate(
+                                                  rating: index + 1,
+                                                  orderId:
+                                                      widget.orderItem.orderId,
+                                                  itemId:
+                                                      widget.orderItem.itemId);
+                                              setState(() {
+                                                rating = index + 1;
+                                                Navigator.pop(context);
+                                                Fluttertoast.showToast(
+                                                    msg: "Thank you for rating",
+                                                    toastLength:
+                                                        Toast.LENGTH_SHORT,
+                                                    gravity:
+                                                        ToastGravity.CENTER,
+                                                    timeInSecForIosWeb: 1,
+                                                    backgroundColor: Colors.red,
+                                                    textColor: Colors.white,
+                                                    fontSize: 16.0);
+                                              });
+                                            },
+                                            child: Icon(Icons.star,
+                                                color: Colors.amber)),
+                                    itemSize: 25)
+                                : Container(),
                             SizedBox(height: 10)
                           ]))),
               Container(

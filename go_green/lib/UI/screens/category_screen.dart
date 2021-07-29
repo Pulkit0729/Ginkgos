@@ -7,32 +7,27 @@ class CategoryScreen extends StatelessWidget {
     Category(
         title: 'Ornamentals',
         subTitle: 'All decoratives',
-        color: Color(0xC1EAAEE8)),
+        image: 'images/category/ornaBanner.png'),
     Category(
-      title: 'Flowers',
-      subTitle: 'All decoratives',
-      color: Color(0xC1EAAEE8),
-    ),
+        title: 'Flowers',
+        subTitle: 'All decoratives',
+        image: 'images/category/flower_banner.png'),
     Category(
-      title: 'Fruits',
-      subTitle: 'All decoratives',
-      color: Color(0xC1EAAEE8),
-    ),
+        title: 'Fruits',
+        subTitle: 'All decoratives',
+        image: 'images/category/fruit_banner.png'),
     Category(
-      title: 'Medicinal',
-      subTitle: 'All decoratives',
-      color: Color(0xC1EAAEE8),
-    ),
+        title: 'Medicinal',
+        subTitle: 'All decoratives',
+        image: 'images/category/medicine_banner.png'),
     Category(
-      title: 'Pots',
-      subTitle: 'All decoratives',
-      color: Color(0xC1EAAEE8),
-    ),
+        title: 'Pots',
+        subTitle: 'All decoratives',
+        image: 'images/category/pot_banner.png'),
     Category(
-      title: 'Accessories',
-      subTitle: 'All decoratives',
-      color: Color(0xC1EAAEE8),
-    ),
+        title: 'Accessories',
+        subTitle: 'All decoratives',
+        image: 'images/category/accessory_banner.png'),
   ];
   @override
   Widget build(BuildContext context) {

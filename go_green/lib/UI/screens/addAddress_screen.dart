@@ -154,22 +154,20 @@ class AddAddressScreen extends StatelessWidget {
     _city.text = Provider.of<LocFromPin>(context).city;
 
     return WillPopScope(
-      onWillPop: () async {
-        Provider.of<LocFromPin>(context, listen: false).reset();
-        return true;
-      },
-      child: Scaffold(
-        backgroundColor: kScaffoldGrey,
-        appBar: AppBar(title: Text('Add Address')),
-        body: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              NewContainer(
-                  child: Column(children: [_inputName(), _inputPhone()])),
-              NewContainer(
-                child: Column(
-                  children: [
+        onWillPop: () async {
+          Provider.of<LocFromPin>(context, listen: false).reset();
+          return true;
+        },
+        child: Scaffold(
+            backgroundColor: kScaffoldGrey,
+            appBar: AppBar(title: Text('Add Address')),
+            body: Form(
+                key: _formKey,
+                child: ListView(children: [
+                  NewContainer(
+                      child: Column(children: [_inputName(), _inputPhone()])),
+                  NewContainer(
+                      child: Column(children: [
                     Row(children: [
                       Expanded(child: _inputPin(context)),
                       SizedBox(width: MediaQuery.of(context).size.width * 0.2),
@@ -178,21 +176,13 @@ class AddAddressScreen extends StatelessWidget {
                     _inputAddress(),
                     _inputLocality(),
                     _inputCity(context)
-                  ],
-                ),
-              ),
-              TypeOfAddress(
-                function: (value) {
-                  _type = value;
-                },
-              )
-            ],
-          ),
-        ),
-        bottomNavigationBar: AddAddressFooter(() {
-          _onPress(context);
-        }),
-      ),
-    );
+                  ])),
+                  TypeOfAddress(function: (value) {
+                    _type = value;
+                  })
+                ])),
+            bottomNavigationBar: AddAddressFooter(() {
+              _onPress(context);
+            })));
   }
 }

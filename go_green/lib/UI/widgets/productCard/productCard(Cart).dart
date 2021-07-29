@@ -10,103 +10,90 @@ import 'package:transparent_image/transparent_image.dart';
 import '../../../main.dart';
 
 class ProductCard4 extends StatelessWidget {
-  const ProductCard4({this.sizes, required this.product, this.callback});
+  const ProductCard4({required this.product, this.callback});
   final callback;
   final Product product;
-  final List<String>? sizes;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(context, ProductDescriptionScreen.id,
-            arguments: ScreenArguments(product: product));
-      },
-      child: Container(
-          height: MediaQuery.of(context).size.height * 0.25,
-          color: Colors.white,
-          padding: EdgeInsets.only(top: 9),
-          margin: EdgeInsets.only(top: 8),
-          child: Column(children: [
-            Expanded(
-                flex: 5,
-                child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                          flex: 2,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: AspectRatio(
-                                aspectRatio: 1,
-                                child: FadeInImage.memoryNetwork(
-                                    fit: BoxFit.fitHeight,
-                                    placeholder: kTransparentImage,
-                                    image: product.image[0])),
-                          )),
-                      Expanded(
-                          flex: 3,
-                          child: Container(
-                              margin: EdgeInsets.only(left: 10, bottom: 10),
-                              child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  children: [
-                                    Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.stretch,
-                                        children: [
-                                          Text(product.name,
-                                              style: kProductCard4Name),
-                                          SizedBox(height: 7),
-                                          Text(product.short,
-                                              style: kProductCard4Short),
-                                          SizedBox(height: 7),
-                                          Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.baseline,
-                                              textBaseline:
-                                                  TextBaseline.alphabetic,
-                                              children: [
-                                                Text(product.price,
-                                                    style: kProductCard4Price),
-                                                Text('${product.cutPrice} ',
-                                                    style:
-                                                        kProductCard4CutPrice),
-                                                Text(
-                                                    ' ${product.discount} off ',
-                                                    style:
-                                                        kProductCard4Discount)
-                                              ])
-                                        ]),
-                                    Row(children: [
-                                      CustomDropDown(
-                                        items: ['1', '2', '3'],
-                                        type: 'Qty',
-                                        callBack: (value) {
-                                          callback(value);
-                                        },
-                                      ),
-                                      SizedBox(width: 20),
-                                      // CustomDropDown(
-                                      //   items: sizes,
-                                      //   type: 'Size',
-                                      //   callBack: (value) {
-                                      //     callback(value);
-                                      //   },
-                                      // )
-                                    ])
-                                  ])))
-                    ])),
-            Expanded(
-                flex: 1,
-                child: ProductCard4Footer(
-                  id: product.id,
-                ))
-          ])),
-    );
+        onTap: () {
+          Navigator.pushNamed(context, ProductDescriptionScreen.id,
+              arguments: ScreenArguments(product: product));
+        },
+        child: Container(
+            height: MediaQuery.of(context).size.height * 0.25,
+            color: Colors.white,
+            padding: EdgeInsets.only(top: 9),
+            margin: EdgeInsets.only(top: 8),
+            child: Column(children: [
+              Expanded(
+                  flex: 5,
+                  child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                            flex: 2,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: AspectRatio(
+                                  aspectRatio: 1,
+                                  child: FadeInImage.memoryNetwork(
+                                      fit: BoxFit.fitHeight,
+                                      placeholder: kTransparentImage,
+                                      image: product.image[0])),
+                            )),
+                        Expanded(
+                            flex: 3,
+                            child: Container(
+                                margin: EdgeInsets.only(left: 10, bottom: 10),
+                                child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    children: [
+                                      Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.stretch,
+                                          children: [
+                                            Text(product.name,
+                                                style: kProductCard4Name),
+                                            SizedBox(height: 7),
+                                            Text(product.short,
+                                                style: kProductCard4Short),
+                                            SizedBox(height: 7),
+                                            Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.baseline,
+                                                textBaseline:
+                                                    TextBaseline.alphabetic,
+                                                children: [
+                                                  Text('₹${product.price}',
+                                                      style:
+                                                          kProductCard4Price),
+                                                  Text(' ${product.cutPrice} ',
+                                                      style:
+                                                          kProductCard4CutPrice),
+                                                  Text(
+                                                      ' ${product.discount}% off ',
+                                                      style:
+                                                          kProductCard4Discount)
+                                                ])
+                                          ]),
+                                      Row(children: [
+                                        CustomDropDown(
+                                            items: ['1', '2', '3'],
+                                            type: 'Qty',
+                                            callBack: (value) {
+                                              callback(value);
+                                            })
+                                      ]),
+                                      Text(product.sellerId!)
+                                    ])))
+                      ])),
+              Expanded(flex: 1, child: ProductCard4Footer(id: product.id))
+            ])));
   }
 }
 
@@ -116,7 +103,7 @@ class ProductCard4Footer extends StatelessWidget {
 
   void _onDelete(BuildContext context) {
     removeFromCollection('Cart', id);
-    Navigator.pushReplacementNamed(context, CartLoadingScreen.id);
+    Navigator.pushReplacement(context, noAnimationRoute(CartLoadingScreen()));
   }
 
   @override
@@ -126,15 +113,12 @@ class ProductCard4Footer extends StatelessWidget {
         child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
           Icon(Icons.delete_outline, color: Colors.grey, size: 20),
           GestureDetector(
-            onTap: () {
-              _onDelete(context);
-            },
-            child: Text('Delete',
-                style: TextStyle(fontSize: 16, color: Colors.black54)),
-          ),
-          SizedBox(
-            width: 20,
-          )
+              onTap: () {
+                _onDelete(context);
+              },
+              child: Text('Delete',
+                  style: TextStyle(fontSize: 16, color: Colors.black54))),
+          SizedBox(width: 20)
         ]));
   }
 }

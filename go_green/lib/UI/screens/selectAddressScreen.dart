@@ -5,12 +5,11 @@ import 'package:go_green/UI/screens/addAddress_screen.dart';
 import 'package:go_green/UI/screens/payment_screen.dart';
 import 'package:go_green/UI/widgets/appBar2.dart';
 import 'package:go_green/UI/widgets/cartScreen/cartFooter.dart';
-import 'package:go_green/UI/widgets/cartScreen/cartStageWidget.dart';
-import 'package:go_green/UI/widgets/customLoadingBar.dart';
 import 'package:go_green/UI/widgets/customSnackBar.dart';
 import 'package:go_green/UI/widgets/productDescrip/container.dart';
 import 'package:go_green/UI/widgets/selectAddressWidget.dart';
 import 'package:go_green/backend/models/address.dart';
+import 'package:go_green/backend/models/cartCondition.dart';
 import 'package:go_green/backend/provider/serverRequests/getAddress.dart';
 
 import '../../main.dart';
@@ -22,9 +21,16 @@ class SelectAddressScreen extends StatefulWidget {
   final totalAmount;
   final list;
   final quantity;
+  final CartConditions cartConditions;
+  final sellerId;
   final coupon;
   const SelectAddressScreen(
-      {this.totalAmount, this.list, this.quantity, this.coupon});
+      {this.totalAmount,
+      this.list,
+      this.quantity,
+      this.coupon,
+      this.sellerId,
+      required this.cartConditions});
 
   @override
   _SelectAddressScreenState createState() => _SelectAddressScreenState();
@@ -91,9 +97,11 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
       CustomSnackWidgets.buildErrorSnackBar(context, 'Select an Address');
     } else {
       Navigator.of(context).push(noAnimationRoute(PaymentScreen(
+          cartConditions: widget.cartConditions,
           list: widget.list,
           coupon: widget.coupon,
           quantity: widget.quantity,
+          sellerId: widget.sellerId,
           addressObj: _selected == selected.obj1
               ? _obj1
               : _selected == selected.obj2
@@ -118,66 +126,57 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
             ? SpinKitCircle(color: Colors.blue)
             : SafeArea(
                 child: ListView(children: [
-                SizedBox(
-                  height: 7,
-                ),
+                SizedBox(height: 7),
                 ListTile(
-                  tileColor: Colors.white,
-                  leading: Icon(Icons.add, color: Colors.pink),
-                  title: Text('Add Address'),
-                  shape: Border(bottom: BorderSide(color: Colors.grey[300]!)),
-                  onTap: () {
-                    _onClickAdd();
-                  },
-                ),
+                    tileColor: Colors.white,
+                    leading: Icon(Icons.add, color: Colors.pink),
+                    title: Text('Add Address'),
+                    shape: Border(bottom: BorderSide(color: Colors.grey[300]!)),
+                    onTap: () {
+                      _onClickAdd();
+                    }),
                 SelectAddressWidget(
-                  address: _obj1,
-                  line: '1',
-                  radioWidget: Radio(
-                    value: selected.obj1,
-                    groupValue: _selected,
-                    onChanged: (selected? value) {
-                      setState(() {
-                        _selected = value!;
-                      });
-                    },
-                  ),
-                ),
+                    address: _obj1,
+                    line: '1',
+                    radioWidget: Radio(
+                        value: selected.obj1,
+                        groupValue: _selected,
+                        onChanged: (selected? value) {
+                          setState(() {
+                            _selected = value!;
+                          });
+                        })),
                 SelectAddressWidget(
-                  address: _obj2,
-                  line: '2',
-                  radioWidget: Radio(
-                    value: selected.obj2,
-                    groupValue: _selected,
-                    onChanged: (selected? value) {
-                      setState(() {
-                        _selected = value!;
-                      });
-                    },
-                  ),
-                ),
+                    address: _obj2,
+                    line: '2',
+                    radioWidget: Radio(
+                        value: selected.obj2,
+                        groupValue: _selected,
+                        onChanged: (selected? value) {
+                          setState(() {
+                            _selected = value!;
+                          });
+                        })),
                 SelectAddressWidget(
-                  address: _obj3,
-                  line: '3',
-                  radioWidget: Radio(
-                    value: selected.obj3,
-                    groupValue: _selected,
-                    onChanged: (selected? value) {
-                      setState(() {
-                        _selected = value!;
-                      });
-                    },
-                  ),
-                ),
+                    address: _obj3,
+                    line: '3',
+                    radioWidget: Radio(
+                        value: selected.obj3,
+                        groupValue: _selected,
+                        onChanged: (selected? value) {
+                          setState(() {
+                            _selected = value!;
+                          });
+                        })),
                 NewContainer(
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                       Text(
-                          'Total Price(${widget.quantity.fold(0, (p, c) => p + c).toString()} items)',
+                          'Total Price(${widget.quantity.fold(0, (p, c) => p + c).toInt().toString()} items)',
                           style: TextStyle(
                               fontSize: 14, fontWeight: FontWeight.w700)),
-                      Text(widget.totalAmount.toString(),
+                      Text('₹${widget.totalAmount.toString()}',
                           style: TextStyle(
                               fontSize: 14, fontWeight: FontWeight.w700))
                     ]))

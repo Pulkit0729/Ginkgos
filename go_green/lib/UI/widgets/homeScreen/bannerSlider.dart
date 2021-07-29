@@ -9,16 +9,10 @@ class BannerSlider extends StatelessWidget {
   final List<String> imgList;
   @override
   Widget build(BuildContext context) {
+    print(imgList);
     return Stack(alignment: Alignment.center, children: [
-      SpinKitCircle(
-        color: Colors.blue,
-      ),
       CarouselSlider(
-          items: imgList
-              .map((e) => Image.network(
-                    e,
-                  ))
-              .toList(),
+          items: imgList.map((e) => Image.network(e)).toList(),
           options: CarouselOptions(
               viewportFraction: 1.0,
               autoPlay: true,

@@ -96,6 +96,7 @@ flutter:
   uses-material-design: true
   assets:
     - images/
+    - images/category/
   fonts:
     - family: Lato
       fonts:

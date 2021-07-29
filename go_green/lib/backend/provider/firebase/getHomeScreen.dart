@@ -1,8 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 
-Future<List<String>> getBanners(
-    {callback, required BuildContext context}) async {
+Future<List<String>> getBanners({callback}) async {
   List<String> list = [];
   var extra = [];
   var featureBanner;
@@ -20,8 +19,11 @@ Future<List<String>> getBanners(
       });
   extra.forEach((e) => list.add(e.toString()));
   list.add(featureBanner);
-  return precacheImage(NetworkImage(extra[0]), context).then((value) {
+  return list;
+}
+
+Future<void> precacheBanners(List list, callback, context) async {
+  await precacheImage(NetworkImage(list[0]), context).then((value) {
     callback();
-    return list;
   });
 }

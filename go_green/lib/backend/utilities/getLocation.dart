@@ -1,7 +1,9 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:go_green/UI/widgets/comingSoonDialog.dart';
 
 Future<Position> determinePosition(BuildContext context) async {
   bool serviceEnabled;
@@ -46,4 +48,16 @@ Future<bool> checkAvailability(lat, lon) async {
     }
   });
   return result;
+}
+
+void getLocation(BuildContext context) async {
+  Position position = await determinePosition(context);
+  var result = await checkAvailability(position.latitude, position.longitude);
+  if (!result) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return ComingSoon();
+        });
+  }
 }

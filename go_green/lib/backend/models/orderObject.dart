@@ -8,6 +8,8 @@ class OrderObject {
   final String orderId;
   final String orderDate;
   final String modeOfPayment;
+  final String sellerId;
+  final String status;
   final AddressObject addressObject;
   final List<OrderItem> orderItems;
   final PriceDetailsObject priceDetailsObject;
@@ -16,9 +18,11 @@ class OrderObject {
     required this.modeOfPayment,
     required this.orderId,
     required this.orderDate,
+    required this.status,
     required this.addressObject,
     required this.orderItems,
     required this.priceDetailsObject,
+    required this.sellerId,
   });
   factory OrderObject.fromJson(DataSnapshot json) {
     print(json.value['OrderItems']);
@@ -31,49 +35,55 @@ class OrderObject {
       addressObject: AddressObject.fromJson(json.value['AddressObject']),
       orderItems: buildOrderItemsExternal(
           json.value['OrderItems'], json.value['OrderId']),
+      sellerId: json.value['SellerId'],
+      status: json.value['Status'],
     );
   }
   Map<String, dynamic> toJson() => {
         "OrderId": orderId.toString(),
         "OrderDate": orderDate.toString(),
         "ModeOfPayment": modeOfPayment.toString(),
+        "Status": status.toString(),
         "OrderItems": List.from(orderItems.map((x) => x.toJson())),
         "AddressObject": addressObject.toJson(),
         "PriceDetailObject": priceDetailsObject.toJson(),
+        "SellerId": sellerId.toString()
       };
 }
 
 class OrderItem {
   final name;
   final price;
+  final qty;
   final status;
   final itemId;
   final image;
   final orderId;
   final rating;
 
-  OrderItem(
-      {this.orderId,
-      this.name,
-      this.price,
-      this.status,
-      this.itemId,
-      this.image,
-      this.rating});
+  OrderItem({
+    this.orderId,
+    this.name,
+    this.price,
+    this.status,
+    this.itemId,
+    this.image,
+    this.rating,
+    this.qty,
+  });
 
   factory OrderItem.fromInternalJson(
-      Map<Object?, Object?> json, String orderId) {
+      Map<Object?, Object?> json, String orderId, String qty) {
+    print(json);
     return OrderItem(
       name: json['Name'],
       status: 'Pending Approval',
+      qty: qty,
       rating: '0',
       itemId: json['ID'].toString(),
       orderId: orderId.toString(),
       image: jsonDecode(json['Images'].toString())[0],
-      price: ((100 - double.parse(json['Discount'].toString())) *
-              double.parse(json['CostPrice'].toString()) /
-              100)
-          .toStringAsFixed(0),
+      price: json['SellingPrice'].toString(),
     );
   }
 
@@ -92,6 +102,7 @@ class OrderItem {
   Map<String, dynamic> toJson() => {
         "Name": name.toString(),
         "Price": price.toString(),
+        "Qty": qty.toString(),
         "Status": status.toString(),
         "ItemId": itemId.toString(),
         "OrderId": orderId.toString(),
@@ -100,10 +111,11 @@ class OrderItem {
       };
 }
 
-List<OrderItem> buildOrderItemsInternal(List list, String orderId) {
+List<OrderItem> buildOrderItemsInternal(
+    {required List list, required String orderId, required List qty}) {
   List<OrderItem> result = [];
   for (var i = 0; i < list.length; i++) {
-    result.add(OrderItem.fromInternalJson(list[i], orderId));
+    result.add(OrderItem.fromInternalJson(list[i], orderId, qty[i].toString()));
   }
   return result;
 }

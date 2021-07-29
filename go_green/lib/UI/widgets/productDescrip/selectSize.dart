@@ -4,9 +4,11 @@ import 'package:go_green/UI/constants/textStyles.dart';
 import 'container.dart';
 
 class SizeWidget extends StatelessWidget {
-  final size;
+  final String height;
+  final String diameter;
 
-  const SizeWidget({Key? key, this.size}) : super(key: key);
+  const SizeWidget({Key? key, required this.height, required this.diameter})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,11 +18,14 @@ class SizeWidget extends StatelessWidget {
         children: [
           Text('Size', style: kSubHeading),
           SizedBox(height: 5),
-          Text(
-            size,
-            style: TextStyle(color: Colors.grey, fontSize: 14),
-          ),
-          SizedBox(height: 5),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Text('Height'),
+            Text(height, style: TextStyle(color: Colors.grey, fontSize: 14))
+          ]),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Text('Diameter'),
+            Text(diameter, style: TextStyle(color: Colors.grey, fontSize: 14))
+          ]),
         ],
       ),
     );

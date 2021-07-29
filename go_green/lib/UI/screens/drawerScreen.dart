@@ -125,7 +125,7 @@ class DrawerHeader extends StatelessWidget {
           height: MediaQuery.of(context).size.height * 0.12,
           margin: EdgeInsets.all(10),
           decoration: BoxDecoration(
-              color: Colors.orange,
+              color: kDrawerColor,
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(20),
                   bottomRight: Radius.circular(20))),
@@ -152,7 +152,11 @@ class DrawerHeader extends StatelessWidget {
                   ],
                 ),
                 CircleAvatar(
-                    backgroundImage: AssetImage('images/product.jpeg'),
+                    backgroundColor: Colors.green,
+                    child: Text(
+                      Provider.of<Userdata>(context, listen: false).name[0],
+                      style: TextStyle(fontSize: 30, color: Colors.white),
+                    ),
                     radius: MediaQuery.of(context).size.height * 0.04),
               ])),
     );
@@ -181,7 +185,7 @@ class DrawerTile extends StatelessWidget {
         leading: CircleAvatar(
             radius: 15,
             backgroundColor: Colors.grey[200]!,
-            child: Icon(iconData, color: kSecondaryColor)),
+            child: Icon(iconData, color: kDrawerColor)),
         horizontalTitleGap: 0,
         onTap: () {
           route();

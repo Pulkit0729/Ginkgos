@@ -6,8 +6,6 @@ import 'package:go_green/UI/widgets/productCard/productCard(Home.dart';
 import 'package:go_green/backend/models/product.dart';
 import 'package:go_green/backend/provider/serverRequests/getProductList.dart';
 
-import '../customLoadingBar.dart';
-
 class HomeLayout1 extends StatelessWidget {
   const HomeLayout1({Key? key, required this.name, required this.color})
       : super(key: key);
@@ -31,6 +29,7 @@ class HomeLayout1 extends StatelessWidget {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => ProductListScreen(
                             name: name,
+                            type: ProductListScreen.nonCategory,
                           )));
                 },
                 child: Text('View all'),

@@ -50,8 +50,8 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
     return Scaffold(
         backgroundColor: kScaffoldGrey,
         appBar: AppBar3(),
-        body: ListView(
-          children: [
+        body: SafeArea(
+          child: ListView(children: [
             ProductImage(imgList: product.image),
             ProductName(
               name: product.name,
@@ -67,19 +67,22 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                     physics: ClampingScrollPhysics(),
                     shrinkWrap: true,
                     children: [
-                      Specification(
-                          light: description['Light'],
-                          water: description['Water'],
-                          location: description['Temp']),
-                      Description(
-                          text: description['Description'] == null
-                              ? ''
-                              : description['Description']),
-                      SizeWidget(size: product.size),
-                      RatingWidget(ratings: product.rating),
-                    ],
-                  ),
-          ],
+                        Specification(
+                            light: description['Light'],
+                            water: description['Water'],
+                            location: description['Temp']),
+                        Description(
+                            text: description['Description'] == null
+                                ? ''
+                                : description['Description']),
+                        SizeWidget(
+                          height: description['Height'],
+                          diameter: description['Diameter'],
+                        ),
+                        RatingWidget(ratings: product.rating),
+                        Text(description['SellerId'].toString())
+                      ])
+          ]),
         ),
         bottomNavigationBar: ProductFooter(id: product.id));
   }

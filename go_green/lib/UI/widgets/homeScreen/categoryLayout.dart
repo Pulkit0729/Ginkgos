@@ -18,22 +18,22 @@ class CategoryLayout extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                         CircleCategory(
-                            name: 'Ornamentals', image: 'images/product.jpeg'),
+                            name: 'Ornamentals',
+                            image: 'images/ornamental.jpeg'),
                         CircleCategory(
-                            name: 'Flowers', image: 'images/product.jpeg'),
+                            name: 'Flowers', image: 'images/flower.jpeg'),
                         CircleCategory(
-                            name: 'Fruits', image: 'images/product.jpeg'),
+                            name: 'Fruits', image: 'images/fruit.jpeg'),
                       ])),
                   Expanded(
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                         CircleCategory(
-                            name: 'Medicinal', image: 'images/product.jpeg'),
+                            name: 'Medicinal', image: 'images/medicinal.jpeg'),
+                        CircleCategory(name: 'Pots', image: 'images/pots.jpeg'),
                         CircleCategory(
-                            name: 'Pots', image: 'images/product.jpeg'),
-                        CircleCategory(
-                            name: 'Accessories', image: 'images/product.jpeg'),
+                            name: 'Accessories', image: 'images/accessory.jpg'),
                       ]))
                 ])));
   }
@@ -55,6 +55,7 @@ class CircleCategory extends StatelessWidget {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ProductListScreen(
                   name: name,
+                  type: ProductListScreen.category,
                 )));
       },
       child: Column(

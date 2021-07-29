@@ -7,13 +7,12 @@ class ProfileHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 20, right: 15, left: 15),
-      padding: EdgeInsets.only(bottom: 10),
-      decoration: BoxDecoration(
-          border: Border(bottom: BorderSide(color: Colors.grey[200]!))),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
+        margin: EdgeInsets.only(top: 20, right: 15, left: 15),
+        padding: EdgeInsets.only(bottom: 10),
+        decoration: BoxDecoration(
+            border: Border(bottom: BorderSide(color: Colors.grey[200]!))),
+        child:
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -38,9 +37,11 @@ class ProfileHeader extends StatelessWidget {
           CircleAvatar(
             backgroundColor: Colors.green,
             radius: 40,
-          ),
-        ],
-      ),
-    );
+            child: Text(
+              Provider.of<Userdata>(context, listen: false).name[0],
+              style: TextStyle(fontSize: 40, color: Colors.white),
+            ),
+          )
+        ]));
   }
 }

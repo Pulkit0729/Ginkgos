@@ -6,7 +6,9 @@ import 'package:go_green/UI/constants/colorsConstant.dart';
 import 'package:go_green/UI/screens/addressBook.dart';
 import 'package:go_green/UI/screens/login_screen.dart';
 import 'package:go_green/UI/screens/orders_screen.dart';
+import 'package:go_green/UI/widgets/editProfile.dart';
 import 'package:go_green/UI/widgets/profileHeader.dart';
+import 'package:go_green/backend/models/cartCondition.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -44,12 +46,12 @@ class ProfileScreen extends StatelessWidget {
           ProfileItem(
               text: 'Edit Profile',
               iconData: Icons.settings,
-              function: () async {
-                await FirebaseDatabase.instance
-                    .reference()
-                    .child('HomeLayout')
-                    .get()
-                    .then((value) => print(value!.value['Banners']));
+              function: () {
+                showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return EditProfile();
+                    });
               }),
           ProfileItem(
               text: 'Rate Us',

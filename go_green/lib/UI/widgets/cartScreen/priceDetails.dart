@@ -47,7 +47,7 @@ class PriceDetails extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text('Coupon Discount', style: kInvoiceStyle),
-                          Text(priceDetailsObject.couponDiscount,
+                          Text('-${priceDetailsObject.couponDiscount}',
                               style: kCouponDiscount)
                         ]),
                     Row(
@@ -67,7 +67,7 @@ class PriceDetails extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text('Total Amount', style: kTotalAmount),
-                        Text(priceDetailsObject.totalAmount,
+                        Text('₹${priceDetailsObject.totalAmount}',
                             style: kTotalAmountPrice)
                       ]))
             ])));

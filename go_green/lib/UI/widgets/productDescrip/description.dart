@@ -64,29 +64,23 @@ class _DescriptionTextWidgetState extends State<DescriptionTextWidget> {
   @override
   Widget build(BuildContext context) {
     return new Container(
-      padding: new EdgeInsets.symmetric(vertical: 10.0),
-      child: secondHalf.isEmpty
-          ? Text(firstHalf)
-          : Column(
-              children: <Widget>[
+        padding: new EdgeInsets.symmetric(vertical: 10.0),
+        child: secondHalf.isEmpty
+            ? Text(firstHalf)
+            : Column(children: <Widget>[
                 Text(flag ? (firstHalf + "...") : (firstHalf + secondHalf)),
                 InkWell(
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        Text(
-                          flag ? "+ More" : "- Less",
-                          style: TextStyle(color: Colors.blue),
-                        ),
-                      ]),
-                  onTap: () {
-                    setState(() {
-                      flag = !flag;
-                    });
-                  },
-                ),
-              ],
-            ),
-    );
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          Text(flag ? "+ More" : "- Less",
+                              style: TextStyle(color: Colors.blue))
+                        ]),
+                    onTap: () {
+                      setState(() {
+                        flag = !flag;
+                      });
+                    })
+              ]));
   }
 }

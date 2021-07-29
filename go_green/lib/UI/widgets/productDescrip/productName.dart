@@ -33,14 +33,10 @@ class ProductName extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Row(
-              crossAxisAlignment: CrossAxisAlignment.baseline,
-              textBaseline: TextBaseline.alphabetic,
-              children: [
-                Text(name, style: kProductName),
-                Text('  $short', style: TextStyle(color: Colors.grey))
-              ]),
-          SizedBox(height: 10),
+          Text(name, style: kProductName),
+          Text('$short',
+              style: TextStyle(color: Colors.grey, fontSize: 15), maxLines: 1),
+          SizedBox(height: 5),
           Row(
             crossAxisAlignment: CrossAxisAlignment.baseline,
             textBaseline: TextBaseline.alphabetic,

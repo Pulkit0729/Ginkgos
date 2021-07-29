@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:go_green/UI/constants/colorsConstant.dart';
 import 'package:go_green/UI/screens/cart_screen.dart';
 import 'package:go_green/UI/screens/emptyScreen.dart';
 import 'package:go_green/backend/models/cartItems.dart';
+import 'package:go_green/main.dart';
 import 'package:provider/provider.dart';
 
 import 'main_screen.dart';
@@ -18,7 +20,7 @@ class _CartLoadingScreenState extends State<CartLoadingScreen> {
   void _check() async {
     await Provider.of<CartItems>(context, listen: false).getCartItems();
     if (Provider.of<CartItems>(context, listen: false).exist) {
-      Navigator.popAndPushNamed(context, CartScreen.id);
+      Navigator.pushReplacement(context, noAnimationRoute(CartScreen()));
     } else {
       setState(() {
         _isLoading = false;
@@ -35,9 +37,10 @@ class _CartLoadingScreenState extends State<CartLoadingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
+        appBar: AppBar(),
+        backgroundColor: kScaffoldGrey,
         body: _isLoading
-            ? SpinKitRing(color: Colors.blue)
+            ? SpinKitCircle(color: kLoadingColor)
             : EmptyScreen(
                 text: 'You have not added any items in your cart.',
                 function: () {

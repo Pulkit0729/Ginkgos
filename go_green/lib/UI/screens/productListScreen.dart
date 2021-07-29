@@ -5,30 +5,29 @@ import 'package:go_green/UI/widgets/appBar3.dart';
 import 'package:go_green/UI/widgets/productCard/productCard.dart';
 import 'package:go_green/backend/models/product.dart';
 import 'package:go_green/backend/provider/serverRequests/getProductList.dart';
-import 'package:go_green/main.dart';
 
-class ProductListScreen extends StatefulWidget {
+class ProductListScreen extends StatelessWidget {
   static String id = 'productList';
+  static String category = 'category';
+  static String nonCategory = 'nonCategory';
+
   final String name;
+  final String type;
 
-  const ProductListScreen({required this.name});
-  @override
-  _ProductListScreenState createState() => _ProductListScreenState();
-}
+  const ProductListScreen({required this.name, required this.type});
 
-class _ProductListScreenState extends State<ProductListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar3(
-          title: widget.name,
-        ),
+        appBar: AppBar3(title: name),
         body: FutureBuilder(
-            future: getItemsIdList(widget.name),
+            future: type == nonCategory
+                ? getItemsIdList(name)
+                : getProductsFromCategory(name),
             initialData: [],
             builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
-                if (snapshot.hasData) {
+                if (snapshot.hasData && snapshot.data.toString() != '[]') {
                   return GridView.builder(
                       itemCount: snapshot.data.length,
                       shrinkWrap: true,

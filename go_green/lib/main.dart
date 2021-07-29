@@ -17,7 +17,6 @@ import 'package:go_green/UI/screens/productDescription_screen.dart';
 import 'package:go_green/UI/screens/profile_screen.dart';
 import 'package:go_green/UI/screens/promocodeScreen.dart';
 import 'package:go_green/UI/screens/search_screen.dart';
-import 'package:go_green/UI/screens/selectAddressScreen.dart';
 import 'package:go_green/UI/screens/verifyName_screen.dart';
 import 'package:go_green/UI/screens/verifyOtp_screen.dart';
 import 'package:go_green/backend/models/cartItems.dart';
@@ -71,7 +70,6 @@ class MyApp extends StatelessWidget {
         HelpScreen.id: (context) => HelpScreen(),
         AddressBookScreen.id: (context) => AddressBookScreen(),
         AddAddressScreen.id: (context) => AddAddressScreen(),
-        SelectAddressScreen.id: (context) => SelectAddressScreen(),
         PromoCodeScreen.id: (context) => PromoCodeScreen(),
       },
     );

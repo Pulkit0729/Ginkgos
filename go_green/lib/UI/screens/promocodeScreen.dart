@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_green/UI/constants/colorsConstant.dart';
 import 'package:go_green/UI/widgets/customSnackBar.dart';
 import 'package:go_green/UI/widgets/productDescrip/container.dart';
@@ -25,15 +26,19 @@ class PromoCodeScreen extends StatelessWidget {
                 initialData: [],
                 builder:
                     (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                  return ListView.builder(
-                      itemCount: snapshot.data.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return CouponTile(
-                          coupon: snapshot.data[index],
-                          totalAmount: totalAmount,
-                          callback: callback,
-                        );
-                      });
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    return ListView.builder(
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return CouponTile(
+                            coupon: snapshot.data[index],
+                            totalAmount: totalAmount,
+                            callback: callback,
+                          );
+                        });
+                  } else {
+                    return SpinKitCircle(color: kLoadingColor);
+                  }
                 })));
   }
 }
@@ -78,9 +83,13 @@ class CouponTile extends StatelessWidget {
               onTap: () {
                 if (double.parse(totalAmount) >=
                     double.parse(coupon.minimumAmount)) {
-                  var discount = double.parse(coupon.percentage) *
+                  var tempDisc = double.parse(coupon.percentage) *
                       double.parse(totalAmount) /
                       100;
+                  var discount;
+                  tempDisc > double.parse(coupon.maximumDiscount)
+                      ? discount = double.parse(coupon.maximumDiscount)
+                      : discount = tempDisc;
                   callback(discount);
                   Navigator.pop(context);
                 } else {

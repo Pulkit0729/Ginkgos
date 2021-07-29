@@ -9,6 +9,7 @@ import 'package:go_green/UI/widgets/cartScreen/priceDetails.dart';
 import 'package:go_green/UI/widgets/customLoadingBar.dart';
 import 'package:go_green/UI/widgets/customSnackBar.dart';
 import 'package:go_green/backend/models/address.dart';
+import 'package:go_green/backend/models/cartCondition.dart';
 import 'package:go_green/backend/models/orderObject.dart';
 import 'package:go_green/backend/provider/firebase/placingOrder.dart';
 import 'package:go_green/backend/models/priceDetailsObject.dart';
@@ -22,11 +23,18 @@ class PaymentScreen extends StatefulWidget {
   static String id = 'paymentScreen';
   final list;
   final quantity;
+  final sellerId;
+  final CartConditions cartConditions;
   final AddressObject addressObj;
   final coupon;
 
   const PaymentScreen(
-      {this.list, required this.addressObj, this.quantity, this.coupon});
+      {this.list,
+      required this.addressObj,
+      required this.cartConditions,
+      this.quantity,
+      this.coupon,
+      this.sellerId});
   @override
   _PaymentScreenState createState() => _PaymentScreenState();
 }
@@ -43,12 +51,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
           .doc('Key')
           .get()
           .then((DocumentSnapshot docSnap) => docSnap['id']),
-      'amount': double.parse(PriceDetailsObject.fromList(
-                  widget.list, widget.quantity, widget.coupon)
+      'amount': double.parse(PriceDetailsObject.fromList(widget.list,
+                  widget.quantity, widget.coupon, widget.cartConditions)
               .totalAmount) *
           100,
       'name': Provider.of<Userdata>(context, listen: false).name.toString(),
-      'description': 'Fine T-Shirt',
+      'description': 'Plants And Pots',
       'prefill': {
         'contact':
             Provider.of<Userdata>(context, listen: false).phone.toString(),
@@ -59,11 +67,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
       _razorpay.open(options);
     } catch (e) {
       print(e);
+      CustomSnackWidgets.buildErrorSnackBar(context, 'An Error Occurred');
     }
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
-    print('Payment Success');
     _onPlaceOrder();
   }
 
@@ -72,14 +80,20 @@ class _PaymentScreenState extends State<PaymentScreen> {
     Navigator.pushNamedAndRemoveUntil(context, MainScreen.id, (route) => false);
     showDialog(
         context: context,
-        builder: (_) => AlertDialog(title: Text('Payment Cancelled')));
+        builder: (_) => AlertDialog(title: Text('Payment Cancelled'), actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Ok'))
+            ]));
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
     print('Payment Wallet');
   }
 
-  void _onConfirm() {
+  void _onClickConfirm() {
     if (_modeOfPayment == modeOfPayment.online) {
       _openCheckout();
     } else {
@@ -87,11 +101,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           context: context,
           builder: (_) =>
               AlertDialog(title: Text('Confirm Your Order'), actions: [
-                TextButton(
-                    onPressed: () {
-                      _onPlaceOrder();
-                    },
-                    child: Text('Yes')),
+                TextButton(onPressed: _onPlaceOrder, child: Text('Yes')),
                 TextButton(
                     onPressed: () {
                       Navigator.pop(context);
@@ -104,22 +114,37 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   void _onPlaceOrder() async {
     String _orderId = DateTime.now().millisecondsSinceEpoch.toString();
-
     LoadingBar.createLoading(context);
 
     bool result = await placeOrder(OrderObject(
+      sellerId: widget.sellerId,
       priceDetailsObject: PriceDetailsObject.fromList(
-          widget.list, widget.quantity, widget.coupon),
+          widget.list, widget.quantity, widget.coupon, widget.cartConditions),
       addressObject: widget.addressObj,
       orderDate: DateTime.now().toString(),
-      modeOfPayment: _modeOfPayment.toString(),
+      modeOfPayment:
+          _modeOfPayment == modeOfPayment.cod ? 'Cash on Delivery' : 'Online',
       orderId: _orderId,
-      orderItems: buildOrderItemsInternal(widget.list, _orderId),
+      orderItems: buildOrderItemsInternal(
+          qty: widget.quantity, orderId: _orderId, list: widget.list),
+      status: 'Pending Approval',
     ));
 
     if (result) {
       Navigator.pushNamedAndRemoveUntil(
           context, MainScreen.id, (route) => false);
+      showDialog(
+          context: context,
+          builder: (_) =>
+              AlertDialog(title: Text('Order Placed Successfully'), actions: [
+                TextButton(onPressed: _onPlaceOrder, child: Text('Yes')),
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text('No'))
+              ]),
+          barrierDismissible: false);
     } else {
       CustomSnackWidgets.buildErrorSnackBar(context, 'Order was not confirmed');
     }
@@ -144,53 +169,50 @@ class _PaymentScreenState extends State<PaymentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kScaffoldGrey,
-      appBar: AppBar2('Payment', 2),
-      body: SafeArea(
-          child: ListView(children: [
-        Container(
-            color: Colors.white,
-            margin: EdgeInsets.only(top: 7),
-            padding: EdgeInsets.only(top: 20),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Container(
-                      padding: EdgeInsets.only(bottom: 10, left: 20),
-                      decoration: BoxDecoration(
-                          border: Border(
-                              bottom: BorderSide(color: Colors.grey[200]!))),
-                      child: Text('Payment Options', style: kSubHeading)),
-                  ListTile(
-                      leading: Radio(
-                          value: modeOfPayment.online,
-                          groupValue: _modeOfPayment,
-                          onChanged: (modeOfPayment? value) {
-                            setState(() {
-                              _modeOfPayment = value!;
-                            });
-                          }),
-                      title: Text('Upi / Card / Netbanking')),
-                  ListTile(
-                      leading: Radio(
-                          value: modeOfPayment.cod,
-                          groupValue: _modeOfPayment,
-                          onChanged: (modeOfPayment? value) {
-                            setState(() {
-                              _modeOfPayment = value!;
-                            });
-                          }),
-                      title: Text('Cash on Delivery'))
-                ])),
-        PriceDetails(
-          priceDetailsObject: PriceDetailsObject.fromList(
-              widget.list, widget.quantity, widget.coupon),
-        )
-      ])),
-      bottomNavigationBar: CartFooter(
-        text: 'Confirm',
-        function: _onConfirm,
-      ),
-    );
+        backgroundColor: kScaffoldGrey,
+        appBar: AppBar2('Payment', 2),
+        body: SafeArea(
+            child: ListView(children: [
+          Container(
+              color: Colors.white,
+              margin: EdgeInsets.only(top: 7),
+              padding: EdgeInsets.only(top: 20),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Container(
+                        padding: EdgeInsets.only(bottom: 10, left: 20),
+                        decoration: BoxDecoration(
+                            border: Border(
+                                bottom: BorderSide(color: Colors.grey[200]!))),
+                        child: Text('Payment Options', style: kSubHeading)),
+                    ListTile(
+                        leading: Radio(
+                            value: modeOfPayment.online,
+                            groupValue: _modeOfPayment,
+                            onChanged: (modeOfPayment? value) {
+                              setState(() {
+                                _modeOfPayment = value!;
+                              });
+                            }),
+                        title: Text('Upi / Card / Netbanking')),
+                    ListTile(
+                        leading: Radio(
+                            value: modeOfPayment.cod,
+                            groupValue: _modeOfPayment,
+                            onChanged: (modeOfPayment? value) {
+                              setState(() {
+                                _modeOfPayment = value!;
+                              });
+                            }),
+                        title: Text('Cash on Delivery'))
+                  ])),
+          PriceDetails(
+            priceDetailsObject: PriceDetailsObject.fromList(widget.list,
+                widget.quantity, widget.coupon, widget.cartConditions),
+          )
+        ])),
+        bottomNavigationBar:
+            CartFooter(text: 'Confirm', function: _onClickConfirm));
   }
 }
