@@ -21,10 +21,7 @@ class _DescriptionState extends State<Description> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(
-            'Description',
-            style: kSubHeading,
-          ),
+          Text('Description', style: kSubHeading),
           DescriptionTextWidget(text: widget.text),
         ],
       ),
@@ -66,9 +63,10 @@ class _DescriptionTextWidgetState extends State<DescriptionTextWidget> {
     return new Container(
         padding: new EdgeInsets.symmetric(vertical: 10.0),
         child: secondHalf.isEmpty
-            ? Text(firstHalf)
+            ? Text(firstHalf, textAlign: TextAlign.justify)
             : Column(children: <Widget>[
-                Text(flag ? (firstHalf + "...") : (firstHalf + secondHalf)),
+                Text(flag ? (firstHalf + "...") : (firstHalf + secondHalf),
+                    textAlign: TextAlign.justify),
                 InkWell(
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,

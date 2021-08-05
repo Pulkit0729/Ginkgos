@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_green/UI/constants/colorsConstant.dart';
+import 'package:go_green/UI/widgets/customLoadingBar.dart';
 import 'package:go_green/UI/widgets/customSnackBar.dart';
 import 'package:go_green/UI/widgets/productDescrip/container.dart';
 import 'package:go_green/backend/models/coupon.dart';
@@ -37,7 +37,7 @@ class PromoCodeScreen extends StatelessWidget {
                           );
                         });
                   } else {
-                    return SpinKitCircle(color: kLoadingColor);
+                    return CustomLoader();
                   }
                 })));
   }

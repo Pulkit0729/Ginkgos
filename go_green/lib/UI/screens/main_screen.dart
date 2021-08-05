@@ -1,36 +1,26 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:go_green/UI/screens/loadingBeforeCartScreen.dart';
 import 'package:go_green/UI/screens/wishListScreen.dart';
-import 'package:go_green/UI/widgets/comingSoonDialog.dart';
 import 'package:go_green/UI/widgets/customSnackBar.dart';
 import 'package:go_green/UI/widgets/loginBottomSheet.dart';
 import 'package:go_green/UI/widgets/searchButtonWidget.dart';
 import 'package:go_green/backend/utilities/getLocation.dart';
-import '../../main.dart';
-import 'cart_screen.dart';
-import 'drawerScreen.dart';
+
 import 'category_screen.dart';
+import 'drawerScreen.dart';
 import 'home_screen.dart';
 
 class MainScreen extends StatefulWidget {
   static String id = 'Main_Screen';
-  final temp;
-
-  const MainScreen({Key? key, this.temp}) : super(key: key);
   @override
   _MainScreenState createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
-  var arg;
-
   DateTime? currentBackPressTime;
-
   List<Widget> _bottomDrawerOptions = [];
 
   Future<bool> onWillPop() {
@@ -64,16 +54,20 @@ class _MainScreenState extends State<MainScreen> {
       WishListScreen(),
     ];
 
-    super.initState();
-
     ///To access buildContext in initState we use future
-    Future.delayed(Duration.zero, () {
+    Future.delayed(Duration.zero, () async {
+      var arg;
       setState(() {
-        arg = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
+        arg = ModalRoute.of(context)!.settings.arguments;
       });
       arg != null ? _selectedIndex = arg.index : _selectedIndex = 0;
+      if (_selectedIndex == 0) {
+        print('called');
+        await getLocation(context);
+      }
     });
-    getLocation(context);
+
+    super.initState();
   }
 
   @override

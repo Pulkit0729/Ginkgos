@@ -84,12 +84,22 @@ dependencies:
   #geocode
   geocoding: ^2.0.0
 
+  #audioplayers:
+  audioplayers: ^0.19.1
 
+  #share plugin
+  share_plus: ^2.1.4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_native_splash: ^1.2.0
+  flutter_launcher_icons: ^0.9.1
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "images/logo2.png"
 
 
 flutter:
@@ -97,6 +107,9 @@ flutter:
   assets:
     - images/
     - images/category/
+    - images/categoryLayout/
+    - images/svg/
+    - assets/
   fonts:
     - family: Lato
       fonts:
@@ -129,5 +142,5 @@ flutter:
 
 flutter_native_splash:
   color: "#65bc6a"
-  image: images/SplashScreenLogo.png
+  image: images/logo2.png
 

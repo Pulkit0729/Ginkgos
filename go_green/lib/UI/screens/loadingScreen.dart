@@ -1,11 +1,14 @@
 import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:go_green/backend/models/userdata.dart';
 import 'package:go_green/UI/screens/verifyName_screen.dart';
+import 'package:go_green/UI/widgets/customLoadingBar.dart';
+import 'package:go_green/backend/models/userdata.dart';
+import 'package:go_green/backend/provider/firebase/remote_config_service.dart';
 import 'package:provider/provider.dart';
+
 import 'main_screen.dart';
 
 class LoadingScreen extends StatefulWidget {
@@ -45,9 +48,18 @@ class _LoadingScreenState extends State<LoadingScreen> {
     });
   }
 
+  Future<void> getApiKey() async {
+    var data =
+        await FirebaseFirestore.instance.collection('Key').doc('Key').get();
+    Provider.of<ServerConfig>(context, listen: false)
+        .setData(data.data()!['api_key'], data.data()!['server_address']);
+    route();
+  }
+
   @override
   void initState() {
-    route();
+    getApiKey();
+
     super.initState();
   }
 
@@ -60,7 +72,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Center(
               child: isLoading
-                  ? SpinKitCircle(color: Colors.blue)
+                  ? CustomLoader()
                   : Column(children: [
                       Text('Your Internet Connection is off'),
                       TextButton(

@@ -15,7 +15,7 @@ class SelectAddressWidget extends StatelessWidget {
     switch (value) {
       case 'Remove':
         LoadingBar.createLoading(context);
-        bool _cond = await deleteAddress(line.toString());
+        bool _cond = await deleteAddress(line.toString(), context);
         if (_cond) {
           Navigator.pop(context);
           Navigator.pop(context);
@@ -43,15 +43,23 @@ class SelectAddressWidget extends StatelessWidget {
                   Text(address.type,
                       style: TextStyle(color: Colors.green, height: 1.5)),
                   Text(address.name,
-                      style: TextStyle(color: Colors.grey[700], height: 1.5)),
+                      style: TextStyle(
+                          color: Colors.grey[700], height: 1.3, fontSize: 14)),
                   Text(address.address == null ? '' : address.address,
-                      style: TextStyle(color: Colors.grey[700], height: 1.5)),
+                      style: TextStyle(
+                          color: Colors.grey[700], height: 1.3, fontSize: 14)),
+                  Text(address.locality == null ? '' : address.locality,
+                      style: TextStyle(
+                          color: Colors.grey[700], height: 1.3, fontSize: 14)),
                   Text(address.city + '-' + address.pincode,
-                      style: TextStyle(color: Colors.grey[700], height: 1.5)),
+                      style: TextStyle(
+                          color: Colors.grey[700], height: 1.3, fontSize: 14)),
                   Text(address.state,
-                      style: TextStyle(color: Colors.grey[700], height: 1.5)),
+                      style: TextStyle(
+                          color: Colors.grey[700], height: 1.3, fontSize: 14)),
                   Text('Mobile: ${address.phone}',
-                      style: TextStyle(color: Colors.grey[700], height: 1.5))
+                      style: TextStyle(
+                          color: Colors.grey[700], height: 1.3, fontSize: 14))
                 ],
               ),
               leading: radioWidget,

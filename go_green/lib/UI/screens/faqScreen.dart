@@ -1,6 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:go_green/UI/widgets/customLoadingBar.dart';
 
 class FAQScreen extends StatelessWidget {
   static String id = 'FAQScreen';
@@ -32,9 +32,7 @@ class FAQScreen extends StatelessWidget {
                   return Text('NO data');
                 }
               } else {
-                return SpinKitCircle(
-                  color: Colors.blue,
-                );
+                return CustomLoader();
               }
             }),
       ),

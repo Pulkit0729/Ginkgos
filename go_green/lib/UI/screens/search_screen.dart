@@ -2,10 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_green/UI/constants/colorsConstant.dart';
 import 'package:go_green/UI/screens/emptyScreen.dart';
+import 'package:go_green/UI/widgets/customLoadingBar.dart';
 import 'package:go_green/UI/widgets/productCard/productCard.dart';
 import 'package:go_green/backend/models/product.dart';
 import 'package:go_green/backend/provider/serverRequests/searchQuery.dart';
@@ -77,7 +76,7 @@ class _SearchScreenState extends State<SearchScreen> {
       body: (text == null || text == '')
           ? Container()
           : FutureBuilder(
-              future: searchQuery(text!),
+              future: searchQuery(text!, context),
               initialData: [],
               builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
@@ -98,12 +97,12 @@ class _SearchScreenState extends State<SearchScreen> {
                         });
                   } else {
                     return EmptyScreen(
-                      image: 'images/oops.svg',
+                      image: 'images/svg/oops.svg',
                       text: 'Could not find what you are looking for.',
                     );
                   }
                 } else {
-                  return SpinKitCircle(color: kLoadingColor);
+                  return CustomLoader();
                 }
               },
             ),

@@ -7,7 +7,6 @@ class Authentication {
 
   late String verificationCode;
   void verifyPhone() async {
-    print("Called");
     await FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: '+91$phone',
       verificationCompleted: (PhoneAuthCredential credential) {

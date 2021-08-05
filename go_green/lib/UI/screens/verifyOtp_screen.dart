@@ -4,13 +4,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_green/backend/provider/firebase/authentication.dart';
 import 'package:go_green/UI/constants/inputDecorations.dart';
 import 'package:go_green/UI/screens/loadingScreen.dart';
 import 'package:go_green/UI/screens/verifyName_screen.dart';
 import 'package:go_green/UI/widgets/customLoadingBar.dart';
 import 'package:go_green/UI/widgets/customSnackBar.dart';
 import 'package:go_green/UI/widgets/otpTimer.dart';
+import 'package:go_green/backend/provider/firebase/authentication.dart';
 import 'package:pinput/pin_put/pin_put.dart';
 
 import '../../main.dart';
@@ -84,7 +84,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Center(
-                          child: SvgPicture.asset('images/otp.svg',
+                          child: SvgPicture.asset('images/svg/otp.svg',
                               width: MediaQuery.of(context).size.width * 0.7)),
                       Column(children: [
                         Text(

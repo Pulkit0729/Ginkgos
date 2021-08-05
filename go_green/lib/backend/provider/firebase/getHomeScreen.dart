@@ -13,8 +13,9 @@ Future<List<String>> getBanners({callback}) async {
         extra = value!.value['Banners'];
         featureBanner = value.value['FeatureBanner']['link'];
       })
-      .timeout(Duration(seconds: 3))
+      .timeout(Duration(seconds: 8))
       .onError((error, stackTrace) {
+        print(error);
         callback();
       });
   extra.forEach((e) => list.add(e.toString()));

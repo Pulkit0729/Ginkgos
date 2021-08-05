@@ -2,7 +2,7 @@ import 'dart:convert';
 
 class Product {
   const Product({
-    this.sellerId,
+    required this.sellerId,
     required this.id,
     required this.name,
     required this.short,
@@ -18,7 +18,7 @@ class Product {
   final String short;
   final String height;
   final String diameter;
-  final String? sellerId;
+  final String sellerId;
   final price;
   final discount;
   final List<dynamic> image;

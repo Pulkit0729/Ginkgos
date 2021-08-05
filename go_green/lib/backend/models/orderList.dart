@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/cupertino.dart';
 
 import 'orderObject.dart';
 
@@ -26,11 +25,22 @@ Future<Map<String, dynamic>?> getOrderIds() async {
   }
 }
 
-Future<List<OrderItem>> getListOfItems(List list) async {
-  List<OrderItem> items = [];
+Future<List<Map<String, dynamic>>> getListOfItems(List list) async {
+  List<Map<String, dynamic>> items = [];
   for (var i = 0; i < list.length; i++) {
-    OrderObject obj = await retrieveOrder(list[i].toString());
-    items.addAll(obj.orderItems);
+    try {
+      OrderObject obj = await retrieveOrder(list[i].toString());
+      for (var i = 0; i < obj.orderItems.length; i++) {
+        items.add({
+          'orderItem': obj.orderItems[i],
+          'status': obj.status,
+          'orderObject': obj
+        });
+      }
+    } catch (e) {
+      print(e);
+      continue;
+    }
   }
   return items;
 }

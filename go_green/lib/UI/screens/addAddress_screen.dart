@@ -15,17 +15,33 @@ import 'package:provider/provider.dart';
 import '../../main.dart';
 import 'addressBook.dart';
 
-class AddAddressScreen extends StatelessWidget {
+class AddAddressScreen extends StatefulWidget {
   static String id = ' addAddressScreen';
+  final Function? callback;
+
+  const AddAddressScreen({Key? key, this.callback}) : super(key: key);
+
+  @override
+  _AddAddressScreenState createState() => _AddAddressScreenState();
+}
+
+class _AddAddressScreenState extends State<AddAddressScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   TextEditingController _state = TextEditingController();
+
   TextEditingController _city = TextEditingController();
 
   late String? _name;
+
   late String _phone;
+
   late String _pincode;
+
   late String _address;
+
   late String _locality;
+
   late String _type;
 
   Widget _inputName() => TextFormField(
@@ -67,6 +83,7 @@ class AddAddressScreen extends StatelessWidget {
       onChanged: (value) async {
         if (value.length == 6) {
           _pincode = value;
+
           Provider.of<LocFromPin>(context, listen: false)
               .getLocFromPin(value.toString());
         }
@@ -134,12 +151,18 @@ class AddAddressScreen extends StatelessWidget {
           locality: _locality,
           type: _type);
       bool _condition =
-          await addAddress(addressObject, _selectedIndex.toString());
+          await addAddress(addressObject, _selectedIndex.toString(), context);
       if (_condition) {
         Provider.of<LocFromPin>(context, listen: false).reset();
+        Navigator.pop(context);
         CustomSnackWidgets.buildErrorSnackBar(context, "Added Successfully");
-        Navigator.pop(context);
-        Navigator.pop(context);
+        if (_selectedIndex == 0) {
+          Navigator.pop(context);
+          Navigator.popAndPushNamed(context, AddressBookScreen.id);
+        } else {
+          Navigator.pop(context);
+          widget.callback!();
+        }
       } else {
         Provider.of<LocFromPin>(context, listen: false).reset();
         Navigator.pop(context);
@@ -155,7 +178,14 @@ class AddAddressScreen extends StatelessWidget {
 
     return WillPopScope(
         onWillPop: () async {
+          var arg =
+              ModalRoute.of(context)!.settings.arguments as ScreenArguments;
+          int? _selectedIndex = arg.index;
           Provider.of<LocFromPin>(context, listen: false).reset();
+          if (_selectedIndex == 1) {
+            Navigator.pop(context);
+            Navigator.pop(context);
+          }
           return true;
         },
         child: Scaffold(
@@ -170,7 +200,10 @@ class AddAddressScreen extends StatelessWidget {
                       child: Column(children: [
                     Row(children: [
                       Expanded(child: _inputPin(context)),
-                      SizedBox(width: MediaQuery.of(context).size.width * 0.2),
+                      Provider.of<LocFromPin>(context).loading
+                          ? CustomLoader()
+                          : Container(),
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.1),
                       Expanded(child: _inputState(context))
                     ]),
                     _inputAddress(),

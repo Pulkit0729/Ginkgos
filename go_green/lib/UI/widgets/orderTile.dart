@@ -5,11 +5,15 @@ import 'package:go_green/UI/screens/orderDetailsScreen.dart';
 import 'package:go_green/UI/widgets/customLoadingBar.dart';
 import 'package:go_green/backend/models/orderObject.dart';
 import 'package:go_green/backend/provider/firebase/addRating.dart';
-import 'package:go_green/main.dart';
 
 class OrderTile extends StatefulWidget {
   final OrderItem orderItem;
-  const OrderTile({required this.orderItem});
+  final String status;
+  final OrderObject orderObject;
+  const OrderTile(
+      {required this.orderItem,
+      required this.status,
+      required this.orderObject});
 
   @override
   _OrderTileState createState() => _OrderTileState();
@@ -28,8 +32,10 @@ class _OrderTileState extends State<OrderTile> {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          Navigator.pushNamed(context, OrderDetailsScreen.id,
-              arguments: ScreenArguments(orderId: widget.orderItem.orderId));
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => OrderDetailsScreen(
+                    orderObject: widget.orderObject,
+                  )));
         },
         child: Container(
             padding: EdgeInsets.only(top: 20, right: 10, bottom: 20),
@@ -53,21 +59,27 @@ class _OrderTileState extends State<OrderTile> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            Text(widget.orderItem.status,
+                            Text(
+                                widget.orderItem.status == 'Cancelled'
+                                    ? widget.orderItem.status
+                                    : widget.status,
                                 style: TextStyle(
                                     fontSize: 15, fontWeight: FontWeight.w700)),
                             SizedBox(height: 10),
                             Text(widget.orderItem.name,
                                 style: TextStyle(color: Colors.grey[600])),
                             SizedBox(height: 10),
-                            widget.orderItem.status == 'Delivered'
+                            (widget.orderItem.status == 'Cancelled'
+                                        ? widget.orderItem.status
+                                        : widget.status) ==
+                                    'Delivered'
                                 ? RatingBarIndicator(
                                     rating: rating,
                                     itemBuilder: (context, index) =>
                                         GestureDetector(
                                             onTap: () async {
                                               LoadingBar.createLoading(context);
-                                              await onRate(
+                                              await onRate(context,
                                                   rating: index + 1,
                                                   orderId:
                                                       widget.orderItem.orderId,

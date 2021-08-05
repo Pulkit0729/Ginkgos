@@ -10,6 +10,7 @@ class OrderObject {
   final String modeOfPayment;
   final String sellerId;
   final String status;
+  final String userId;
   final AddressObject addressObject;
   final List<OrderItem> orderItems;
   final PriceDetailsObject priceDetailsObject;
@@ -18,6 +19,7 @@ class OrderObject {
     required this.modeOfPayment,
     required this.orderId,
     required this.orderDate,
+    required this.userId,
     required this.status,
     required this.addressObject,
     required this.orderItems,
@@ -25,7 +27,6 @@ class OrderObject {
     required this.sellerId,
   });
   factory OrderObject.fromJson(DataSnapshot json) {
-    print(json.value['OrderItems']);
     return OrderObject(
       modeOfPayment: json.value['ModeOfPayment'],
       orderId: json.value['OrderId'],
@@ -37,6 +38,7 @@ class OrderObject {
           json.value['OrderItems'], json.value['OrderId']),
       sellerId: json.value['SellerId'],
       status: json.value['Status'],
+      userId: json.value['UserId'],
     );
   }
   Map<String, dynamic> toJson() => {
@@ -47,7 +49,8 @@ class OrderObject {
         "OrderItems": List.from(orderItems.map((x) => x.toJson())),
         "AddressObject": addressObject.toJson(),
         "PriceDetailObject": priceDetailsObject.toJson(),
-        "SellerId": sellerId.toString()
+        "SellerId": sellerId.toString(),
+        "UserId": userId.toString()
       };
 }
 

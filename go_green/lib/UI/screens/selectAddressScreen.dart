@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_green/UI/constants/colorsConstant.dart';
 import 'package:go_green/UI/screens/addAddress_screen.dart';
 import 'package:go_green/UI/screens/payment_screen.dart';
 import 'package:go_green/UI/widgets/appBar2.dart';
 import 'package:go_green/UI/widgets/cartScreen/cartFooter.dart';
+import 'package:go_green/UI/widgets/customLoadingBar.dart';
 import 'package:go_green/UI/widgets/customSnackBar.dart';
 import 'package:go_green/UI/widgets/productDescrip/container.dart';
 import 'package:go_green/UI/widgets/selectAddressWidget.dart';
@@ -47,9 +47,9 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
   bool _isLoading = true;
 
   void _getAddress() async {
-    _obj1 = await getAddress('1');
-    _obj2 = await getAddress('2');
-    _obj3 = await getAddress('3');
+    _obj1 = await getAddress('1', context);
+    _obj2 = await getAddress('2', context);
+    _obj3 = await getAddress('3', context);
 
     if (_obj1.name == '') {
       _index = 1;
@@ -74,8 +74,14 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
       _noOfAddress = _noOfAddress + 1;
     }
     if (_noOfAddress == 0) {
-      Navigator.popAndPushNamed(context, AddAddressScreen.id,
-          arguments: ScreenArguments(index: 1));
+      Navigator.of(context).push(PageRouteBuilder(
+        settings: RouteSettings(arguments: ScreenArguments(index: 1)),
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            AddAddressScreen(callback: initState),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return child;
+        },
+      ));
     }
     setState(() {
       _isLoading = false;
@@ -123,7 +129,7 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
         backgroundColor: kScaffoldGrey,
         appBar: AppBar2('Select Address', 1),
         body: _isLoading
-            ? SpinKitCircle(color: Colors.blue)
+            ? CustomLoader()
             : SafeArea(
                 child: ListView(children: [
                 SizedBox(height: 7),

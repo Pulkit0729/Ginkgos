@@ -50,9 +50,11 @@ Future<bool> checkAvailability(lat, lon) async {
   return result;
 }
 
-void getLocation(BuildContext context) async {
+Future<void> getLocation(BuildContext context) async {
+  print('called');
   Position position = await determinePosition(context);
   var result = await checkAvailability(position.latitude, position.longitude);
+
   if (!result) {
     showDialog(
         context: context,

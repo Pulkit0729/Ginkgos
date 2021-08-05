@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_green/UI/constants/colorsConstant.dart';
@@ -8,9 +7,8 @@ import 'package:go_green/UI/screens/login_screen.dart';
 import 'package:go_green/UI/screens/orders_screen.dart';
 import 'package:go_green/UI/widgets/editProfile.dart';
 import 'package:go_green/UI/widgets/profileHeader.dart';
-import 'package:go_green/backend/models/cartCondition.dart';
+import 'package:go_green/backend/utilities/urlLauncher.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class ProfileScreen extends StatelessWidget {
   Future<void> _deleteCacheDir() async {
@@ -57,13 +55,8 @@ class ProfileScreen extends StatelessWidget {
               text: 'Rate Us',
               iconData: Icons.rate_review_outlined,
               function: () async {
-                if (await canLaunch(
-                    'https://play.google.com/store/apps/details?id=com.last.go_green')) {
-                  await launch(
-                      'https://play.google.com/store/apps/details?id=com.last.go_green');
-                } else {
-                  throw 'Could not launch';
-                }
+                await openUrl(
+                    'https://play.google.com/store/apps/details?id=com.last.go_green');
               }),
           ProfileItem(
               text: 'Log Out',

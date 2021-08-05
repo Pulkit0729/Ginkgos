@@ -3,6 +3,7 @@ import 'package:go_green/UI/constants/textStyles.dart';
 import 'package:go_green/UI/screens/loadingBeforeCartScreen.dart';
 import 'package:go_green/UI/screens/productDescription_screen.dart';
 import 'package:go_green/UI/widgets/cartScreen/customDropDown.dart';
+import 'package:go_green/UI/widgets/productDescrip/sellerInfo.dart';
 import 'package:go_green/backend/models/product.dart';
 import 'package:go_green/backend/provider/firebase/idCollections.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -60,9 +61,6 @@ class ProductCard4 extends StatelessWidget {
                                             Text(product.name,
                                                 style: kProductCard4Name),
                                             SizedBox(height: 7),
-                                            Text(product.short,
-                                                style: kProductCard4Short),
-                                            SizedBox(height: 7),
                                             Row(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.baseline,
@@ -72,24 +70,29 @@ class ProductCard4 extends StatelessWidget {
                                                   Text('₹${product.price}',
                                                       style:
                                                           kProductCard4Price),
-                                                  Text(' ${product.cutPrice} ',
-                                                      style:
-                                                          kProductCard4CutPrice),
-                                                  Text(
-                                                      ' ${product.discount}% off ',
-                                                      style:
-                                                          kProductCard4Discount)
+                                                  product.discount != '0'
+                                                      ? Text(
+                                                          '₹${product.cutPrice} ',
+                                                          style:
+                                                              kProductCard4CutPrice)
+                                                      : Container(),
+                                                  product.discount != '0'
+                                                      ? Text(
+                                                          '${product.discount}% OFF ',
+                                                          style:
+                                                              kProductCard4Discount)
+                                                      : Container()
                                                 ])
                                           ]),
                                       Row(children: [
                                         CustomDropDown(
-                                            items: ['1', '2', '3'],
+                                            items: ['1', '2', '3', '4', '5'],
                                             type: 'Qty',
                                             callBack: (value) {
                                               callback(value);
                                             })
                                       ]),
-                                      Text(product.sellerId!)
+                                      SellerInfo(sellerId: product.sellerId)
                                     ])))
                       ])),
               Expanded(flex: 1, child: ProductCard4Footer(id: product.id))

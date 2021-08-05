@@ -26,10 +26,14 @@ class AddressTile2 extends StatelessWidget {
             addressObject.name,
             style: TextStyle(color: Colors.grey[700], height: 1.5),
           ),
-          // Text(
-          //   addressObject.address,
-          //   style: TextStyle(color: Colors.grey[700], height: 1.5),
-          // ),
+          Text(
+            addressObject.address,
+            style: TextStyle(color: Colors.grey[700], height: 1.5),
+          ),
+          Text(
+            addressObject.locality,
+            style: TextStyle(color: Colors.grey[700], height: 1.5),
+          ),
           Text(
             addressObject.city + '-' + addressObject.pincode,
             style: TextStyle(color: Colors.grey[700], height: 1.5),

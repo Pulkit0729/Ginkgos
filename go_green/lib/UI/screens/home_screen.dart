@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_green/UI/constants/colorsConstant.dart';
+import 'package:go_green/UI/widgets/customLoadingBar.dart';
 import 'package:go_green/UI/widgets/homeScreen/bannerSlider.dart';
 import 'package:go_green/UI/widgets/homeScreen/categoryLayout.dart';
 import 'package:go_green/UI/widgets/homeScreen/homeLayout1.dart';
@@ -23,10 +23,12 @@ class _HomeScreenState extends State<HomeScreen> {
     var list = await getBanners(callback: () {
       setState(() {
         _isLoading = false;
+        getBanner();
       });
     });
-    imgList = list.sublist(0, list.length - 1);
+
     setState(() {
+      imgList = list.sublist(0, list.length - 1);
       featureBanner = list[list.length - 1];
     });
     await precacheBanners(list, () {
@@ -46,16 +48,13 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return _isLoading
-        ? SpinKitCircle(color: Colors.blue)
+        ? CustomLoader()
         : Container(
             color: kScaffoldGrey,
             child: ListView(children: [
               BannerSlider(imgList: imgList),
               CategoryLayout(),
-              HomeLayout1(
-                name: 'New',
-                color: Colors.orange[100]!,
-              ),
+              HomeLayout1(name: 'New', color: Colors.orange[100]!),
               featureBanner != null
                   ? HomeLayout2(
                       image: featureBanner,

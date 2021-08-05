@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_green/UI/constants/colorsConstant.dart';
 import 'package:go_green/UI/screens/promocodeScreen.dart';
 import 'package:go_green/UI/screens/selectAddressScreen.dart';
 import 'package:go_green/UI/widgets/appBar2.dart';
 import 'package:go_green/UI/widgets/cartScreen/cartFooter.dart';
 import 'package:go_green/UI/widgets/cartScreen/priceDetails.dart';
+import 'package:go_green/UI/widgets/customLoadingBar.dart';
 import 'package:go_green/UI/widgets/productCard/productCard(Cart).dart';
 import 'package:go_green/backend/models/cartCondition.dart';
 import 'package:go_green/backend/models/cartItems.dart';
@@ -41,7 +41,7 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   Future<void> function(Map<String, dynamic> list) async {
-    var newList = await getProductsFromList(list.values.toString());
+    var newList = await getProductsFromList(list.values.toString(), context);
     _list = newList;
     _list.forEach((element) {
       sellerIds.add(element['SellerId'].toString());
@@ -67,7 +67,7 @@ class _CartScreenState extends State<CartScreen> {
         backgroundColor: kScaffoldGrey,
         appBar: AppBar2('Cart', 0),
         body: _isLoading
-            ? SpinKitCircle(color: kLoadingColor)
+            ? CustomLoader()
             : SafeArea(
                 child: ListView(shrinkWrap: true, children: [
                 ListView.builder(
@@ -123,7 +123,6 @@ class _CartScreenState extends State<CartScreen> {
         bottomNavigationBar: CartFooter(
             text: 'Place Order',
             function: () {
-              print('caled');
               if (checkCartConditions(context,
                   priceDetailsObject: PriceDetailsObject.fromList(
                       _list, quantity, coupon, cartConditions),
@@ -140,7 +139,7 @@ class _CartScreenState extends State<CartScreen> {
                   sellerId: sellerIds[0],
                 )));
               } else {
-                print('false');
+                print('Cart Conditions Failed');
               }
             }));
   }

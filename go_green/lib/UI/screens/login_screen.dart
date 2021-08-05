@@ -11,10 +11,15 @@ import 'package:go_green/UI/widgets/roundButton.dart';
 import '../../main.dart';
 import 'main_screen.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   static String id = 'LoginScreen';
 
-  final TextEditingController _phoneController = TextEditingController();
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  late TextEditingController _phoneController;
 
   void _onPress(BuildContext context) {
     String _phone = _phoneController.text;
@@ -32,6 +37,12 @@ class LoginScreen extends StatelessWidget {
             arguments: ScreenArguments(phone: _phone));
       });
     }
+  }
+
+  @override
+  void initState() {
+    _phoneController = TextEditingController();
+    super.initState();
   }
 
   @override
@@ -70,10 +81,10 @@ class LoginScreen extends StatelessWidget {
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            TextFormField(
+                            TextField(
                                 keyboardType: TextInputType.phone,
-                                controller: _phoneController,
                                 autofocus: true,
+                                controller: _phoneController,
                                 maxLength: 10,
                                 decoration: kTextInputDeco.copyWith(
                                     hintText: 'Phone Number',

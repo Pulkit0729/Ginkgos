@@ -18,23 +18,23 @@ class AddressObject {
       this.locality,
       this.type});
   factory AddressObject.fromJson(json) => AddressObject(
-        name: json["name"],
-        phone: json["phone"],
-        pincode: json["pincode"],
-        city: json["city"],
-        state: json["state"],
-        address: json["address"],
-        locality: json["locality"],
-        type: json["type"],
+        name: json["Name"],
+        phone: json["Phone"],
+        pincode: json["Pincode"],
+        city: json["City"],
+        state: json["State"],
+        address: json["Address"],
+        locality: json["Locality"],
+        type: json["Type"],
       );
   Map<String, dynamic> toJson() => {
-        "name": name,
-        "phone": phone,
-        "pincode": pincode,
-        "city": city,
-        "state": state,
-        "address": address,
-        "locality": locality,
-        "type": type
+        "Name": name,
+        "Phone": phone,
+        "Pincode": pincode,
+        "City": city,
+        "State": state,
+        "Address": address,
+        "Locality": locality,
+        "Type": type
       };
 }

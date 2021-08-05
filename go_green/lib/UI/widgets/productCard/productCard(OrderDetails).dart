@@ -28,8 +28,10 @@ class ProductCard6 extends StatelessWidget {
                                   fontSize: 16, fontWeight: FontWeight.w700)),
                           Text('Rs${orderItem.price}',
                               style: TextStyle(fontSize: 17)),
-                          Text('Status: ${orderItem.status}',
-                              style: TextStyle(color: Colors.green))
+                          orderItem.status == 'Cancelled'
+                              ? Text('Status: ${orderItem.status}:',
+                                  style: TextStyle(color: Colors.green))
+                              : Container()
                         ])),
                 Expanded(
                     flex: 2,

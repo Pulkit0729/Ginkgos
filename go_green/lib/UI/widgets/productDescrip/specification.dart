@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_green/UI/constants/textStyles.dart';
+
 import 'container.dart';
 
 class Specification extends StatelessWidget {
@@ -15,42 +16,37 @@ class Specification extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NewContainer(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(
-            'Specifications',
-            style: kSubHeading,
-          ),
-          SizedBox(height: 20),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 15),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SpecIconWidget(
-                    iconData: Icons.wb_sunny,
-                    text: _nullCheck(light),
-                    title: 'Light',
-                    image: 'images/sun.png',
-                  ),
-                  SpecIconWidget(
-                    iconData: FontAwesomeIcons.tint,
-                    text: _nullCheck(water),
-                    title: 'Water',
-                    image: 'images/water.png',
-                  ),
-                  SpecIconWidget(
-                    iconData: FontAwesomeIcons.thermometerThreeQuarters,
-                    text: _nullCheck(location),
-                    title: 'Ideal Location',
-                    image: 'images/location.jpg',
-                  )
-                ]),
-          )
-        ],
+        child:
+            Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      Text(
+        'Specifications',
+        style: kSubHeading,
       ),
-    );
+      SizedBox(height: 20),
+      Container(
+          margin: EdgeInsets.symmetric(horizontal: 15),
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            SpecIconWidget(
+              iconData: Icons.wb_sunny,
+              text: _nullCheck(light),
+              title: 'Light',
+              image: 'images/sun.png',
+            ),
+            SpecIconWidget(
+              iconData: FontAwesomeIcons.tint,
+              text: _nullCheck(water),
+              title: 'Water',
+              image: 'images/water.png',
+            ),
+            SpecIconWidget(
+              iconData: FontAwesomeIcons.thermometerThreeQuarters,
+              text: _nullCheck(location),
+              title: 'Ideal Location',
+              image: 'images/location.jpg',
+            )
+          ]))
+    ]));
   }
 }
 
@@ -75,7 +71,8 @@ class SpecIconWidget extends StatelessWidget {
           child: Image.asset(image),
         ),
         SizedBox(height: 5),
-        Text(title, style: TextStyle(fontWeight: FontWeight.bold))
+        Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
+        Text(text.toString())
       ],
     );
   }

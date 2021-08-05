@@ -22,6 +22,7 @@ class ProductCard extends StatelessWidget {
         },
         child: Container(
             decoration: BoxDecoration(
+                color: Colors.white,
                 border: Border(
                     top: BorderSide(color: Colors.grey[300]!),
                     right: BorderSide(color: Colors.grey[300]!))),
@@ -46,7 +47,8 @@ class ProductCard extends StatelessWidget {
                             Text(
                               product.name,
                               style: kProductCardName,
-                              maxLines: 1,
+                              overflow: TextOverflow.clip,
+                              softWrap: false,
                             ),
                             Text(
                                 product.short != 'null'
@@ -60,20 +62,20 @@ class ProductCard extends StatelessWidget {
                                 children: [
                                   Text('₹${product.price}',
                                       style: kProductCardPrice),
-                                  Text('${product.cutPrice} ',
-                                      style: kProductCardCutPrice),
-                                  Text(' ${product.discount}% off ',
-                                      style: kProductCardDiscount)
+                                  product.discount != '0'
+                                      ? Text('₹${product.cutPrice} ',
+                                          style: kProductCutPrice)
+                                      : Container(),
+                                  SizedBox(width: 5),
+                                  product.discount != '0'
+                                      ? Text('${product.discount}% OFF ',
+                                          style: kProductDiscount)
+                                      : Container()
                                 ])
                           ]),
                     ),
-                    Expanded(
-                      flex: 1,
-                      child: FavIconButton(
-                        id: product.id,
-                      ),
-                    )
-                  ])),
+                    Expanded(flex: 1, child: FavIconButton(id: product.id))
+                  ]))
             ])));
   }
 }

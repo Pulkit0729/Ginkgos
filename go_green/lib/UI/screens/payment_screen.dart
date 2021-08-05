@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_green/UI/constants/colorsConstant.dart';
 import 'package:go_green/UI/constants/textStyles.dart';
@@ -8,12 +9,13 @@ import 'package:go_green/UI/widgets/cartScreen/cartFooter.dart';
 import 'package:go_green/UI/widgets/cartScreen/priceDetails.dart';
 import 'package:go_green/UI/widgets/customLoadingBar.dart';
 import 'package:go_green/UI/widgets/customSnackBar.dart';
+import 'package:go_green/UI/widgets/orderSuccessful.dart';
 import 'package:go_green/backend/models/address.dart';
 import 'package:go_green/backend/models/cartCondition.dart';
 import 'package:go_green/backend/models/orderObject.dart';
-import 'package:go_green/backend/provider/firebase/placingOrder.dart';
 import 'package:go_green/backend/models/priceDetailsObject.dart';
 import 'package:go_green/backend/models/userdata.dart';
+import 'package:go_green/backend/provider/firebase/placingOrder.dart';
 import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
@@ -116,35 +118,31 @@ class _PaymentScreenState extends State<PaymentScreen> {
     String _orderId = DateTime.now().millisecondsSinceEpoch.toString();
     LoadingBar.createLoading(context);
 
-    bool result = await placeOrder(OrderObject(
-      sellerId: widget.sellerId,
-      priceDetailsObject: PriceDetailsObject.fromList(
-          widget.list, widget.quantity, widget.coupon, widget.cartConditions),
-      addressObject: widget.addressObj,
-      orderDate: DateTime.now().toString(),
-      modeOfPayment:
-          _modeOfPayment == modeOfPayment.cod ? 'Cash on Delivery' : 'Online',
-      orderId: _orderId,
-      orderItems: buildOrderItemsInternal(
-          qty: widget.quantity, orderId: _orderId, list: widget.list),
-      status: 'Pending Approval',
-    ));
+    bool result = await placeOrder(
+        OrderObject(
+          sellerId: widget.sellerId,
+          priceDetailsObject: PriceDetailsObject.fromList(widget.list,
+              widget.quantity, widget.coupon, widget.cartConditions),
+          addressObject: widget.addressObj,
+          orderDate: DateTime.now().toString(),
+          userId: FirebaseAuth.instance.currentUser!.uid,
+          modeOfPayment: _modeOfPayment == modeOfPayment.cod
+              ? 'Cash on Delivery'
+              : 'Online',
+          orderId: _orderId,
+          orderItems: buildOrderItemsInternal(
+              qty: widget.quantity, orderId: _orderId, list: widget.list),
+          status: 'Pending Approval',
+        ),
+        context);
 
     if (result) {
       Navigator.pushNamedAndRemoveUntil(
           context, MainScreen.id, (route) => false);
       showDialog(
           context: context,
-          builder: (_) =>
-              AlertDialog(title: Text('Order Placed Successfully'), actions: [
-                TextButton(onPressed: _onPlaceOrder, child: Text('Yes')),
-                TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text('No'))
-              ]),
-          barrierDismissible: false);
+          builder: (_) => OrderSuccessful(),
+          barrierDismissible: true);
     } else {
       CustomSnackWidgets.buildErrorSnackBar(context, 'Order was not confirmed');
     }
@@ -208,9 +206,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         title: Text('Cash on Delivery'))
                   ])),
           PriceDetails(
-            priceDetailsObject: PriceDetailsObject.fromList(widget.list,
-                widget.quantity, widget.coupon, widget.cartConditions),
-          )
+              priceDetailsObject: PriceDetailsObject.fromList(widget.list,
+                  widget.quantity, widget.coupon, widget.cartConditions))
         ])),
         bottomNavigationBar:
             CartFooter(text: 'Confirm', function: _onClickConfirm));

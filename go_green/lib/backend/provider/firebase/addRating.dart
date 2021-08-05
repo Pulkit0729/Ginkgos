@@ -1,9 +1,12 @@
 import 'dart:convert';
 
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/material.dart';
+import 'package:go_green/backend/provider/firebase/remote_config_service.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
-Future<void> onRate({rating, orderId, itemId}) async {
+Future<void> onRate(BuildContext context, {rating, orderId, itemId}) async {
   var negRat;
   var _list = await FirebaseDatabase.instance
       .reference()
@@ -31,17 +34,20 @@ Future<void> onRate({rating, orderId, itemId}) async {
       .child('Rating')
       .set(rating.toString())
       .then((value) => print('Success'));
-  await addRatingToServer(itemId, negRat, rating);
+  await addRatingToServer(itemId, negRat, rating, context);
 }
 
-Future<bool> addRatingToServer(id, negRat, posRat) async {
-  String _url = 'http://13.127.160.96/api/v1/product/$id/rating';
+Future<bool> addRatingToServer(id, negRat, posRat, BuildContext context) async {
+  String _url =
+      'http://${Provider.of<ServerConfig>(context, listen: false).ip.toString()}/api/v1/product/$id/rating';
   final response = await http
       .patch(
         Uri.parse(_url),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'apikey': '391cf50d-f146-4a25-9418-d556bdb32dd5'
+          'apikey': Provider.of<ServerConfig>(context, listen: false)
+              .apiKey
+              .toString()
         },
         body: jsonEncode(<String?, int?>{'negRat': negRat, 'posRat': posRat}),
       )

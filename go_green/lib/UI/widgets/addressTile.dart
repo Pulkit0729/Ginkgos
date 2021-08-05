@@ -14,7 +14,7 @@ class AddressWidget extends StatelessWidget {
     switch (value) {
       case 'Remove':
         LoadingBar.createLoading(context);
-        bool _cond = await deleteAddress(line);
+        bool _cond = await deleteAddress(line, context);
         if (_cond) {
           Navigator.pop(context);
           Navigator.popAndPushNamed(context, AddressBookScreen.id);
@@ -34,66 +34,51 @@ class AddressWidget extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 15),
             decoration: BoxDecoration(
                 border: Border(bottom: BorderSide(color: Colors.grey[300]!))),
-            child: Row(
-              children: [
-                Expanded(
-                    flex: 2,
-                    child: Icon(object.type == 'Home'
-                        ? Icons.home_outlined
-                        : Icons.work_outline)),
-                Expanded(
+            child: Row(children: [
+              Expanded(
+                  flex: 2,
+                  child: Icon(object.type == 'Home'
+                      ? Icons.home_outlined
+                      : Icons.work_outline)),
+              Expanded(
                   flex: 7,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text(
-                        object.type,
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                      Text(
-                        object.name,
-                        style: TextStyle(color: Colors.grey[700], height: 1.5),
-                      ),
-                      // Text(
-                      //   _obj.address,
-                      //   style: TextStyle(color: Colors.grey[700], height: 1.5),
-                      // ),
-                      Text(
-                        object.city + '-' + object.pincode,
-                        style: TextStyle(color: Colors.grey[700], height: 1.5),
-                      ),
-                      Text(
-                        object.state,
-                        style: TextStyle(color: Colors.grey[700], height: 1.5),
-                      ),
-                      Text(
-                        'Mobile: ${object.phone}',
-                        style: TextStyle(color: Colors.grey[700], height: 1.5),
-                      )
-                    ],
-                  ),
-                ),
-                Expanded(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(object.name,
+                            style: TextStyle(
+                                color: Colors.grey[700],
+                                height: 1.5,
+                                fontWeight: FontWeight.bold)),
+                        Text(object.address,
+                            style: TextStyle(
+                                color: Colors.grey[700], height: 1.5)),
+                        Text(object.locality,
+                            style: TextStyle(
+                                color: Colors.grey[700], height: 1.5)),
+                        Text(object.city + '-' + object.pincode,
+                            style: TextStyle(
+                                color: Colors.grey[700], height: 1.5)),
+                        Text(object.state,
+                            style: TextStyle(
+                                color: Colors.grey[700], height: 1.5)),
+                        Text('Mobile: ${object.phone}',
+                            style:
+                                TextStyle(color: Colors.grey[700], height: 1.5))
+                      ])),
+              Expanded(
                   flex: 1,
-                  child: PopupMenuButton<String>(
-                    onSelected: (value) {
-                      handleClick(value, context);
-                    },
-                    itemBuilder: (BuildContext context) {
-                      return {'Remove'}.map((String choice) {
-                        return PopupMenuItem<String>(
-                          value: choice,
-                          child: Text(choice),
-                        );
-                      }).toList();
-                    },
-                  ),
-                )
-              ],
-            ),
-          );
+                  child: PopupMenuButton<String>(onSelected: (value) {
+                    handleClick(value, context);
+                  }, itemBuilder: (BuildContext context) {
+                    return {'Remove'}.map((String choice) {
+                      return PopupMenuItem<String>(
+                        value: choice,
+                        child: Text(choice),
+                      );
+                    }).toList();
+                  }))
+            ]));
   }
 }

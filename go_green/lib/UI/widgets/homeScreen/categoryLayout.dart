@@ -19,21 +19,27 @@ class CategoryLayout extends StatelessWidget {
                           children: [
                         CircleCategory(
                             name: 'Ornamentals',
-                            image: 'images/ornamental.jpeg'),
+                            image: 'images/categoryLayout/ornamental.jpeg'),
                         CircleCategory(
-                            name: 'Flowers', image: 'images/flower.jpeg'),
+                            name: 'Flowers',
+                            image: 'images/categoryLayout/flower.jpeg'),
                         CircleCategory(
-                            name: 'Fruits', image: 'images/fruit.jpeg'),
+                            name: 'Fruits',
+                            image: 'images/categoryLayout/fruit.jpeg'),
                       ])),
                   Expanded(
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                         CircleCategory(
-                            name: 'Medicinal', image: 'images/medicinal.jpeg'),
-                        CircleCategory(name: 'Pots', image: 'images/pots.jpeg'),
+                            name: 'Medicinal',
+                            image: 'images/categoryLayout/medicinal.jpeg'),
                         CircleCategory(
-                            name: 'Accessories', image: 'images/accessory.jpg'),
+                            name: 'Pots',
+                            image: 'images/categoryLayout/pots.jpeg'),
+                        CircleCategory(
+                            name: 'Accessories',
+                            image: 'images/categoryLayout/accessory.jpg'),
                       ]))
                 ])));
   }
@@ -51,23 +57,17 @@ class CircleCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => ProductListScreen(
-                  name: name,
-                  type: ProductListScreen.category,
-                )));
-      },
-      child: Column(
-        children: [
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => ProductListScreen(
+                  name: name, type: ProductListScreen.category)));
+        },
+        child: Column(children: [
           CircleAvatar(
-            radius: MediaQuery.of(context).size.height * 0.06,
-            backgroundImage: AssetImage(image),
-          ),
+              radius: MediaQuery.of(context).size.height * 0.06,
+              backgroundImage: AssetImage(image),
+              backgroundColor: Colors.white),
           Text(name)
-        ],
-        mainAxisAlignment: MainAxisAlignment.center,
-      ),
-    );
+        ], mainAxisAlignment: MainAxisAlignment.center));
   }
 }

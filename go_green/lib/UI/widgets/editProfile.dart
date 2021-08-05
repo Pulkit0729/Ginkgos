@@ -1,6 +1,10 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:go_green/UI/constants/inputDecorations.dart';
+import 'package:go_green/UI/widgets/customLoadingBar.dart';
+import 'package:go_green/backend/models/userdata.dart';
+import 'package:go_green/backend/provider/firebase/editUserdata.dart';
+import 'package:provider/provider.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({Key? key}) : super(key: key);
@@ -71,7 +75,19 @@ class _EditProfileState extends State<EditProfile> {
                                 backgroundColor:
                                     MaterialStateProperty.all(Colors.blue)),
                             onPressed: () async {
-                              if (_formKey.currentState!.validate()) {}
+                              if (_formKey.currentState!.validate()) {
+                                LoadingBar.createLoading(context);
+                                String trimmed = _name.text.trim();
+                                await updateUser(
+                                    trimmed[0].toUpperCase() +
+                                        trimmed.substring(1),
+                                    _email.text,
+                                    context);
+                                Provider.of<Userdata>(context, listen: false)
+                                    .getData();
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                              }
                             },
                             child: Text(
                               'Submit',

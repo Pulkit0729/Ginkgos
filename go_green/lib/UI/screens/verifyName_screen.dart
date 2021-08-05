@@ -1,13 +1,14 @@
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:go_green/backend/models/userdata.dart';
 import 'package:go_green/UI/constants/inputDecorations.dart';
 import 'package:go_green/UI/screens/loadingScreen.dart';
 import 'package:go_green/UI/screens/main_screen.dart';
 import 'package:go_green/UI/widgets/customLoadingBar.dart';
 import 'package:go_green/UI/widgets/customSnackBar.dart';
 import 'package:go_green/UI/widgets/roundButton.dart';
+import 'package:go_green/backend/models/userdata.dart';
 import 'package:go_green/backend/provider/firebase/createUser.dart';
 import 'package:provider/provider.dart';
 
@@ -34,7 +35,9 @@ class NameScreen extends StatelessWidget {
     String trimmed = _nameController.text.trim();
 
     final condition = await createUser(
-        trimmed[0].toUpperCase() + trimmed.substring(1), _emailController.text);
+        trimmed[0].toUpperCase() + trimmed.substring(1),
+        _emailController.text,
+        context);
 
     if (condition) {
       print(condition);
@@ -55,17 +58,22 @@ class NameScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-            backgroundColor: Colors.grey[100],
-            appBar: AppBar(
-                leading: Container(),
-                centerTitle: true,
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-                title: Text('Personal Details',
-                    style: TextStyle(color: Colors.black))),
-            body: Padding(
+    return WillPopScope(
+      onWillPop: () async {
+        FirebaseAuth.instance.signOut();
+        return true;
+      },
+      child: Scaffold(
+          backgroundColor: Colors.grey[100],
+          appBar: AppBar(
+              leading: Container(),
+              centerTitle: true,
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              title: Text('Personal Details',
+                  style: TextStyle(color: Colors.black))),
+          body: SafeArea(
+            child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -107,6 +115,8 @@ class NameScreen extends StatelessWidget {
                           function: () {
                             _validate(context);
                           })
-                    ]))));
+                    ])),
+          )),
+    );
   }
 }

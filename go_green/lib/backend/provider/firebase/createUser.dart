@@ -1,10 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:go_green/backend/provider/firebase/remote_config_service.dart';
 
 import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 final CollectionReference users =
     FirebaseFirestore.instance.collection('users');
@@ -26,13 +29,16 @@ Future<bool> addUser(String name, String email) async {
       });
 }
 
-Future<bool> createUser(String name, String email) async {
+Future<bool> createUser(String name, String email, BuildContext context) async {
   final response = await http
       .post(
-        Uri.parse('http://13.127.160.96/api/v1/userdata/create'),
+        Uri.parse(
+            '${Provider.of<ServerConfig>(context, listen: false).ip.toString()}/api/v1/userdata/create'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'apikey': '391cf50d-f146-4a25-9418-d556bdb32dd5'
+          'apikey': Provider.of<ServerConfig>(context, listen: false)
+              .apiKey
+              .toString()
         },
         body: jsonEncode(<String?, String?>{
           'id': uid,
@@ -53,55 +59,3 @@ Future<bool> createUser(String name, String email) async {
     return false;
   }
 }
-//
-// // To parse this JSON data, do
-// //
-// //     final useModel = useModelFromJson(jsonString);
-//
-// UseModel useModelFromJson(String str) => UseModel.fromJson(json.decode(str));
-//
-// String useModelToJson(UseModel data) => json.encode(data.toJson());
-//
-// class UseModel {
-//   UseModel({
-//     required this.fieldCount,
-//     required this.affectedRows,
-//     required this.insertId,
-//     required this.serverStatus,
-//     required this.warningCount,
-//     required this.message,
-//     required this.protocol41,
-//     required this.changedRows,
-//   });
-//
-//   int fieldCount;
-//   int affectedRows;
-//   int insertId;
-//   int serverStatus;
-//   int warningCount;
-//   String message;
-//   bool protocol41;
-//   int changedRows;
-//
-//   factory UseModel.fromJson(Map<String, dynamic> json) => UseModel(
-//         fieldCount: json["fieldCount"],
-//         affectedRows: json["affectedRows"],
-//         insertId: json["insertId"],
-//         serverStatus: json["serverStatus"],
-//         warningCount: json["warningCount"],
-//         message: json["message"],
-//         protocol41: json["protocol41"],
-//         changedRows: json["changedRows"],
-//       );
-//
-//   Map<String, dynamic> toJson() => {
-//         "fieldCount": fieldCount,
-//         "affectedRows": affectedRows,
-//         "insertId": insertId,
-//         "serverStatus": serverStatus,
-//         "warningCount": warningCount,
-//         "message": message,
-//         "protocol41": protocol41,
-//         "changedRows": changedRows,
-//       };
-// }

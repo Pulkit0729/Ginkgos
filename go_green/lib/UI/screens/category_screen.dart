@@ -13,13 +13,13 @@ class CategoryScreen extends StatelessWidget {
         subTitle: 'All decoratives',
         image: 'images/category/flower_banner.png'),
     Category(
-        title: 'Fruits',
-        subTitle: 'All decoratives',
-        image: 'images/category/fruit_banner.png'),
-    Category(
         title: 'Medicinal',
         subTitle: 'All decoratives',
         image: 'images/category/medicine_banner.png'),
+    Category(
+        title: 'Fruits',
+        subTitle: 'All decoratives',
+        image: 'images/category/fruit_banner.png'),
     Category(
         title: 'Pots',
         subTitle: 'All decoratives',

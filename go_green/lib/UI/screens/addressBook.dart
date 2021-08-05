@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:go_green/UI/screens/addAddress_screen.dart';
+import 'package:go_green/UI/widgets/addressTile.dart';
+import 'package:go_green/UI/widgets/customLoadingBar.dart';
+import 'package:go_green/UI/widgets/customSnackBar.dart';
 import 'package:go_green/backend/models/address.dart';
 import 'package:go_green/backend/provider/serverRequests/getAddress.dart';
 import 'package:go_green/main.dart';
-import 'package:go_green/UI/screens/addAddress_screen.dart';
-import 'package:go_green/UI/widgets/addressTile.dart';
-import 'package:go_green/UI/widgets/customSnackBar.dart';
 
 class AddressBookScreen extends StatefulWidget {
   static String id = 'addressBook';
@@ -23,9 +23,9 @@ class _AddressBookScreenState extends State<AddressBookScreen> {
   bool _isLoading = true;
 
   void _getAddress() async {
-    _obj1 = await getAddress('1');
-    _obj2 = await getAddress('2');
-    _obj3 = await getAddress('3');
+    _obj1 = await getAddress('1', context);
+    _obj2 = await getAddress('2', context);
+    _obj3 = await getAddress('3', context);
 
     if (_obj1.name == '') {
       _index = 1;
@@ -65,8 +65,13 @@ class _AddressBookScreenState extends State<AddressBookScreen> {
   }
 
   @override
-  void initState() {
+  void didChangeDependencies() {
     _getAddress();
+    super.didChangeDependencies();
+  }
+
+  @override
+  void initState() {
     super.initState();
   }
 
@@ -77,9 +82,7 @@ class _AddressBookScreenState extends State<AddressBookScreen> {
         title: Text('Address'),
       ),
       body: _isLoading
-          ? SpinKitHourGlass(
-              color: Colors.blue,
-            )
+          ? CustomLoader()
           : Container(
               margin: EdgeInsets.symmetric(horizontal: 10),
               child: Column(

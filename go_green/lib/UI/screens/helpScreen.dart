@@ -9,44 +9,23 @@ class HelpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Help')),
-      body: SafeArea(
-        child: ListView(
-          children: [
-            ListTile(
-              leading: CircleAvatar(
-                  radius: 15,
-                  backgroundColor: Colors.grey[200]!,
-                  child: Icon(Icons.comment_sharp, color: kProfileItemsIcon)),
-              title: Text('FAQ'),
-              onTap: () {
-                Navigator.pushNamed(context, FAQScreen.id);
-              },
-            ),
-            ListTile(
-                onTap: () async {
-                  openUrl('https://wa.me/' +
-                      '91' +
-                      await FirebaseFirestore.instance
-                          .collection('Contact')
-                          .doc('Contact')
-                          .get()
-                          .then((DocumentSnapshot snap) =>
-                              snap.get(FieldPath(['phone']))));
-                },
-                leading: CircleAvatar(
-                    radius: 15,
-                    backgroundColor: Colors.grey[200]!,
-                    child: Icon(Icons.chat_outlined, color: kProfileItemsIcon)),
-                title: Text('Chat With Us')),
-            ListTile(
-              leading: CircleAvatar(
-                  radius: 15,
-                  backgroundColor: Colors.grey[200]!,
-                  child: Icon(Icons.phone, color: kProfileItemsIcon)),
-              title: Text('Contact Us'),
+        appBar: AppBar(title: Text('Help')),
+        body: SafeArea(
+            child: ListView(children: [
+          ListTile(
+            leading: CircleAvatar(
+                radius: 15,
+                backgroundColor: Colors.grey[200]!,
+                child: Icon(Icons.comment_sharp, color: kProfileItemsIcon)),
+            title: Text('FAQ'),
+            onTap: () {
+              Navigator.pushNamed(context, FAQScreen.id);
+            },
+          ),
+          ListTile(
               onTap: () async {
-                openUrl('tel:' +
+                openUrl('https://wa.me/' +
+                    '91' +
                     await FirebaseFirestore.instance
                         .collection('Contact')
                         .doc('Contact')
@@ -54,10 +33,27 @@ class HelpScreen extends StatelessWidget {
                         .then((DocumentSnapshot snap) =>
                             snap.get(FieldPath(['phone']))));
               },
-            )
-          ],
-        ),
-      ),
-    );
+              leading: CircleAvatar(
+                  radius: 15,
+                  backgroundColor: Colors.grey[200]!,
+                  child: Icon(Icons.chat_outlined, color: kProfileItemsIcon)),
+              title: Text('Chat With Us')),
+          ListTile(
+            leading: CircleAvatar(
+                radius: 15,
+                backgroundColor: Colors.grey[200]!,
+                child: Icon(Icons.phone, color: kProfileItemsIcon)),
+            title: Text('Contact Us'),
+            onTap: () async {
+              openUrl('tel:' +
+                  await FirebaseFirestore.instance
+                      .collection('Contact')
+                      .doc('Contact')
+                      .get()
+                      .then((DocumentSnapshot snap) =>
+                          snap.get(FieldPath(['phone']))));
+            },
+          )
+        ])));
   }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:go_green/UI/screens/search_screen.dart';
 import 'package:go_green/UI/widgets/cartScreen/cartStageWidget.dart';
 
 class AppBar2 extends StatelessWidget implements PreferredSizeWidget {

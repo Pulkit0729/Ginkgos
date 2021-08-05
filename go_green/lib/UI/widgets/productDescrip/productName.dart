@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:go_green/UI/constants/textStyles.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:go_green/UI/constants/textStyles.dart';
+
 import 'container.dart';
 
 class ProductName extends StatelessWidget {
@@ -43,9 +44,13 @@ class ProductName extends StatelessWidget {
             children: [
               Text('₹$price ', style: kProductPrice),
               SizedBox(width: 3),
-              Text('₹$cutPrice ', style: kProductCutPrice),
+              discount != '0'
+                  ? Text('₹$cutPrice ', style: kProductCutPrice)
+                  : Container(),
               SizedBox(width: 5),
-              Text('$discount% OFF ', style: kProductDiscount)
+              discount != '0'
+                  ? Text('$discount% OFF ', style: kProductDiscount)
+                  : Container()
             ],
           ),
           SizedBox(height: 5),

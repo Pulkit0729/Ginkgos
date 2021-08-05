@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-import 'package:go_green/UI/widgets/customSnackBar.dart';
 import 'package:go_green/backend/models/cartCondition.dart';
 
 class PriceDetailsObject {
@@ -73,35 +71,4 @@ class PriceDetailsObject {
         "TotalAmount": totalAmount,
         "TotalItems": totalItems
       };
-}
-
-bool checkCartConditions(BuildContext context,
-    {required PriceDetailsObject priceDetailsObject,
-    required CartConditions cartConditions,
-    required List sellerIds}) {
-  num count = 0;
-  sellerIds.forEach((element) {
-    element == sellerIds[0] ? count = count + 1 : count = count;
-  });
-
-  if (count == sellerIds.length) {
-    if (int.parse(priceDetailsObject.totalItems) >
-        int.parse(cartConditions.maxItems)) {
-      CustomSnackWidgets.buildErrorSnackBar(
-          context, 'Maximum number of items exceeded');
-      return false;
-    } else {
-      if (int.parse(priceDetailsObject.totalAmount) <
-          int.parse(cartConditions.minAmount)) {
-        CustomSnackWidgets.buildErrorSnackBar(
-            context, 'Maximum Amount is ${cartConditions.minAmount}');
-        return false;
-      } else {
-        return true;
-      }
-    }
-  } else {
-    CustomSnackWidgets.buildErrorSnackBar(context, 'Same seller ids');
-    return false;
-  }
 }
