@@ -16,7 +16,7 @@ class Availability extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          SellerInfo(sellerId: '123401001'),
+          SellerInfo(sellerId: sellerId),
           Row(children: [
             Expanded(
                 child: Text('Check if this product is deliverable to you')),

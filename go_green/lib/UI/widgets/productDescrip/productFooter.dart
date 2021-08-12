@@ -61,67 +61,56 @@ class _ProductFooterState extends State<ProductFooter> {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      child: Row(
-        children: [
-          Expanded(
+      child: Row(children: [
+        Expanded(
             child: Container(
-              padding: EdgeInsets.all(7),
-              child: TextButton(
-                style: ButtonStyle(
-                    side: MaterialStateProperty.all(
-                        BorderSide(color: Colors.grey.shade300))),
-                onPressed: () {
-                  _onClickWishlist(context, widget.id);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 3.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      isPressed
-                          ? Icon(Icons.favorite, color: Colors.pink)
-                          : Icon(
-                              Icons.favorite_border_outlined,
-                              color: Colors.black,
-                            ),
-                      Text(
-                        isPressed ? 'WISHLISTED' : 'WISHLIST',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
+                padding: EdgeInsets.all(7),
+                child: TextButton(
+                    style: ButtonStyle(
+                        side: MaterialStateProperty.all(
+                            BorderSide(color: Colors.grey.shade300))),
+                    onPressed: () {
+                      _onClickWishlist(context, widget.id);
+                    },
+                    child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 3.0),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              isPressed
+                                  ? Icon(Icons.favorite, color: Colors.pink)
+                                  : Icon(
+                                      Icons.favorite_border_outlined,
+                                      color: Colors.black,
+                                    ),
+                              Text(
+                                isPressed ? 'WISHLISTED' : 'WISHLIST',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16),
+                              )
+                            ]))))),
+        Expanded(
             child: Container(
-              margin: EdgeInsets.only(right: 7),
-              child: TextButton(
-                onPressed: () {
-                  _onClickCart(context, widget.id);
-                },
-                style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(kSecondaryColor)),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 3.0),
-                  child: Text(
-                    '🛒 Add to Cart',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16),
-                  ),
-                ),
-              ),
-            ),
-          )
-        ],
-      ),
+                margin: EdgeInsets.only(right: 7),
+                child: TextButton(
+                    onPressed: () {
+                      _onClickCart(context, widget.id);
+                    },
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(kSecondaryColor)),
+                    child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 3.0),
+                        child: Text(
+                          '🛒 Add to Cart',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16),
+                        )))))
+      ]),
     );
   }
 }

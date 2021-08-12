@@ -6,6 +6,7 @@ import 'package:go_green/UI/screens/main_screen.dart';
 import 'package:go_green/UI/widgets/customLoadingBar.dart';
 import 'package:go_green/UI/widgets/orderTile.dart';
 import 'package:go_green/backend/models/orderList.dart';
+import 'package:go_green/main.dart';
 
 class OrderScreen extends StatelessWidget {
   static String id = 'orderScreen';
@@ -40,7 +41,8 @@ class OrderScreen extends StatelessWidget {
                         return EmptyScreen(
                           text: 'You have not placed any orders yet!.',
                           function: () {
-                            Navigator.popAndPushNamed(context, MainScreen.id);
+                            Navigator.popAndPushNamed(context, MainScreen.id,
+                                arguments: ScreenArguments(index: 1));
                           },
                           image: 'images/svg/emptyWishlist.svg',
                         );
@@ -54,7 +56,8 @@ class OrderScreen extends StatelessWidget {
                 return EmptyScreen(
                   text: 'You have not placed any orders yet!.',
                   function: () {
-                    Navigator.popAndPushNamed(context, MainScreen.id);
+                    Navigator.popAndPushNamed(context, MainScreen.id,
+                        arguments: ScreenArguments(index: 1));
                   },
                   image: 'images/svg/emptyWishlist.svg',
                 );

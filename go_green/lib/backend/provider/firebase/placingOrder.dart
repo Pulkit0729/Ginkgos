@@ -24,7 +24,7 @@ Future<bool> placeOrder(OrderObject orderObject, BuildContext context) async {
     bool cond2 = await addToIdCollection('OrderIds', orderObject.orderId);
     if (cond2) {
       bool cond3 = await FirebaseFirestore.instance
-          .collection('users')
+          .collection('UsersV2')
           .doc(_uid)
           .collection('IdCollection')
           .doc('Cart')
@@ -63,7 +63,6 @@ Future<void> sendMail(
     BuildContext context, String orderId, String orderTotal) async {
   String _url =
       '${Provider.of<ServerConfig>(context, listen: false).ip.toString()}/api/v1/order/placed';
-  print(_url);
   await http
       .post(Uri.parse(_url),
           headers: <String, String>{

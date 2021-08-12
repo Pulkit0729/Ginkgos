@@ -34,7 +34,7 @@ class ProductName extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(name, style: kProductName),
+          Text(name, style: kProductName, maxLines: 1),
           Text('$short',
               style: TextStyle(color: Colors.grey, fontSize: 15), maxLines: 1),
           SizedBox(height: 5),

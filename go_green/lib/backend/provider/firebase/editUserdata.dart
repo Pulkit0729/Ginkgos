@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 Future<void> updateUser(String name, String email, BuildContext context) async {
   final _uid = FirebaseAuth.instance.currentUser!.uid;
   await FirebaseFirestore.instance
-      .collection('users')
+      .collection('UsersV2')
       .doc(_uid)
       .set({'Name': name, 'Email': email}, SetOptions(merge: true)).then(
           (value) async {

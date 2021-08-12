@@ -77,7 +77,6 @@ class OrderItem {
 
   factory OrderItem.fromInternalJson(
       Map<Object?, Object?> json, String orderId, String qty) {
-    print(json);
     return OrderItem(
       name: json['Name'],
       status: 'Pending Approval',

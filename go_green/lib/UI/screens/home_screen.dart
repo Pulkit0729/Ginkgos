@@ -18,29 +18,32 @@ class _HomeScreenState extends State<HomeScreen> {
   List<String> imgList = [];
 
   late String? featureBanner;
+  late String? promoBanner;
 
   void getBanner() async {
-    var list = await getBanners(callback: () {
-      setState(() {
-        _isLoading = false;
-        getBanner();
-      });
-    });
+    var list = await getBanners(
+        callback: () => setState(() {
+              _isLoading = false;
+              getBanner();
+            }));
 
     setState(() {
-      imgList = list.sublist(0, list.length - 1);
-      featureBanner = list[list.length - 1];
+      imgList = list.sublist(0, list.length - 2);
+      featureBanner = list[list.length - 2];
+      promoBanner = list[list.length - 1];
     });
-    await precacheBanners(list, () {
-      setState(() {
-        _isLoading = false;
-      });
-    }, context);
+    await precacheBanners(
+        list[0],
+        () => setState(() {
+              _isLoading = false;
+            }),
+        context);
   }
 
   @override
   void initState() {
     featureBanner = null;
+    promoBanner = null;
     getBanner();
     super.initState();
   }
@@ -51,15 +54,21 @@ class _HomeScreenState extends State<HomeScreen> {
         ? CustomLoader()
         : Container(
             color: kScaffoldGrey,
-            child: ListView(children: [
+            child: ListView(cacheExtent: 2000, children: [
               BannerSlider(imgList: imgList),
               CategoryLayout(),
               HomeLayout1(name: 'New', color: Colors.orange[100]!),
               featureBanner != null
-                  ? HomeLayout2(
-                      image: featureBanner,
-                    )
-                  : Container()
+                  ? HomeLayout2(image: featureBanner)
+                  : Container(),
+              HomeLayout1(name: 'Trending', color: Colors.pink[100]!),
+              promoBanner != null
+                  ? HomeLayout2(image: promoBanner)
+                  : Container(),
+              HomeLayout1(
+                name: 'Must Buy Indoor',
+                color: Colors.redAccent[100]!,
+              )
             ]));
   }
 }

@@ -35,7 +35,6 @@ Future<Position> determinePosition(BuildContext context) async {
 
 Future<bool> checkAvailability(lat, lon) async {
   List<Placemark> placeMarks = await placemarkFromCoordinates(lat, lon);
-  print(placeMarks[0].postalCode);
   bool result = await FirebaseDatabase.instance
       .reference()
       .child('Nurseries')
@@ -51,7 +50,6 @@ Future<bool> checkAvailability(lat, lon) async {
 }
 
 Future<void> getLocation(BuildContext context) async {
-  print('called');
   Position position = await determinePosition(context);
   var result = await checkAvailability(position.latitude, position.longitude);
 

@@ -7,7 +7,7 @@ class Userdata extends ChangeNotifier {
   late String _phone;
   late String _email;
   final _currentUser = FirebaseAuth.instance.currentUser;
-  final _users = FirebaseFirestore.instance.collection('users');
+  final _users = FirebaseFirestore.instance.collection('UsersV2');
   void getData() async {
     if (_currentUser != null) {
       _users

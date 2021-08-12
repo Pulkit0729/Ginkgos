@@ -5,6 +5,7 @@ Future<List<String>> getBanners({callback}) async {
   List<String> list = [];
   var extra = [];
   var featureBanner;
+  var promoBanner;
   await FirebaseDatabase.instance
       .reference()
       .child('HomeLayout')
@@ -12,6 +13,7 @@ Future<List<String>> getBanners({callback}) async {
       .then((value) {
         extra = value!.value['Banners'];
         featureBanner = value.value['FeatureBanner']['link'];
+        promoBanner = value.value['PromoBanner']['link'];
       })
       .timeout(Duration(seconds: 8))
       .onError((error, stackTrace) {
@@ -19,12 +21,10 @@ Future<List<String>> getBanners({callback}) async {
         callback();
       });
   extra.forEach((e) => list.add(e.toString()));
-  list.add(featureBanner);
+  list.addAll([featureBanner, promoBanner]);
   return list;
 }
 
-Future<void> precacheBanners(List list, callback, context) async {
-  await precacheImage(NetworkImage(list[0]), context).then((value) {
-    callback();
-  });
+Future<void> precacheBanners(String i, callback, context) async {
+  await precacheImage(NetworkImage(i), context).then((value) => callback());
 }

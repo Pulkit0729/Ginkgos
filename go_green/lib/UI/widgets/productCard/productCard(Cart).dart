@@ -111,17 +111,19 @@ class ProductCard4Footer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        decoration: BoxDecoration(border: Border.all(color: Colors.grey[200]!)),
-        child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-          Icon(Icons.delete_outline, color: Colors.grey, size: 20),
-          GestureDetector(
-              onTap: () {
-                _onDelete(context);
-              },
-              child: Text('Delete',
-                  style: TextStyle(fontSize: 16, color: Colors.black54))),
-          SizedBox(width: 20)
-        ]));
+    return GestureDetector(
+      onTap: () {
+        _onDelete(context);
+      },
+      child: Container(
+          decoration:
+              BoxDecoration(border: Border.all(color: Colors.grey[200]!)),
+          child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+            Icon(Icons.delete_outline, color: Colors.grey, size: 20),
+            Text('Delete',
+                style: TextStyle(fontSize: 16, color: Colors.black54)),
+            SizedBox(width: 20)
+          ])),
+    );
   }
 }

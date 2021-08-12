@@ -14,7 +14,6 @@ class LocFromPin extends ChangeNotifier {
         .get(Uri.parse('https://api.postalpincode.in/pincode/$pinCode'));
     if (response.statusCode == 200 &&
         jsonDecode(response.body)[0]['Status'] != 'Error') {
-      print(response.body);
       _state = jsonDecode(response.body)[0]['PostOffice'][0]['Circle'];
       notifyListeners();
       _city = jsonDecode(response.body)[0]['PostOffice'][0]['District'];

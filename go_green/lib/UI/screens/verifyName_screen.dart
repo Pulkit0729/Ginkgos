@@ -40,7 +40,6 @@ class NameScreen extends StatelessWidget {
         context);
 
     if (condition) {
-      print(condition);
       final bool cond1 = await addUser(
           trimmed[0].toUpperCase() + trimmed.substring(1),
           _emailController.text);

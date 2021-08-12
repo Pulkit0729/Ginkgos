@@ -13,15 +13,12 @@ class HelpScreen extends StatelessWidget {
         body: SafeArea(
             child: ListView(children: [
           ListTile(
-            leading: CircleAvatar(
-                radius: 15,
-                backgroundColor: Colors.grey[200]!,
-                child: Icon(Icons.comment_sharp, color: kProfileItemsIcon)),
-            title: Text('FAQ'),
-            onTap: () {
-              Navigator.pushNamed(context, FAQScreen.id);
-            },
-          ),
+              leading: CircleAvatar(
+                  radius: 15,
+                  backgroundColor: Colors.grey[200]!,
+                  child: Icon(Icons.comment_sharp, color: kProfileItemsIcon)),
+              title: Text('FAQ'),
+              onTap: () => Navigator.pushNamed(context, FAQScreen.id)),
           ListTile(
               onTap: () async {
                 openUrl('https://wa.me/' +

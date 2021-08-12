@@ -12,7 +12,7 @@ class CartItems extends ChangeNotifier {
     try {
       DocumentSnapshot<Map<String, dynamic>> snap = await FirebaseFirestore
           .instance
-          .collection('users')
+          .collection('UsersV2')
           .doc(_uid)
           .collection('IdCollection')
           .doc('Cart')

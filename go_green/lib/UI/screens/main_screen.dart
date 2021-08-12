@@ -7,7 +7,6 @@ import 'package:go_green/UI/widgets/customSnackBar.dart';
 import 'package:go_green/UI/widgets/loginBottomSheet.dart';
 import 'package:go_green/UI/widgets/searchButtonWidget.dart';
 import 'package:go_green/backend/utilities/getLocation.dart';
-
 import 'category_screen.dart';
 import 'drawerScreen.dart';
 import 'home_screen.dart';
@@ -75,7 +74,11 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
         drawer: NavDrawer(),
         appBar: AppBar(
-            title: Text('Ginkgos'),
+            title: Text(
+              'Ginkgos',
+              style: Theme.of(context).appBarTheme.titleTextStyle,
+            ),
+            titleSpacing: 0,
             actions: [
               Padding(
                   padding: EdgeInsets.only(right: 20.0),

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,14 +12,14 @@ Future<List<dynamic>> getItemsIdList(String id, BuildContext context) async {
   var list = [];
   DatabaseReference _dbRef = FirebaseDatabase.instance.reference();
   await _dbRef
-      .child('ProductsList')
+      .child('HomeLayout')
+      .child('ProductList')
       .child(id)
       .once()
       .then((DataSnapshot? snapshot) {
     snapshot!.value.forEach((a, b) => {list.add(b.toString())});
   });
   var result = list.toString().replaceAll('[', '(').replaceAll(']', ')');
-  print(result);
   return await getProductsFromList(result, context);
 }
 
@@ -27,17 +28,16 @@ Future<String> getFourItemsList(String id) async {
   var list = [];
   DatabaseReference _dbRef = FirebaseDatabase.instance.reference();
   await _dbRef
-      .child('ProductsList')
+      .child('HomeLayout')
+      .child('ProductList')
       .child(id)
       .once()
       .then((DataSnapshot? snapshot) {
     snapshot!.value.forEach((a, b) => {list.add(b.toString())});
   });
-  return list
-      .sublist(0, 4)
-      .toString()
-      .replaceAll('[', '(')
-      .replaceAll(']', ')');
+  return list.length >= 4
+      ? list.sublist(0, 4).toString().replaceAll('[', '(').replaceAll(']', ')')
+      : list.toString().replaceAll('[', '(').replaceAll(']', ')');
 }
 
 Future<List<dynamic>> getProductsFromList(
@@ -100,5 +100,7 @@ Future<List<dynamic>> getProductsFromCategory(
     'apikey':
         Provider.of<ServerConfig>(context, listen: false).apiKey.toString()
   });
-  return jsonDecode(data.body);
+  List<dynamic> newList = jsonDecode(data.body);
+  newList.shuffle(Random());
+  return newList;
 }

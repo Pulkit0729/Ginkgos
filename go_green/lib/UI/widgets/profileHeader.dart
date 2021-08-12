@@ -13,35 +13,21 @@ class ProfileHeader extends StatelessWidget {
             border: Border(bottom: BorderSide(color: Colors.grey[200]!))),
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                Provider.of<Userdata>(context).name,
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
-              ),
-              SizedBox(height: 5),
-              Text(
-                Provider.of<Userdata>(context).phone,
-                style: TextStyle(
-                  fontSize: 15,
-                ),
-              ),
-              SizedBox(height: 5),
-              Text(Provider.of<Userdata>(context).email,
-                  style: TextStyle(
-                    fontSize: 15,
-                  ))
-            ],
-          ),
+          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(Provider.of<Userdata>(context).name,
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700)),
+            SizedBox(height: 5),
+            Text(Provider.of<Userdata>(context).phone,
+                style: TextStyle(fontSize: 15)),
+            SizedBox(height: 5),
+            Text(Provider.of<Userdata>(context).email,
+                style: TextStyle(fontSize: 15))
+          ]),
           CircleAvatar(
-            backgroundColor: Colors.green,
-            radius: 40,
-            child: Text(
-              Provider.of<Userdata>(context, listen: false).name[0],
-              style: TextStyle(fontSize: 40, color: Colors.white),
-            ),
-          )
+              backgroundColor: Colors.green,
+              radius: 40,
+              child: Text(Provider.of<Userdata>(context, listen: false).name[0],
+                  style: TextStyle(fontSize: 40, color: Colors.white)))
         ]));
   }
 }

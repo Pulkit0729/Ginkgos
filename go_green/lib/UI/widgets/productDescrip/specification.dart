@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_green/UI/constants/textStyles.dart';
 
 import 'container.dart';
 
 class Specification extends StatelessWidget {
-  const Specification({this.light, this.water, this.location});
+  const Specification({this.light, this.water, this.location, this.withPot});
   final String? light;
   final String? water;
+  final String? withPot;
   final String? location;
 
   String _nullCheck(String? value) => value == null ? '' : value;
@@ -25,41 +25,60 @@ class Specification extends StatelessWidget {
       SizedBox(height: 20),
       Container(
           margin: EdgeInsets.symmetric(horizontal: 15),
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            SpecIconWidget(
-              iconData: Icons.wb_sunny,
-              text: _nullCheck(light),
-              title: 'Light',
-              image: 'images/sun.png',
-            ),
-            SpecIconWidget(
-              iconData: FontAwesomeIcons.tint,
-              text: _nullCheck(water),
-              title: 'Water',
-              image: 'images/water.png',
-            ),
-            SpecIconWidget(
-              iconData: FontAwesomeIcons.thermometerThreeQuarters,
-              text: _nullCheck(location),
-              title: 'Ideal Location',
-              image: 'images/location.jpg',
-            )
-          ]))
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SpecIconWidget(
+                        text: _nullCheck(light),
+                        title: 'Light',
+                        image: 'images/sun.png',
+                      ),
+                      SizedBox(height: 10),
+                      SpecIconWidget(
+                        text: _nullCheck(water),
+                        title: 'Water',
+                        image: 'images/water.png',
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SpecIconWidget(
+                        text: _nullCheck(location),
+                        title: 'Ideal Location',
+                        image: 'images/location.jpg',
+                      ),
+                      SizedBox(height: 10),
+                      SpecIconWidget(
+                        text: _nullCheck(withPot) == '0' ? 'No' : 'Yes',
+                        title: 'With Pot',
+                        image: 'images/pot.jpg',
+                      ),
+                    ],
+                  ),
+                )
+              ]))
     ]));
   }
 }
 
 class SpecIconWidget extends StatelessWidget {
-  const SpecIconWidget({this.iconData, this.text, this.title, this.image});
-  final iconData;
+  const SpecIconWidget({this.text, this.title, this.image});
   final image;
   final title;
   final text;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Row(
       children: [
         Container(
           height: 55,
@@ -70,9 +89,20 @@ class SpecIconWidget extends StatelessWidget {
               border: Border.all(color: Colors.grey[300]!)),
           child: Image.asset(image),
         ),
-        SizedBox(height: 5),
-        Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
-        Text(text.toString())
+        SizedBox(width: 10),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: TextStyle(fontWeight: FontWeight.bold),
+                softWrap: false,
+              ),
+              Text(text.toString())
+            ],
+          ),
+        ),
       ],
     );
   }

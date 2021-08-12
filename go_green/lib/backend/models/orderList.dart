@@ -9,7 +9,7 @@ Future<Map<String, dynamic>?> getOrderIds() async {
   try {
     DocumentSnapshot<Map<String, dynamic>> snap = await FirebaseFirestore
         .instance
-        .collection('users')
+        .collection('UsersV2')
         .doc(_uid)
         .collection('IdCollection')
         .doc('OrderIds')
@@ -27,6 +27,8 @@ Future<Map<String, dynamic>?> getOrderIds() async {
 
 Future<List<Map<String, dynamic>>> getListOfItems(List list) async {
   List<Map<String, dynamic>> items = [];
+  list.sort();
+  list = List.from(list.reversed);
   for (var i = 0; i < list.length; i++) {
     try {
       OrderObject obj = await retrieveOrder(list[i].toString());

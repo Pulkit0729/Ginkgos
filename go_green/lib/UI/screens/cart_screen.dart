@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_green/UI/constants/colorsConstant.dart';
+import 'package:go_green/UI/screens/loadingBeforeCartScreen.dart';
 import 'package:go_green/UI/screens/promocodeScreen.dart';
 import 'package:go_green/UI/screens/selectAddressScreen.dart';
 import 'package:go_green/UI/widgets/appBar2.dart';
@@ -43,15 +46,24 @@ class _CartScreenState extends State<CartScreen> {
   Future<void> function(Map<String, dynamic> list) async {
     var newList = await getProductsFromList(list.values.toString(), context);
     _list = newList;
-    _list.forEach((element) {
-      sellerIds.add(element['SellerId'].toString());
-    });
-    print(sellerIds);
-    cartConditions = CartConditions.fromFirebase(await getCartConditions());
-    quantity = List<num>.generate(_list.length, (index) => 1);
-    setState(() {
-      _isLoading = false;
-    });
+    if (_list.toString() == '[]') {
+      await FirebaseFirestore.instance
+          .collection('UsersV2')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('IdCollection')
+          .doc('Cart')
+          .delete();
+      Navigator.popAndPushNamed(context, CartLoadingScreen.id);
+    } else {
+      _list.forEach((element) {
+        sellerIds.add(element['SellerId'].toString());
+      });
+      cartConditions = CartConditions.fromFirebase(await getCartConditions());
+      quantity = List<num>.generate(_list.length, (index) => 1);
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override

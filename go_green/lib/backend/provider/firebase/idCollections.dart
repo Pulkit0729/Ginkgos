@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 Future<bool> addToIdCollection(String docID, String itemId) async {
   final _uid = FirebaseAuth.instance.currentUser!.uid;
   var _idCollection = FirebaseFirestore.instance
-      .collection('users')
+      .collection('UsersV2')
       .doc(_uid)
       .collection('IdCollection');
 
@@ -27,7 +27,6 @@ Future<bool> addToIdCollection(String docID, String itemId) async {
             return true;
           } catch (e) {
             print(e);
-            print('Error');
             return false;
           }
         }
@@ -43,7 +42,7 @@ Future<bool> addToIdCollection(String docID, String itemId) async {
 Future<void> removeFromCollection(String docID, String itemId) async {
   final _uid = FirebaseAuth.instance.currentUser!.uid;
   var _idCollection = FirebaseFirestore.instance
-      .collection('users')
+      .collection('UsersV2')
       .doc(_uid)
       .collection('IdCollection');
   _idCollection

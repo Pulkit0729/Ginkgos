@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 final CollectionReference users =
-    FirebaseFirestore.instance.collection('users');
+    FirebaseFirestore.instance.collection('UsersV2');
 final auth = FirebaseAuth.instance.currentUser;
 String uid = auth!.uid;
 Future<bool> addUser(String name, String email) async {
@@ -52,10 +52,8 @@ Future<bool> createUser(String name, String email, BuildContext context) async {
           http.Response(json.encode('{"statusCode":"404"}'), 404));
 
   if (response.statusCode == 200) {
-    print(response.statusCode);
     return true;
   } else {
-    print(response.statusCode);
     return false;
   }
 }

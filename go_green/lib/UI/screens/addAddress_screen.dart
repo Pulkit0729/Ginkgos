@@ -136,7 +136,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
   void _onPress(BuildContext context) async {
     var arg = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
     int? _selectedIndex = arg.index;
-    if (!_formKey.currentState!.validate()) {
+    if (!_formKey.currentState!.validate() || _type.isNotEmpty) {
       return;
     } else {
       LoadingBar.createLoading(context);

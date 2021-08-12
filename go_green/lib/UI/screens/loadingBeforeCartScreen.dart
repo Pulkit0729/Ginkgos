@@ -44,7 +44,8 @@ class _CartLoadingScreenState extends State<CartLoadingScreen> {
             : EmptyScreen(
                 text: 'You have not added any items in your cart.',
                 function: () {
-                  Navigator.popAndPushNamed(context, MainScreen.id);
+                  Navigator.popAndPushNamed(context, MainScreen.id,
+                      arguments: ScreenArguments(index: 1));
                 },
                 image: 'images/svg/emptyWishlist.svg',
               ));

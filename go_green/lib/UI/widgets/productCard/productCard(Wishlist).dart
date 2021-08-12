@@ -75,47 +75,58 @@ class ProductCard5 extends StatelessWidget {
               ]),
               Container(
                   margin: EdgeInsets.all(10),
-                  child: Row(children: [
-                    Expanded(
-                      flex: 4,
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Row(
                           children: [
-                            Text(
-                              product.name,
-                              style: kProductCardName,
-                              softWrap: false,
-                              overflow: TextOverflow.clip,
-                            ),
-                            Text(product.short, style: kProductCardShort),
-                            SizedBox(height: 7),
-                            Row(
-                                crossAxisAlignment: CrossAxisAlignment.baseline,
-                                textBaseline: TextBaseline.alphabetic,
+                            Expanded(
+                              flex: 4,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
-                                  Text('₹${product.price} ',
-                                      style: kProductCardPrice),
-                                  product.discount != '0'
-                                      ? Text('₹${product.cutPrice} ',
-                                          style: kProductCardCutPrice)
-                                      : Container(),
-                                  SizedBox(width: 5),
-                                  product.discount != '0'
-                                      ? Text('${product.discount}% OFF ',
-                                          style: kProductCardDiscount)
-                                      : Container()
-                                ])
-                          ]),
-                    ),
-                    Expanded(
-                        flex: 1,
-                        child: IconButton(
-                            onPressed: () {
-                              _addToCart(context);
-                            },
-                            icon: Icon(Icons.add_shopping_cart),
-                            iconSize: 20))
-                  ]))
+                                  Text(
+                                    product.name,
+                                    style: kProductCardName,
+                                    overflow: TextOverflow.clip,
+                                    softWrap: false,
+                                  ),
+                                  Text(
+                                      product.short != 'null'
+                                          ? product.short
+                                          : 'Good',
+                                      style: kProductCardShort),
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                                flex: 1,
+                                child: IconButton(
+                                    onPressed: () {
+                                      _addToCart(context);
+                                    },
+                                    icon: Icon(Icons.add_shopping_cart),
+                                    iconSize: 20))
+                          ],
+                        ),
+                        SizedBox(height: 7),
+                        Row(
+                            crossAxisAlignment: CrossAxisAlignment.baseline,
+                            textBaseline: TextBaseline.alphabetic,
+                            children: [
+                              Text('₹${product.price}',
+                                  maxLines: 1, style: kProductCardPrice),
+                              product.discount != '0'
+                                  ? Text('₹${product.cutPrice} ',
+                                      maxLines: 1, style: kProductCardCutPrice)
+                                  : Container(),
+                              SizedBox(width: 5),
+                              product.discount != '0'
+                                  ? Text('${product.discount}% OFF ',
+                                      maxLines: 1, style: kProductCardDiscount)
+                                  : Container()
+                            ])
+                      ]))
             ])));
   }
 }

@@ -41,3 +41,40 @@ class Product {
         .toStringAsFixed(0);
   }
 }
+
+class DescriptionObject {
+  final String category;
+  final String? water;
+  final String? light;
+  final String? idealLocation;
+  final String? description;
+  final String? height;
+  final String? diameter;
+  final String sellerId;
+  final String withPot;
+
+  DescriptionObject(
+      {required this.category,
+      this.water,
+      this.light,
+      this.idealLocation,
+      required this.description,
+      this.height,
+      this.diameter,
+      required this.withPot,
+      required this.sellerId});
+
+  factory DescriptionObject.fromJson(json) {
+    print(json['Light']);
+    return DescriptionObject(
+        category: json['Category'],
+        water: json['Water'],
+        light: json['Light'],
+        idealLocation: json['IdealLocation'],
+        description: json['Description'],
+        height: json['Height'],
+        diameter: json['Diameter'],
+        sellerId: json['SellerId'],
+        withPot: json['WithPot'].toString());
+  }
+}

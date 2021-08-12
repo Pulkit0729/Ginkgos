@@ -38,38 +38,41 @@ class ProductDescriptionScreen extends StatelessWidget {
               rating: product.rating),
           FutureBuilder(
               future: getCompleteDescription(product.id, context),
-              builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+              builder: (BuildContext context,
+                  AsyncSnapshot<DescriptionObject> snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
                   if (snapshot.hasData) {
                     return ListView(
                         physics: ClampingScrollPhysics(),
                         shrinkWrap: true,
                         children: [
-                          snapshot.data['Category'] != 'Accessory' &&
-                                  snapshot.data['Category'] != 'Pot'
+                          snapshot.data!.category != 'Accessory' &&
+                                  snapshot.data!.category != 'Pot'
                               ? Specification(
-                                  light: snapshot.data['Light'],
-                                  water: snapshot.data['Water'],
-                                  location: snapshot.data['IdealLocation'])
-                              : Container(),
-                          Description(
-                              text: snapshot.data['Description'] == null
-                                  ? ''
-                                  : snapshot.data['Description']),
-                          snapshot.data['Category'] != 'Accessory'
-                              ? SizeWidget(
-                                  height: snapshot.data['Height'],
-                                  diameter: snapshot.data['Diameter'],
+                                  light: snapshot.data!.light,
+                                  water: snapshot.data!.water,
+                                  location: snapshot.data!.idealLocation,
+                                  withPot: snapshot.data!.withPot,
                                 )
                               : Container(),
-                          Availability(sellerId: snapshot.data['SellerId']),
+                          Description(
+                              text: snapshot.data!.description == null
+                                  ? ''
+                                  : snapshot.data!.description),
+                          snapshot.data!.category != 'Accessory'
+                              ? SizeWidget(
+                                  height: snapshot.data!.height!,
+                                  diameter: snapshot.data!.diameter!,
+                                )
+                              : Container(),
+                          Availability(sellerId: snapshot.data!.sellerId),
                           RatingWidget(ratings: product.rating),
                           NewContainer(
                               child: Text(
                                   'Plants delivered will either be in a polythene or plastic pot.'))
                         ]);
                   } else {
-                    return Center(child: Text('CheckConnection'));
+                    return Center(child: Text('Check Connection'));
                   }
                 } else {
                   return CustomLoader();

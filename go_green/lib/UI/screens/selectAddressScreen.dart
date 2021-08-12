@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:go_green/UI/constants/colorsConstant.dart';
 import 'package:go_green/UI/screens/addAddress_screen.dart';
@@ -41,6 +42,7 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
   late AddressObject _obj1;
   late AddressObject _obj2;
   late AddressObject _obj3;
+  bool _available = true;
   int _noOfAddress = 0;
   late int _index;
 
@@ -93,8 +95,14 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
       CustomSnackWidgets.buildErrorSnackBar(
           context, "Maximum No of Address Reached");
     } else {
-      Navigator.pushNamed(context, AddAddressScreen.id,
-          arguments: ScreenArguments(index: _index));
+      Navigator.of(context).push(PageRouteBuilder(
+        settings: RouteSettings(arguments: ScreenArguments(index: _index)),
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            AddAddressScreen(callback: initState),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return child;
+        },
+      ));
     }
   }
 
@@ -102,17 +110,40 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
     if (_selected == selected.none) {
       CustomSnackWidgets.buildErrorSnackBar(context, 'Select an Address');
     } else {
-      Navigator.of(context).push(noAnimationRoute(PaymentScreen(
-          cartConditions: widget.cartConditions,
-          list: widget.list,
-          coupon: widget.coupon,
-          quantity: widget.quantity,
-          sellerId: widget.sellerId,
-          addressObj: _selected == selected.obj1
-              ? _obj1
-              : _selected == selected.obj2
-                  ? _obj2
-                  : _obj3)));
+      if (!_available) {
+        CustomSnackWidgets.buildErrorSnackBar(context, 'Delivery Unavailable');
+      } else {
+        Navigator.of(context).push(noAnimationRoute(PaymentScreen(
+            cartConditions: widget.cartConditions,
+            list: widget.list,
+            coupon: widget.coupon,
+            quantity: widget.quantity,
+            sellerId: widget.sellerId,
+            addressObj: _selected == selected.obj1
+                ? _obj1
+                : _selected == selected.obj2
+                    ? _obj2
+                    : _obj3)));
+      }
+    }
+  }
+
+  Future<void> _checkAvailability(String pinCode) async {
+    var result = await FirebaseDatabase.instance
+        .reference()
+        .child('Nurseries')
+        .child(pinCode)
+        .child(widget.sellerId.toString())
+        .once()
+        .then((value) => value.value);
+    if (result != null && result != '') {
+      setState(() {
+        _available = true;
+      });
+    } else {
+      setState(() {
+        _available = false;
+      });
     }
   }
 
@@ -137,20 +168,25 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
                     tileColor: Colors.white,
                     leading: Icon(Icons.add, color: Colors.pink),
                     title: Text('Add Address'),
-                    shape: Border(bottom: BorderSide(color: Colors.grey[300]!)),
-                    onTap: () {
-                      _onClickAdd();
-                    }),
+                    onTap: _onClickAdd),
+                !_available
+                    ? Container(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        color: Colors.white,
+                        child: Text('We do not deliver at this address!',
+                            style: TextStyle(color: Colors.red)))
+                    : Container(),
                 SelectAddressWidget(
                     address: _obj1,
                     line: '1',
                     radioWidget: Radio(
                         value: selected.obj1,
                         groupValue: _selected,
-                        onChanged: (selected? value) {
+                        onChanged: (selected? value) async {
                           setState(() {
                             _selected = value!;
                           });
+                          await _checkAvailability(_obj1.pincode.toString());
                         })),
                 SelectAddressWidget(
                     address: _obj2,
@@ -158,10 +194,11 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
                     radioWidget: Radio(
                         value: selected.obj2,
                         groupValue: _selected,
-                        onChanged: (selected? value) {
+                        onChanged: (selected? value) async {
                           setState(() {
                             _selected = value!;
                           });
+                          await _checkAvailability(_obj2.pincode.toString());
                         })),
                 SelectAddressWidget(
                     address: _obj3,
@@ -169,10 +206,11 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
                     radioWidget: Radio(
                         value: selected.obj3,
                         groupValue: _selected,
-                        onChanged: (selected? value) {
+                        onChanged: (selected? value) async {
                           setState(() {
                             _selected = value!;
                           });
+                          await _checkAvailability(_obj2.pincode.toString());
                         })),
                 NewContainer(
                     child: Row(

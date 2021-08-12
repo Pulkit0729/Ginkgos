@@ -15,7 +15,7 @@ class WishListScreen extends StatelessWidget {
     if (FirebaseAuth.instance.currentUser != null) {
       return FutureBuilder(
           future: FirebaseFirestore.instance
-              .collection('users')
+              .collection('UsersV2')
               .doc(FirebaseAuth.instance.currentUser!.uid)
               .collection('IdCollection')
               .doc('Wishlist')
@@ -29,22 +29,40 @@ class WishListScreen extends StatelessWidget {
                         snapshot.data.data().values.toString(), context),
                     builder: (BuildContext context,
                         AsyncSnapshot<dynamic> snapshot1) {
-                      if (snapshot1.hasData) {
-                        return GridView.builder(
-                            itemCount: snapshot1.data.length,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    childAspectRatio: MediaQuery.of(context)
-                                            .size
-                                            .width /
-                                        (MediaQuery.of(context).size.height /
-                                            1.4)),
-                            itemBuilder: (BuildContext context, int index) {
-                              return ProductCard5(
-                                  product:
-                                      Product.fromJson(snapshot1.data[index]));
-                            });
+                      if (snapshot1.connectionState == ConnectionState.done) {
+                        if (snapshot1.hasData &&
+                            snapshot1.data.toString() != '[]') {
+                          return GridView.builder(
+                              itemCount: snapshot1.data.length,
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      childAspectRatio: MediaQuery.of(context)
+                                              .size
+                                              .width /
+                                          (MediaQuery.of(context).size.height /
+                                              1.4)),
+                              itemBuilder: (BuildContext context, int index) {
+                                return ProductCard5(
+                                    product: Product.fromJson(
+                                        snapshot1.data[index]));
+                              });
+                        } else {
+                          return EmptyScreen(
+                              function: () async {
+                                await FirebaseFirestore.instance
+                                    .collection('UsersV2')
+                                    .doc(FirebaseAuth.instance.currentUser!.uid)
+                                    .collection('IdCollection')
+                                    .doc('Wishlist')
+                                    .delete();
+                                Navigator.pushNamed(context, MainScreen.id,
+                                    arguments: ScreenArguments(index: 1));
+                              },
+                              image: 'images/svg/emptyWishlist.svg',
+                              text:
+                                  'You have not selected any items for your wishlist.');
+                        }
                       } else {
                         return CustomLoader();
                       }

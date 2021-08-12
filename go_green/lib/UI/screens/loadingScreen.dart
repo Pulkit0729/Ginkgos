@@ -20,7 +20,7 @@ class LoadingScreen extends StatefulWidget {
 class _LoadingScreenState extends State<LoadingScreen> {
   bool isLoading = true;
   final CollectionReference users =
-      FirebaseFirestore.instance.collection('users');
+      FirebaseFirestore.instance.collection('UsersV2');
 
   final auth = FirebaseAuth.instance;
   void route() async {
@@ -30,6 +30,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
         dynamic nestedName = documentSnapshot.get(FieldPath(['Name']));
+
         dynamic nestedEmail = documentSnapshot.get(FieldPath(['Email']));
         dynamic nestedPhone = documentSnapshot.get(FieldPath(['Phone']));
         Provider.of<Userdata>(context, listen: false)

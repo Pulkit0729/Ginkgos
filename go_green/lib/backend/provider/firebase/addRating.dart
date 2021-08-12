@@ -39,7 +39,7 @@ Future<void> onRate(BuildContext context, {rating, orderId, itemId}) async {
 
 Future<bool> addRatingToServer(id, negRat, posRat, BuildContext context) async {
   String _url =
-      'http://${Provider.of<ServerConfig>(context, listen: false).ip.toString()}/api/v1/product/$id/rating';
+      '${Provider.of<ServerConfig>(context, listen: false).ip.toString()}/api/v1/product/$id/rating';
   final response = await http
       .patch(
         Uri.parse(_url),

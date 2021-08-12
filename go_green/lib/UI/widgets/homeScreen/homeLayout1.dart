@@ -6,31 +6,25 @@ import 'package:go_green/UI/widgets/productCard/productCard(Home.dart';
 import 'package:go_green/backend/models/product.dart';
 import 'package:go_green/backend/provider/serverRequests/getProductList.dart';
 
-class HomeLayout1 extends StatefulWidget {
+class HomeLayout1 extends StatelessWidget {
   const HomeLayout1({Key? key, required this.name, required this.color})
       : super(key: key);
 
   final String name;
   final Color color;
-
-  @override
-  _HomeLayout1State createState() => _HomeLayout1State();
-}
-
-class _HomeLayout1State extends State<HomeLayout1> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: widget.color,
+        color: color,
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         child: Column(children: [
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Text('  ${widget.name}', style: kHomeLayoutTitle),
+            Text('  $name', style: kHomeLayoutTitle),
             TextButton(
                 onPressed: () async {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => ProductListScreen(
-                            name: widget.name,
+                            name: name,
                             type: ProductListScreen.nonCategory,
                           )));
                 },
@@ -42,7 +36,7 @@ class _HomeLayout1State extends State<HomeLayout1> {
           Container(
             color: Colors.white,
             child: FutureBuilder(
-                future: getFourItemsList(widget.name),
+                future: getFourItemsList(name),
                 builder: (context, AsyncSnapshot<dynamic> snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     if (snapshot.hasData) {
@@ -55,7 +49,7 @@ class _HomeLayout1State extends State<HomeLayout1> {
                               if (snapshot1.hasData) {
                                 return GridView.builder(
                                     physics: ClampingScrollPhysics(),
-                                    itemCount: 4,
+                                    itemCount: snapshot1.data.length,
                                     shrinkWrap: true,
                                     gridDelegate:
                                         SliverGridDelegateWithFixedCrossAxisCount(

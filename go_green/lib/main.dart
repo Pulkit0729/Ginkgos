@@ -46,6 +46,11 @@ class MyApp extends StatelessWidget {
       initialRoute:
           auth.currentUser == null ? LoginScreen.id : LoadingScreen.id,
       theme: ThemeData(
+          appBarTheme: AppBarTheme(
+              titleTextStyle: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontStyle: FontStyle.italic,
+                  letterSpacing: 1)),
           fontFamily: 'Lato',
           primaryColor: Colors.green,
           primaryColorDark: Colors.green[700]),
